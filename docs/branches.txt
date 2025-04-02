@@ -1,5 +1,5 @@
 Step pratici per usare i Branch
-🔹 Creare una branch
+🔹🔹 Creare una branch
 git checkout -b nome-branch
 
 Esempio:
@@ -18,6 +18,24 @@ Vai su GitHub ➜ repository ➜ vedrai un pulsante "Compare & pull request".
 Cliccalo ➜ scrivi una descrizione ➜ clicca Create pull request.
 Il collaboratore può controllare il codice, lasciare commenti, e poi fare merge.
 
+🔹🔹Se la branch giá esiste:
+Recupera le branch remote:
+git fetch origin
+
+Passa alla branch:
+git checkout feature/login-form
+
+Fai le modifiche ➜ salva ➜ fai push:
+git add .
+git commit -m "continua lavoro login form"
+git push origin feature/login-form
+
+🔹🔹Se vuoi lavorare da entrambe le macchine a turno
+Ogni volta che cambi dispositivo, ti consiglio:
+git checkout feature/login-form
+git pull origin feature/login-form
+Così sincronizzi l’ultima versione della branch prima di iniziare.
+
 🔹🔹 Tenere la propria branch aggiornata
 Mentre lavori, il ramo main può cambiare. Per stare aggiornato:
 git checkout main
@@ -26,3 +44,12 @@ git checkout nome-branch
 git merge main
 
 Così prendi gli aggiornamenti e risolvi eventuali conflitti prima di fare la pull request.
+
+Schema-riepilogo
+Azione									Comando
+Vedi tutte le branch remote				git branch -r
+Scarica branch da GitHub				git fetch origin
+Passa a branch esistente				git checkout nome-branch
+Crea nuova branch						git checkout -b nome-branch
+Invia la tua branch a GitHub			git push origin nome-branch
+Sincronizza branch prima di lavorare	git pull origin nome-branch
