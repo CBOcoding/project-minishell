@@ -1,0 +1,28 @@
+Step pratici per usare i Branch
+🔹 Creare una branch
+git checkout -b nome-branch
+
+Esempio:
+git checkout -b login-feature
+
+🔹 Lavorare su quella branch
+Fai le modifiche ➜ salvale con:
+git add .
+git commit -m "Messaggio chiaro su cosa hai fatto"
+
+Poi inviala su GitHub:
+git push origin nome-branch
+
+🔹 Creare una Pull Request
+Vai su GitHub ➜ repository ➜ vedrai un pulsante "Compare & pull request".
+Cliccalo ➜ scrivi una descrizione ➜ clicca Create pull request.
+Il collaboratore può controllare il codice, lasciare commenti, e poi fare merge.
+
+🔹🔹 Tenere la propria branch aggiornata
+Mentre lavori, il ramo main può cambiare. Per stare aggiornato:
+git checkout main
+git pull origin main
+git checkout nome-branch
+git merge main
+
+Così prendi gli aggiornamenti e risolvi eventuali conflitti prima di fare la pull request.
