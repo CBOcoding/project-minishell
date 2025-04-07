@@ -1,0 +1,55 @@
+Functions	Library	Man Page	Prototype	Description
+
+readline	#include <readline/readline.h>	man 3 readline	char *readline(const char *prompt);	The readline() function reads a line from the terminal and returns it, using prompt as a prompt. If no prompt is given as parameter, no prompt will be shown in the terminal. The line returned is allocated with malloc and we have to free it ourselves.
+rl_clear_history	#include <readline/history.h>	man 3 rl_clear_history	void rl_clear_history(void);	The rl_clear_line() function clears the history list by deleting all of the entries. The rl_clear_line() function frees data that the readline library saves in the histroy list.
+rl_on_new_line	#include <readline/readline.h>	man 3 rl_on_new_line	int rl_on_new_line(void);	The rl_on_new_line() function tells the update routine that we have moved onto a new empty line, usually used after outputting a line.
+rl_replace_line	#include <readline/readline.h>	man 3 rl_replace_line	void rl_replace_line(const char *text, int clear_undo);	Replaces the contents of rl_line_buffer with text.
+rl_redisplay	#include <readline/readline.h>	man 3 rl_redisplay	void rl_redisplay(void);	The rl_on_new_line() function tells the update routine that we have moved onto a new empty line, usually used after outputting a line.
+add_history	#include <readline/history.h>	man 3 add_history	void add_history(const char *line);	The add_history() function saves the line passed as parameter in the history so it can be retrieved later in the terminal (like pressing the up arrow in bash).
+printf	#include <stdio.h>	man 3 printf	int printf(const char *format, ...);	Print formatted output to stdout.
+malloc	#include <stdlib.h>	man 3 malloc	void *malloc(size_t size);	Allocate memory dynamically.
+free	#include <stdlib.h>	man 3 free	void free(void *ptr);	Free dynamically allocated memory.
+write	#include <unistd.h>	man 2 write	ssize_t write(int fd, const void *buf, size_t count);	Write data to a file descriptor.
+access	#include <unistd.h>	man 2 access	int access(const char *pathname, int mode);	Check user's permissions for a file.
+open	#include <fcntl.h>	man 2 open	int open(const char *pathname, int flags);	Open and possibly create a file.
+read	#include <unistd.h>	man 2 read	ssize_t read(int fd, void *buf, size_t count);	Read data from a file descriptor.
+close	#include <unistd.h>	man 2 close	int close(int fd);	Close a file descriptor.
+fork	#include <unistd.h>	man 2 fork	pid_t fork(void);	Creates a new process by duplicating the calling process.
+wait	#include <sys/wait.h>	man 2 wait	pid_t wait(int *status);	Suspends execution of the calling process until one of its children terminates.
+waitpid	#include <sys/wait.h>	man 2 waitpid	pid_t waitpid(pid_t pid, int *status, int options);	Waits for a specific child process to change state.
+wait3	#include <sys/wait.h>	man 2 wait3	pid_t wait3(int *status, int options, struct rusage *rusage);	Waits for child process and returns resource usage information.
+wait4	#include <sys/wait.h>	man 2 wait4	pid_t wait4(pid_t pid, int *status, int options, struct rusage *rusage);	Like wait3, but allows specifying a PID to wait for.
+signal	#include <signal.h>	man 2 signal	sighandler_t signal(int signum, sighandler_t handler);	Sets a function to handle a particular signal.
+sigaction	#include <signal.h>	man 2 sigaction	int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);	Examine and change a signal action.
+sigemptyset	#include <signal.h>	man 3 sigemptyset	int sigemptyset(sigset_t *set);	Initializes the signal set to exclude all defined signals.
+sigaddset	#include <signal.h>	man 3 sigaddset	int sigaddset(sigset_t *set, int signum);	Adds a signal to a signal set.
+kill	#include <signal.h>	man 2 kill	int kill(pid_t pid, int sig);	Sends a signal to a process or group of processes.
+exit	#include <stdlib.h>	man 3 exit	void exit(int status);	Causes normal process termination.
+getcwd	#include <unistd.h>	man 3 getcwd	char *getcwd(char *buf, size_t size);	The getcwd() returns a null-terminated string containing the absolute pathname that is the current working directory of the calling process. The pathname is returned as the function result and via the argument buf.
+chdir	#include <unistd.h>	man 2 chdir	int chdir(const char *path);	chdir() changes the current working directory of the calling process to the directory specified in path.
+stat	#include <sys/stat.h>	man 2 stat	int stat(const char *pathname, struct stat *statbuf);	Ottiene informazioni su un file identificato da un percorso. Segue i link simbolici, quindi restituisce le informazioni sul file puntato.
+lstat	#include <sys/stat.h>	man 2 lstat	int lstat(const char *pathname, struct stat *statbuf);	Simile a stat, ma non segue i link simbolici. Se il percorso è un symlink, restituisce informazioni sul symlink stesso.
+fstat	#include <sys/stat.h>	man 2 fstat	int fstat(int fd, struct stat *statbuf);	Ottiene informazioni su un file usando un file descriptor aperto, invece di un percorso.
+unlink	#include <unistd.h>	man 2 unlink	int unlink(const char *pathname);	Deletes a name from the filesystem.
+execve	#include <unistd.h>	man 2 execve	int execve(const char *pathname, char *const argv[], char *const envp[]);	Executes a program referred to by a path.
+dup	#include <unistd.h>	man 2 dup	int dup(int oldfd);	Duplicates a file descriptor.
+dup2	#include <unistd.h>	man 2 dup2	int dup2(int oldfd, int newfd);	Duplicates a file descriptor to a specified descriptor.
+pipe	#include <unistd.h>	man 2 pipe	int pipe(int pipefd[2]);	Creates a unidirectional data channel that can be used for interprocess communication.
+opendir	#include <dirent.h>	man 3 opendir	DIR *opendir(const char *name);	The opendir() function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream. The stream is positioned at the first entry in the directory.
+readdir	#include <dirent.h>	man 3 readdir	struct dirent *readdir(DIR *dirp);	The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occured.
+closedir	#include <dirent.h>	man 3 closedir	int closedir(DIR *dirp);	The closedir() function closes the directory stream associated with dirp. A successful call to closedir() also closes the underlying file descriptor associated with dirp. The directory stream descriptor dirp is not available after this call.
+strerror	#include <string.h>	man 3 strerror	char *strerror(int errnum);	The strerror() function returns a pointer to a string that describes the error code passed in the argument errnum. This string must not be modified by the application, but may be modified by a subsequent call to strerror() or strerror_l(). No other library function, including perror(), will modify this string.
+perror	#include <stdio.h>	man 3 perror	void perror(const char *s);	The perror() function produces a message on standard error describing the last error encountered during a call to a system or library function.
+isatty	#include <unistd.h>	man 3 isatty	int isatty(int fd);	The isatty function tests wether fd is a terminal.
+ttyname	#include <unistd.h>	man 3 ttyname	char *ttyname(int fd);	The ttyname() function returns a pointer to the null-terminated pathname of the terminal device that is open on the file descriptor fd, or NULL on error.
+ttyslot	#include <unistd.h>	man 3 ttyslot	int ttyslot(void);	find the slot of the current user's terminal in some file
+ioctl	#include <sys/ioctl.h>	man 2 ioctl	int ioctl(int fd, unsigned long request, ...);	The ioctl() system call manipulates the underlying device parameters of a special files.
+getenv	#include <stdlib.h>	man 3 getenv	char *getenv(const char *name);	The getenv() function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string.
+tcsetattr	#include <termios.h>	man 3 tcsetattr	int tcsetattr(int fd, int optional_actions, const struct termios *termios_p);	The tcsetattr() function shall set the parameters associated with the terminal referred to by the open file descriptor fildes from the termios structure referenced by termios_p
+tcgetattr	#include <termios.h>	man 3 tcgetattr	int tcgetattr(int fd, struct termios *termios_p);	The tcgetattr() function shall get the parameters associated with the terminal reffered to by fildes and store them in the termios structure referenced by termios_p.
+tgetent	#include <curses.h>	man 3 tgetent	int tgetent(char *bp, const char *name);	These routines are included as a conversion aid for programs that use the termcap library.
+tgetflag	#include <curses.h>	man 3 tgetflag	int tgetflag(char *id);	Get a boolean value from the termcap database.
+tgetnum	#include <curses.h>	man 3 tgetnum	int tgetnum(char *id);	Get a numeric value from the termcap database.
+tgetstr	#include <curses.h>	man 3 tgetstr	char *tgetstr(char *id, char **area);	Get a string capability from the termcap database.
+tgoto	#include <curses.h>	man 3 tgoto	char *tgoto(const char *cap, int col, int row);	Return a cursor addressing string decoded from a parameterized string.
+tputs	#include <curses.h>	man 3 tputs	int tputs(const char *str, int affcnt, int (*putc)(int));	Output a string with padding for delays.

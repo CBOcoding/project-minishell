@@ -1,3 +1,22 @@
+🧾 Tabella dei comandi Git essenziali (Branch workflow)
+
+Azione	Comando	Descrizione
+
+🔍 Vedi le branch locali	git branch	Elenca le branch che hai sul tuo computer
+🌐 Vedi branch remote	git branch -r	Elenca le branch su GitHub
+🌱 Crea e passa a una nuova branch	git checkout -b nome-branch	Crea una branch partendo dalla corrente
+🔄 Passa a una branch esistente	git checkout nome-branch	Cambia branch e aggiorna i file
+⬆️ Invia branch su GitHub	git push origin nome-branch	Pubblica la branch remota
+⬇️ Scarica branch remota	git fetch origin + git checkout nome-branch	Prendi la branch e passa ad essa
+📥 Aggiorna branch locale con quella remota	git pull origin nome-branch	Prende le ultime modifiche da GitHub
+🔁 Unisci una branch nella tua	git merge nome-branch	Unisce i commit di un’altra branch nella corrente
+🔃 Rebase su main	git rebase main	Ricostruisce la storia come se avessi iniziato da main
+💥 Risolvi conflitti	(manuale) + git add . + git rebase --continue	Durante un rebase/merge se ci sono conflitti
+🧹 Elimina branch locale	git branch -d nome-branch	Rimuove una branch dal tuo PC
+🧽 Elimina branch remota	git push origin --delete nome-branch	Rimuove una branch da GitHub
+
+
+
 Step pratici per usare i Branch
 🔹🔹 Creare una branch
 git checkout -b nome-branch
