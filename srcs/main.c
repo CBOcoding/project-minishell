@@ -1,18 +1,38 @@
 #include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
-void	hello_minishell(void)
+int main(void)
 {
-	char	*a;
-	int		x;
-	
-	a = "hello_minishell";
-	x = ft_strlen(a);
-	printf("%d\n", x);
-}
-
-int	main(void)
-{
-	write(1, "Minishell\n", 10);
-	hello_minishell();
-	exit(0);
+    char *input;
+    
+    while (1)
+    {
+        // Step 1: Display prompt and read input
+        input = readline("minishell$ ");
+        
+        // Check if readline returned NULL (happens on Ctrl+D or EOF)
+        if (!input)
+        {
+            printf("exit\n");
+            break;
+        }
+        
+        // Step 2: Display the input (just to show it worked)
+        printf("You entered: %s\n", input);
+        
+        // Add command to history if it's not empty
+        if (input[0] != '\0')
+            add_history(input);
+        
+        // Free the allocated memory
+        free(input);
+    }
+    
+    // Clear the history before exiting
+    rl_clear_history();
+    
+    return (0);
 }
