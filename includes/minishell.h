@@ -5,6 +5,10 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+
+#include <readline/readline.h>
+#include <readline/history.h>
+
 #define SUCCESS 0
 #define FAILURE 1
 
