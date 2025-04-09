@@ -31,10 +31,10 @@ int ft_strcmp(const char *main, char *compared)
     while(compared[i] && main[i])
     {
         if(compared[i] != main[i])
-            return (FAILURE)
+            return (FAILURE);
         i++;
     }
-    if (str1[i] || str2[i])
+    if (main[i] || compared[i])
         return (FAILURE);
     return (SUCCESS);
 }

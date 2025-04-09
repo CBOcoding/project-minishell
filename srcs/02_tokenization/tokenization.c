@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_token *create_token(char *value, t_token type)
+t_token *create_token(char *value, t_token_type type)
 {
     t_token *new_token;
 
@@ -27,7 +27,7 @@ void add_token(t_token **tokens, t_token *new_token)
         *tokens = new_token;
     else
     {
-        current = *token;
+        current = *tokens;
         while (current->next)
             current = current->next;
     }    current->next = new_token;    
