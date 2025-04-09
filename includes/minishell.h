@@ -6,7 +6,7 @@
 # include <stdio.h>
 
 
-# include "../utils/ft_libft/libft.h"
+# include "../libraries/ft_libft/libft.h"
 
 void	hello_minishell(void);
 
