@@ -5,10 +5,15 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+
+#include <readline/readline.h>
+#include <readline/history.h>
+
 #define SUCCESS 0
 #define FAILURE 1
 
 # include "../libraries/ft_libft/libft.h"
+
 
 typedef enum e_token_type
 {
@@ -28,12 +33,14 @@ typedef struct s_token {
     struct s_token *next;
 } t_token;
 
+
 typedef enum e_status
 {
     DEFAULT,
     SQUOTE,
     DQUOTE
 } t_status;
+
 
 void	hello_minishell(void);
 int ft_strcmp(const char *main, char *compared);
