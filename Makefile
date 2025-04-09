@@ -10,8 +10,8 @@ FSANITIZER_THREAD_FLAG = -fsanitize=thread -O2
 
 SRC = \
 		./srcs/main.c \
-		./utils/ft_getnextline/get_next_line_bonus.c \
-		./utils/ft_getnextline/get_next_line_utils_bonus.c \
+		./libraries/ft_getnextline/get_next_line_bonus.c \
+		./libraries/ft_getnextline/get_next_line_utils_bonus.c \
 
 
 OBJ = $(SRC:.c=.o)

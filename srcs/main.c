@@ -27,6 +27,10 @@ int main(void)
         if (input[0] != '\0')
             add_history(input);
         
+
+        // DO STUFF...
+
+        
         // Free the allocated memory
         free(input);
     }
