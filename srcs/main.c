@@ -1,12 +1,13 @@
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "signals.h"
+#include <termios.h>
 
 int main(void)
 {
     char *input;
+
+    setup_signals();
+    disable_echoctl();
     
     while (1)
     {
