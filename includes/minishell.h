@@ -8,9 +8,9 @@
 #define SUCCESS 0
 #define FAILURE 1
 
-# include "../utils/ft_libft/libft.h"
+# include "../libraries/ft_libft/libft.h"
 
-typedef enum e_token
+typedef enum e_token_type
 {
     WORD,
     PIPE,
@@ -19,11 +19,11 @@ typedef enum e_token
     APPEND,
     HEREDOC,
     ENV_VAR
-}   t_token;
+}   t_token_type;
 
 typedef struct s_token {
     char *value;
-    t_token type;
+    t_token_type type;
     struct s_token *next;
 } t_token;
 
