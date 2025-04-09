@@ -10,6 +10,7 @@
 
 # include "../libraries/ft_libft/libft.h"
 
+
 typedef enum e_token_type
 {
     WORD,
@@ -26,6 +27,8 @@ typedef struct s_token {
     t_token_type type;
     struct s_token *next;
 } t_token;
+
+
 
 void	hello_minishell(void);
 

@@ -16,7 +16,7 @@ SRC = \
 
 OBJ = $(SRC:.c=.o)
 
-LIBFT_DIR = ./utils/ft_libft
+LIBFT_DIR = ./libraries/ft_libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
