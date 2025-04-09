@@ -5,8 +5,27 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+#define SUCCESS 0
+#define FAILURE 1
 
 # include "../utils/ft_libft/libft.h"
+
+typedef enum e_token
+{
+    WORD,
+    PIPE,
+    REDIR_IN,
+    REDIR_OUT,
+    APPEND,
+    HEREDOC,
+    ENV_VAR
+}   t_token;
+
+typedef struct s_token {
+    char *value;
+    t_token type;
+    struct s_token *next;
+} t_token;
 
 void	hello_minishell(void);
 
