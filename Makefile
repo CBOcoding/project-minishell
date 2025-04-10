@@ -2,6 +2,14 @@ NAME = minishell
 
 CC = cc
 
+#test to be removed
+# Test build (separate target)
+TEST_NAME = minishell_test
+TEST_SRC = \
+		srcs/test_main.c \
+		srcs/04_execution/execution_01.c
+TEST_OBJ = $(TEST_SRC:.c=.o)
+
 CFLAGS = -Wall -Werror -Wextra -g2 -Iincludes
 LDFLAGS = -lreadline
 
@@ -37,6 +45,9 @@ clean :
 
 fclean : clean
 	rm -f $(NAME)
+#$(MAKE) -C $(LIBFT_DIR) clean
+#test to be removed
+	rm -f $(TEST_NAME)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 re : fclean all
@@ -48,5 +59,15 @@ asan:
 tsan:
 	$(MAKE) fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_THREAD_FLAG)" all
+
+#test to be removed
+test: 
+	$(MAKE) fclean
+	$(MAKE) $(TEST_NAME)
+
+$(TEST_NAME): $(TEST_OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) $(FSANITIZER_ADDRESS_FLAG) -o $(TEST_NAME) $(TEST_OBJ) $(LIBFT) $(LDFLAGS)
+
+
 
 .PHONY : all clean fclean re
