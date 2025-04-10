@@ -26,12 +26,6 @@ typedef enum e_token_type
     ENV_VAR
 }   t_token_type;
 
-typedef struct s_token {
-    char *value;
-    t_token_type type;
-    t_status status;
-    struct s_token *next;
-} t_token;
 
 
 typedef enum e_status
@@ -41,6 +35,12 @@ typedef enum e_status
     DQUOTE
 } t_status;
 
+typedef struct s_token {
+    char *value;
+    t_token_type type;
+    t_status status;
+    struct s_token *next;
+} t_token;
 
 void	hello_minishell(void);
 int ft_strcmp(const char *main, char *compared);
@@ -51,6 +51,8 @@ void handle_arrows(char *input, int *i, t_token **tokens);
 void handle_pipe(int *index, t_token **tokens);
 void handle_var(char *input, int *i, t_token **tokens);
 t_token *tokenize_input(char *input);
+void print_tokens(t_token *token);
+
 
 
 #endif

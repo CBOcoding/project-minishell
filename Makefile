@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g -Iincludes
+CFLAGS = -Wall -Werror -Wextra -g2 -Iincludes
 LDFLAGS = -lreadline
 
 # Sanitizer flags
@@ -10,7 +10,8 @@ FSANITIZER_ADDRESS_FLAG = -fsanitize=address -O2
 FSANITIZER_THREAD_FLAG = -fsanitize=thread -O2
 
 SRC = \
-		./srcs/main.c \
+		./srcs/main.c  ./srcs/02_tokenization/list_token.c ./srcs/02_tokenization/print_token.c \
+		 ./srcs/02_tokenization/tokenization.c ./srcs/01_input_validation/checks.c\
 		./srcs/06_signals/signals.c \
 		./libraries/ft_getnextline/get_next_line_bonus.c \
 		./libraries/ft_getnextline/get_next_line_utils_bonus.c \

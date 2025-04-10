@@ -30,8 +30,13 @@ int main(void)
         
 
         // DO STUFF...
-
-        
+        t_token *token = tokenize_input(input);
+        if (!token)
+        printf("No tokens generated.\n");
+    else
+    {
+        print_tokens(token);
+    }
         // Free the allocated memory
         free(input);
     }
