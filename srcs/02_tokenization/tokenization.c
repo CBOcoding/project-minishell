@@ -92,10 +92,10 @@ t_token *tokenize_input(char *input)
                 handle_arrows(input, &i, &tokens);
             else if (input[i] == '|')
                 handle_pipe(&i, &tokens);
-            else
-                handle_word(input, &i, &tokens, status);
+           // else
+             //   handle_word(input, &i, &tokens, status);
         }
-        else if (status == DQUOTE)
+       /* else if (status == DQUOTE)
         {
             if (input[i] == '$')
                 handle_var(input, &i, &tokens);
@@ -105,7 +105,7 @@ t_token *tokenize_input(char *input)
         else if (status == SQUOTE)
         {
             handle_word(input, &i, &tokens, status);// TODO NOT IMPLEMENDET YET
-        }
+        }*/
     }
     return (tokens);
 }
