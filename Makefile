@@ -7,7 +7,7 @@ CC = cc
 TEST_NAME = minishell_test
 TEST_SRC = \
 		srcs/test_main.c \
-		srcs/04_execution/execution_01.c
+		srcs/04_execution/execution_01.c \
 TEST_OBJ = $(TEST_SRC:.c=.o)
 
 CFLAGS = -Wall -Werror -Wextra -g2 -Iincludes
@@ -18,11 +18,15 @@ FSANITIZER_ADDRESS_FLAG = -fsanitize=address -O2
 FSANITIZER_THREAD_FLAG = -fsanitize=thread -O2
 
 SRC = \
-		./srcs/main.c  ./srcs/02_tokenization/list_token.c ./srcs/02_tokenization/print_token.c \
-		 ./srcs/02_tokenization/tokenization.c ./srcs/01_input_validation/checks.c\
+		./srcs/main.c \
+		./srcs/02_tokenization/list_token.c \
+		./srcs/02_tokenization/print_token.c \
+		./srcs/02_tokenization/tokenization.c \
+		./srcs/01_input_validation/checks.c\
 		./srcs/06_signals/signals.c \
 		./libraries/ft_getnextline/get_next_line_bonus.c \
 		./libraries/ft_getnextline/get_next_line_utils_bonus.c \
+
 
 
 OBJ = $(SRC:.c=.o)
@@ -40,7 +44,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 clean :
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(TEST_OBJ)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean : clean
@@ -61,13 +65,13 @@ tsan:
 	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_THREAD_FLAG)" all
 
 #test to be removed
-test: 
+test:
 	$(MAKE) fclean
 	$(MAKE) $(TEST_NAME)
 
+
 $(TEST_NAME): $(TEST_OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $(FSANITIZER_ADDRESS_FLAG) -o $(TEST_NAME) $(TEST_OBJ) $(LIBFT) $(LDFLAGS)
-
 
 
 .PHONY : all clean fclean re
