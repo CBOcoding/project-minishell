@@ -11,7 +11,7 @@ typedef struct s_cmd
 
 
 */
-
+#include "minishell.h"
 #include <unistd.h>     // fork, execve, dup2, close
 #include <stdlib.h>     // exit
 #include <sys/wait.h>   // waitpid
