@@ -12,42 +12,36 @@ typedef struct s_cmd
 
 */
 
-#include "minishell.h"
-
 #include <unistd.h>     // fork, execve, dup2, close
 #include <stdlib.h>     // exit
-#include <sys/wait.h>   // waitpid, WEXITSTATUS
+#include <sys/wait.h>   // waitpid
 #include <fcntl.h>      // open
 #include <stdio.h>      // perror
 
 int execute_command(t_cmd *cmd, char **envp)
 {
     pid_t pid;
-    int   status;
-    int   infile_fd;
-    int   outfile_fd;
-    int   flags;
+    int status;
+    int infile_fd;
+    int outfile_fd;
 
-    // Step 1: Create a child process
-    pid = fork();
+    pid = fork(); // Step 1: Create child process
     if (pid < 0)
     {
-        // If fork fails, print an error and return non-zero
-        perror("fork");
+        perror("fork"); // fork failed
         return (1);
     }
 
-    // Step 2: Child process
-    if (pid == 0)
+    if (pid == 0) // Child process
     {
-        // --- Input redirection ---
+        // Step 2: Handle input redirection
         if (cmd->infile)
         {
             infile_fd = open(cmd->infile, O_RDONLY);
             if (infile_fd < 0)
             {
-                perror(cmd->infile);
-                exit(1);
+                perror(cmd->infile); // show which file caused the error
+                exit(1); // exit the child with error
             }
             if (dup2(infile_fd, STDIN_FILENO) < 0)
             {
@@ -55,17 +49,17 @@ int execute_command(t_cmd *cmd, char **envp)
                 close(infile_fd);
                 exit(1);
             }
-            close(infile_fd);
+            close(infile_fd); // not needed anymore
         }
 
-        // --- Output redirection ---
+        // Step 3: Handle output redirection
         if (cmd->outfile)
         {
-            flags = O_WRONLY | O_CREAT;
-            if (cmd->append == 1)
-                flags = flags | O_APPEND;
+            int flags = O_WRONLY | O_CREAT;
+            if (cmd->append)
+                flags |= O_APPEND;
             else
-                flags = flags | O_TRUNC;
+                flags |= O_TRUNC;
 
             outfile_fd = open(cmd->outfile, flags, 0644);
             if (outfile_fd < 0)
@@ -82,23 +76,20 @@ int execute_command(t_cmd *cmd, char **envp)
             close(outfile_fd);
         }
 
-        // --- Execute the command ---
-        // argv[0] should be the full or relative path to the executable
-        // argv must be NULL-terminated
+        // Step 4: Execute command
         execve(cmd->argv[0], cmd->argv, envp);
 
-        // If execve fails, we print an error and exit with 127 (command not found)
+        // If execve fails:
         perror("execve");
-        exit(127);
+        exit(127); // common code for command not found
     }
 
-    // Step 3: Parent process waits for the child to finish
+    // Parent process: wait for child
     if (waitpid(pid, &status, 0) < 0)
     {
         perror("waitpid");
         return (1);
     }
 
-    // Step 4: Return the exit status of the child process
-    return (WEXITSTATUS(status));
+    return (WEXITSTATUS(status)); // return child exit code
 }
