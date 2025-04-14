@@ -53,6 +53,14 @@ void handle_var(char *input, int *i, t_token **tokens);
 t_token *tokenize_input(char *input);
 void print_tokens(t_token *token);
 
+/*test structure*/
+typedef struct s_cmd
+{
+    char **argv;
+    char *infile;
+    char *outfile;
+    int   append;
+}   t_cmd;
 
 
 #endif
