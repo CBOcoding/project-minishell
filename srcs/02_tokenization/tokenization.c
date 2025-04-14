@@ -63,7 +63,13 @@ void handle_var(char *input, int *i, t_token **tokens)
     add_token(tokens, new_token); 
     free(var_name);
 }
+/*void handle_word(char *input, int *i, t_token **tokens,int status)
+{
+    int start;
 
+    start = i;
+
+}*/
 t_token *tokenize_input(char *input)
 {
     t_token *tokens;
@@ -95,7 +101,7 @@ t_token *tokenize_input(char *input)
            // else
              //   handle_word(input, &i, &tokens, status);
         }
-       /* else if (status == DQUOTE)
+       /*else if (status == DQUOTE)
         {
             if (input[i] == '$')
                 handle_var(input, &i, &tokens);

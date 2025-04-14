@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g2 -Iincludes
+CFLAGS = -Wall -Werror -Wextra -g -Iincludes
 LDFLAGS = -lreadline
 
 # Sanitizer flags
