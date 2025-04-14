@@ -47,9 +47,10 @@ int ft_strcmp(const char *main, char *compared);
 int has_closed_quotes(const char *str);
 t_token *create_token(char *value, t_token_type type);
 void add_token(t_token **tokens, t_token *new_token);
-void handle_arrows(char *input, int *i, t_token **tokens);
-void handle_pipe(int *index, t_token **tokens);
-void handle_var(char *input, int *i, t_token **tokens);
+void tokkenize_arrows(char *input, int *i, t_token **tokens);
+void tokkenize_pipe(int *index, t_token **tokens);
+void tokkenize_var(char *input, int *i, t_token **tokens);
+void tokenize_word(char *input, int *i, t_token **tokens, t_status *status);
 t_token *tokenize_input(char *input);
 void print_tokens(t_token *token);
 

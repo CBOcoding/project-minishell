@@ -32,7 +32,7 @@ int main(void)
 
         // DO STUFF...
         t_token *token = tokenize_input(input);
-        if (!token)
+    if (!token)
         printf("No tokens generated.\n");
     else
     {
