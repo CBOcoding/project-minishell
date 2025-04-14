@@ -2,6 +2,7 @@ NAME = minishell
 
 CC = cc
 
+
 #test to be removed
 # Test build (separate target)
 TEST_NAME = minishell_test
@@ -10,7 +11,10 @@ TEST_SRC = \
 		srcs/04_execution/execution_01.c \
 TEST_OBJ = $(TEST_SRC:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra -g2 -Iincludes
+
+
+CFLAGS = -Wall -Werror -Wextra -g -Iincludes
+
 LDFLAGS = -lreadline
 
 # Sanitizer flags

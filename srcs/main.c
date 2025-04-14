@@ -2,6 +2,7 @@
 #include "signals.h"
 #include <termios.h>
 
+
 int main(void)
 {
     char *input;
