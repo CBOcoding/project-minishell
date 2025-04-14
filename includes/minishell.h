@@ -53,6 +53,9 @@ void tokkenize_var(char *input, int *i, t_token **tokens);
 void tokenize_word(char *input, int *i, t_token **tokens, t_status *status);
 t_token *tokenize_input(char *input);
 void print_tokens(t_token *token);
+void expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
+
+
 
 /*test structure*/
 typedef struct s_cmd
@@ -63,5 +66,6 @@ typedef struct s_cmd
     int   append;
 }   t_cmd;
 
+int execute_command(t_cmd *cmd, char **envp);
 
 #endif

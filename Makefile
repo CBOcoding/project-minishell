@@ -7,8 +7,8 @@ CC = cc
 # Test build (separate target)
 TEST_NAME = minishell_test
 TEST_SRC = \
-		srcs/test_main.c \
-		srcs/04_execution/execution_01.c \
+		./srcs/test_main.c \
+		./srcs/04_execution/execution_01.c \
 TEST_OBJ = $(TEST_SRC:.c=.o)
 
 
@@ -23,13 +23,14 @@ FSANITIZER_THREAD_FLAG = -fsanitize=thread -O2
 
 SRC = \
 		./srcs/main.c \
+		./srcs/01_input_validation/checks.c\
 		./srcs/02_tokenization/list_token.c \
 		./srcs/02_tokenization/print_token.c \
 		./srcs/02_tokenization/tokenization.c \
-		./srcs/01_input_validation/checks.c\
+		./srcs/04_execution/execution_01.c \
 		./srcs/06_signals/signals.c \
-		./libraries/ft_getnextline/get_next_line_bonus.c \
-		./libraries/ft_getnextline/get_next_line_utils_bonus.c \
+		./srcs/07_env_var_expansion/environment01.c \
+
 
 
 
