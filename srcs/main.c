@@ -39,21 +39,30 @@ int main(int argc, char **argv, char **envp)
         // DO STUFF...
         //(void)envp; //for testing
         t_token *token = tokenize_input(input);
-    if (!token)
-        printf("No tokens generated.\n");
+        if (!token)
+            printf("No tokens generated.\n");
         else
         {
-            // Placeholder: simulate successful command result for now
-            // Later you will update this line with real execution result
-            last_exit_status = 0;// to be  removed when parsing is done.
-            //last_exit_status = execute_command(cmd, envp); //this is what is remain when parsing is done.
+            // // Placeholder: simulate successful command result for now
+            // // Later you will update this line with real execution result
+            // last_exit_status = 0;// to be  removed when parsing is done.
+            // //last_exit_status = execute_command(cmd, envp); //this is what is remaining when parsing is done.
 
-            expand_env_vars(token, envp, last_exit_status); //rimane
+            expand_env_vars(token, envp, last_exit_status); //rimane // Expand environment variables
 
             print_tokens(token); //DEBUG da rimuovere
+
+            // Parse tokens into command structure
+        t_cmd *cmd = parse_tokens(tokens); // TODO: implementare parser
+
+        // Execute the command
+        last_exit_status = handle_command(cmd, &envp, last_exit_status);
+
         }
-        // Free the allocated memory
-        free(input);
+        // Free the allocated memory (tokens, cmd, etc.)
+        // free_tokens(token); // Free the tokens after use
+        // free(cmd); // Free the command string after use
+        free(input);// Free the input string after use
     }
 
     // Clear the history before exiting
