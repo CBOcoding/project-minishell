@@ -26,8 +26,6 @@ typedef enum e_token_type
     ENV_VAR
 }   t_token_type;
 
-
-
 typedef enum e_status
 {
     DEFAULT,
@@ -42,21 +40,6 @@ typedef struct s_token {
     struct s_token *next;
 } t_token;
 
-void	hello_minishell(void);
-int ft_strcmp(const char *main, char *compared);
-int has_closed_quotes(const char *str);
-t_token *create_token(char *value, t_token_type type);
-void add_token(t_token **tokens, t_token *new_token);
-void tokkenize_arrows(char *input, int *i, t_token **tokens);
-void tokkenize_pipe(int *index, t_token **tokens);
-void tokkenize_var(char *input, int *i, t_token **tokens);
-void tokenize_word(char *input, int *i, t_token **tokens, t_status *status);
-t_token *tokenize_input(char *input);
-void print_tokens(t_token *token);
-void expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
-
-
-
 /*test structure*/
 typedef struct s_cmd
 {
@@ -66,6 +49,27 @@ typedef struct s_cmd
     int   append;
 }   t_cmd;
 
-int execute_command(t_cmd *cmd, char **envp);
+
+int		ft_strcmp(const char *main, char *compared);
+int		ft_isspace(char c);
+int		has_closed_quotes(const char *str);
+int		execute_command(t_cmd *cmd, char **envp);
+void	hello_minishell(void);
+void	add_token(t_token **tokens, t_token *new_token);
+void	tokkenize_arrows(char *input, int *i, t_token **tokens);
+void	tokkenize_pipe(int *index, t_token **tokens);
+void	tokenize_single_quote(char *input, int *i, t_token **tokens, t_status *status);
+void	tokenize_double_quote(char *input, int *i, t_token **tokens, t_status *status);
+void	tokenize_simple_word(char *input, int *i, t_token **tokens);
+void	tokenize_var_in_dquote(char *input, int *i, t_token **tokens);
+void	tokenize_var(char *input, int *i, t_token **tokens);
+void	print_tokens(t_token *token);
+void	free_token(t_token *tokens);
+void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
+t_token	*tokenize_input(char *input);
+t_token	*create_token(char *value, t_token_type type);
+
+
 
 #endif
+

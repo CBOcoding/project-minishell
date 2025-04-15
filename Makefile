@@ -27,6 +27,7 @@ SRC = \
 		./srcs/02_tokenization/list_token.c \
 		./srcs/02_tokenization/print_token.c \
 		./srcs/02_tokenization/tokenization.c \
+		./srcs/02_tokenization/word_tokens.c \
 		./srcs/04_execution/execution_01.c \
 		./srcs/06_signals/signals.c \
 		./srcs/07_env_var_expansion/environment01.c \
