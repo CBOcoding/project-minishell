@@ -91,51 +91,79 @@ int	builtin_pwd(char **argv)
 	return (0);
 }
 
-int	builtin_export(char **argv, char ***envp)
+int	builtin_export(char **argv, char ***envp_new)
 {
 	int	i;
+	char *equal;
+	char *key;
 
 	i = 0;
 	//parte 1, arriva il comando: export
 	if (argv[1] == NULL)
 	{
-		while (envp[i])
+		while ((*envp_new)[i])
 		{
-			printf("%s\n", envp);
+			printf("%s\n", (*envp_new)[i]);
 			i++;
 		}
 		return (0);
 	}
 
-	if (argv[1])
+	equal = ft_strchr(argv[1], '=');
+
+	if (equal) //parte 3, arriva il comando: export VAR=valore
 	{
+		key = ft_substr(argv[1], 0, equal - argv[1]); //crea una substr con malloc.
+		if (!key) //se fallisce esce e in main va liberato tutto.
+			{
+				perror("export: malloc failed");
+				return (FAILURE);
+			}
+		if (!is_valid_key(key))// funzione da scrivere
+		{
+			print_error(argv[1]);// funzione da scrivere
+			free(key);
+			return (1);
+		}
+		replace_or_add_env(envp_new, argv[i], key); // funzione da scrivere
+		free(key);
+	}
+	else //parte 2, arriva il comando: export VAR
+	{
+		if (!is_valid_key(argv[i]))
+		{
+			print_error(argv[i]);// funzione da scrivere
+			return (1);
+		}
+		if (!key_exists(*envp_new, argv[i]))// funzione da scrivere
+			add_env_var(envp_new, argv[i]); // aggiungi VARIABLE = vuoto
+	}
+	return (0);
+
+
 		//parte 2, arriva il comando: export VAR
-		if (ft_strchr(argv[1], "VAR") == 0)
+		// if (ft_strcmp(argv[1], envp_new[1]) == 0)
 
 //controllare se gia esiste e nel caso non aggiungerla, altrimenti la creo.
 
 		//parte 3, arriva il comando: export VAR=valore
-		if (ft_strchr(argv[1], "VAR") < 0)
+		// if (ft_strcmp(argv[1], envp_new[1]) < 0)
 
 //controllare se esiste e nel caso aggiornare il valore, altrimenti la creo.
 
 		//parte 4, arriva il comando: export 1VAR=ciao IN BASH MA NON RICHIESTA
-		if (envp[i][1] != "_" || (envp[i][1] < "A" || envp[i][1] > "Z") || (envp[i][1] < "a" || envp[i][1] > "z"))
-			{
-				perror("Export");
-				return (1);
-			}
-	}
-
-	//parte 5, arriva il comando: export VAR1 VAR2=val IN BASH MA NON RICHIESTA
-
+		// if (envp_new[i][1] != "_" || (envp_new[i][1] < "A" || envp_new[i][1] > "Z") || (envp_new[i][1] < "a" || envp_new[i][1] > "z"))
+		// 	{
+		// 		perror("Export");
+		// 		return (1);
+		// 	}
+	//}
 
 }
 
 // Dispatcher
-int	execute_builtin(char **argv, char ***envp, int *exit_status)
+int	execute_builtin(char **argv, char ***envp_new, int *exit_status)
 {
-	(void)envp; // Not needed for echo
 	(void)exit_status; // ci serve solo per Exit builtin
 
 	if (ft_strcmp(argv[0], "echo") == 0)
@@ -145,7 +173,7 @@ int	execute_builtin(char **argv, char ***envp, int *exit_status)
 	if (ft_strcmp(argv[0], "pwd") == 0)
 		return (builtin_pwd(argv));
 	if (ft_strcmp(argv[0], "export") == 0)
-		return (builtin_export(argv, envp));
+		return (builtin_export(argv, envp_new));
 	if (ft_strcmp(argv[0], "unset") == 0)
 		return (builtin_unset(argv));
 	if (ft_strcmp(argv[0], "env") == 0)

@@ -54,7 +54,7 @@ int		ft_strcmp(const char *main, char *compared);
 int		ft_isspace(char c);
 int		has_closed_quotes(const char *str);
 int		execute_command(t_cmd *cmd, char **envp);
-int		handle_command(t_cmd *cmd, char ***envp, int last_exit_status);
+int		handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status);
 int		is_builtin(char *cmd);
 int		execute_builtin(char **argv, char ***envp, int *exit_status);
 void	hello_minishell(void);
