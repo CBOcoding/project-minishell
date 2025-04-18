@@ -91,6 +91,47 @@ int	builtin_pwd(char **argv)
 	return (0);
 }
 
+int	builtin_export(char **argv, char ***envp)
+{
+	int	i;
+
+	i = 0;
+	//parte 1, arriva il comando: export
+	if (argv[1] == NULL)
+	{
+		while (envp[i])
+		{
+			printf("%s\n", envp);
+			i++;
+		}
+		return (0);
+	}
+
+	if (argv[1])
+	{
+		//parte 2, arriva il comando: export VAR
+		if (ft_strchr(argv[1], "VAR") == 0)
+
+//controllare se gia esiste e nel caso non aggiungerla, altrimenti la creo.
+
+		//parte 3, arriva il comando: export VAR=valore
+		if (ft_strchr(argv[1], "VAR") < 0)
+
+//controllare se esiste e nel caso aggiornare il valore, altrimenti la creo.
+
+		//parte 4, arriva il comando: export 1VAR=ciao IN BASH MA NON RICHIESTA
+		if (envp[i][1] != "_" || (envp[i][1] < "A" || envp[i][1] > "Z") || (envp[i][1] < "a" || envp[i][1] > "z"))
+			{
+				perror("Export");
+				return (1);
+			}
+	}
+
+	//parte 5, arriva il comando: export VAR1 VAR2=val IN BASH MA NON RICHIESTA
+
+
+}
+
 // Dispatcher
 int	execute_builtin(char **argv, char ***envp, int *exit_status)
 {
@@ -104,7 +145,7 @@ int	execute_builtin(char **argv, char ***envp, int *exit_status)
 	if (ft_strcmp(argv[0], "pwd") == 0)
 		return (builtin_pwd(argv));
 	if (ft_strcmp(argv[0], "export") == 0)
-		return (builtin_export(argv));
+		return (builtin_export(argv, envp));
 	if (ft_strcmp(argv[0], "unset") == 0)
 		return (builtin_unset(argv));
 	if (ft_strcmp(argv[0], "env") == 0)
