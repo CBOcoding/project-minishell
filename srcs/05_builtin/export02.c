@@ -40,6 +40,7 @@ void	print_sorted(char **sorted)
 		else
 		{
 			key_len = equal - sorted[i];
+
 			//add fork for printing as a child.???
 			printf("%.*s=\"%s\"\n", key_len, sorted[i], equal + 1);
 		}

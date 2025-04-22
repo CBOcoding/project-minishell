@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 int	remove_env_var(char ***envp_old, int position)
 {
 	char	**envp_new;

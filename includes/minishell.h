@@ -78,7 +78,6 @@ void	free_token(t_token *tokens);
 void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
 t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
-
 int		builtin_export(char **argv, char ***envp_new);
 int		only_export(char ***envp_new);
 int		builtin_echo(char **argv);
@@ -87,10 +86,13 @@ int		is_valid_key(char *key);
 int		key_exists(char **envp_new, char *key);
 int		add_env_var(char ***envp_old, char *argv);
 void	free_envp_old(char ***envp_old, char **envp_new);
-
 t_pipeline	*parse_token(t_token *token);
 t_cmd	*parsed_segment(t_token *start, t_token *end);
 t_cmd	*create_cmd(void);
+int		builtin_export(char **argv, char ***envp_new);
+int		only_export(char ***envp_new);
+int		builtin_echo(char **argv)
+
 
 
 #endif

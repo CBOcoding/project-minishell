@@ -40,6 +40,8 @@ SRC = \
 		./srcs/05_builtin/pwd.c \
 		./srcs/05_builtin/unset.c \
 		./srcs/05_builtin/exit.c \
+		./srcs/05_builtin/builtin01.c \
+		./srcs/05_builtin/builtin02.c \
 		./srcs/06_signals/signals.c \
 		./srcs/07_env_var_expansion/environment01.c \
 		./srcs/03_parsing/parse.c \
