@@ -30,8 +30,16 @@ SRC = \
 		./srcs/02_tokenization/word_tokens.c \
 		./srcs/04_execution/execution_01.c \
 		./srcs/04_execution/handle_command.c \
-		./srcs/05_builtin/builtin01.c \
-		./srcs/05_builtin/builtin02.c \
+		./srcs/05_builtin/builtin.c \
+		./srcs/05_builtin/cd.c \
+		./srcs/05_builtin/echo.c \
+		./srcs/05_builtin/env.c \
+		./srcs/05_builtin/export01.c \
+		./srcs/05_builtin/export02.c \
+		./srcs/05_builtin/export03.c \
+		./srcs/05_builtin/pwd.c \
+		./srcs/05_builtin/unset.c \
+		./srcs/05_builtin/exit.c \
 		./srcs/06_signals/signals.c \
 		./srcs/07_env_var_expansion/environment01.c \
 

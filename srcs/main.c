@@ -19,7 +19,7 @@ void	free_envp_new(char **envp_new)
     free(envp_new);
 }
 
-int space_for_envp_new(char **envp, char ***envp_new)
+int	space_for_envp_new(char **envp, char ***envp_new)
 {
     //avrei potuto usare ft_strdup che poi chiama ft_strlen
     //quindi ho preferito riscivere due righe di codice

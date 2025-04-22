@@ -42,28 +42,48 @@ int	key_exists(char **envp_new, char *key)
 	
 }
 
-int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
+void	free_envp_old(char ***envp_old, char **envp_new)
 {
-	char *key;
+	int	j;
 
-	key = ft_substr(argv[1], 0, equal - argv[1]); //crea una substr con malloc.
-	if (!key) //se fallisce esce e in main va liberato tutto.
-		{
-			perror("export: malloc failed");
-			return (FAILURE);
-		}
-	if (!is_valid_key(key))
+	j = 0;
+	while((*envp_old[j]))
 	{
-		print_error(argv[1]);// funzione da scrivere
-		free(key);
-		return (1);
+		free((*envp_old)[j]);
+		j++;
 	}
-	replace_or_add_env(envp_new, argv[1], key); // funzione da scrivere
-	free(key);
-	return (0);
+	free(*envp_old);
+	*envp_old = envp_new;
 }
 
+int	add_env_var(char ***envp_old, char *argv)
+{
+	char	**envp_new;
+	int		i;
+	int		len_envp_old;
+	char	*new_var;
 
+	i = 0;
+	len_envp_old = 0;
+	while ((*envp_old)[len_envp_old])
+		len_envp_old++;
+	envp_new = malloc(sizeof(char *) * len_envp_old + 2);
+	if (!envp_new)
+		return (1);//do we want to print an error message?
+	i = 0;
+	while (i < len_envp_old)
+	{
+		envp_new[i] = ft_strdup((*envp_old)[i]);
+		i++;
+	}
+	new_var = ft_strdup(argv);
+	if (!new_var)
+		return (1);
+	envp_new[i++] = new_var;
+	envp_new[i] = NULL;
+	free_envp_old(*envp_old, envp_new);
+	return (0);
+}
 
 int	builtin_export(char **argv, char ***envp_new)
 {
@@ -78,11 +98,12 @@ int	builtin_export(char **argv, char ***envp_new)
 	{
 		if (!is_valid_key(argv[1]))
 		{
-			print_error(argv[1]);// funzione da scrivere
+			write(STDERR_FILENO, "Not a valid key\n", 16);
 			return (1);
 		}
 		if (!key_exists(*envp_new, argv[1]))
-			add_env_var(envp_new, argv[1]); // aggiungi VARIABLE = vuoto // funzione da scrivere
+			if (add_env_var(envp_new, argv[1]) == 1) // aggiungi VARIABLE = vuoto
+				return (1);
 	}
 	return (0);
 }

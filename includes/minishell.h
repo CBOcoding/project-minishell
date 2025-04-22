@@ -73,8 +73,9 @@ t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
 int		builtin_export(char **argv, char ***envp_new);
 int		only_export(char ***envp_new);
-int		builtin_echo(char **argv)
-
+int		builtin_echo(char **argv);
+int		variable_with_equal_sign(char **argv, char ***envp_new, char *equal);
+int		is_valid_key(char *key);
 
 
 #endif
