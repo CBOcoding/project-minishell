@@ -40,8 +40,12 @@ void	print_sorted(char **sorted)
 		else
 		{
 			key_len = equal - sorted[i];
+<<<<<<< HEAD
 
 			//add fork for printing as a child.???
+=======
+			//add fork for printing as a child.
+>>>>>>> 96b5a69 (Still working on export, missing one function)
 			printf("%.*s=\"%s\"\n", key_len, sorted[i], equal + 1);
 		}
 		i++;

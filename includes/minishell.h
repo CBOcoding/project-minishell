@@ -91,8 +91,9 @@ t_cmd	*parsed_segment(t_token *start, t_token *end);
 t_cmd	*create_cmd(void);
 int		builtin_export(char **argv, char ***envp_new);
 int		only_export(char ***envp_new);
-int		builtin_echo(char **argv)
-
+int		builtin_echo(char **argv);
+int		variable_with_equal_sign(char **argv, char ***envp_new, char *equal);
+int		is_valid_key(char *key);
 
 
 #endif
