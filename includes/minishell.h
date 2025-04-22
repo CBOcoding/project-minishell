@@ -71,6 +71,9 @@ void	free_token(t_token *tokens);
 void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
 t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
+int		builtin_export(char **argv, char ***envp_new);
+int		only_export(char ***envp_new);
+int		builtin_echo(char **argv)
 
 
 
