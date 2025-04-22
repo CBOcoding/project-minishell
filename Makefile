@@ -31,6 +31,9 @@ SRC = \
 		./srcs/04_execution/execution_01.c \
 		./srcs/06_signals/signals.c \
 		./srcs/07_env_var_expansion/environment01.c \
+		./srcs/03_parsing/parse.c \
+		./srcs/03_parsing/parse_helper.c \
+		./srcs/utils/utils.c \
 
 
 

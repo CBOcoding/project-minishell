@@ -30,7 +30,7 @@ void tokenize_single_quote(char *input, int *i, t_token **tokens, t_status *stat
 }
 
 // Handle double quoted text
-void tokenize_double_quote(char *input, int *i, t_token **tokens, t_status *status)
+void	tokenize_double_quote(char *input, int *i, t_token **tokens, t_status *status)
 {
     int start = *i;
     char *word;
