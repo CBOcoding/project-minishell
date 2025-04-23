@@ -109,7 +109,8 @@ int main(int argc, char **argv, char **envp)
             print_tokens(token); //DEBUG da rimuovere
 
             // Parse tokens into command structure
-        t_cmd *cmd = parse_tokens(token); // TODO: implementare parser
+        // t_cmd *cmd = parse_tokens(token); // TODO: implementare parser
+		t_cmd *cmd = NULL;
 
         // Execute the command
         last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
