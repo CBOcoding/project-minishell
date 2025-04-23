@@ -51,7 +51,6 @@ static int	parse_commands(t_token *token, t_pipeline *pipeline)
 	t_token	*end;
 	int		cmnd_index;
 
-
 	cmnd_index = 0;
 	current = token;
 	while(cmnd_index < pipeline->cmd_count)
@@ -59,7 +58,7 @@ static int	parse_commands(t_token *token, t_pipeline *pipeline)
 		start = current;
 		end = find_command_end(current);
 		pipeline->commands[cmnd_index] = parsed_segment(start, end);
-		if (pipeline->commands[cmnd_index] != SUCCESS)
+		if (!pipeline->commands[cmnd_index])
 			return (FAILURE);
 		cmnd_index++;
 		if (end && end->type == PIPE)
@@ -84,5 +83,3 @@ t_pipeline	*parse_token(t_token *token)
 		return (free_pipeline(pipeline), NULL);
 	return (pipeline);
 }
-
-

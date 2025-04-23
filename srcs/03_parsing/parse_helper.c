@@ -29,11 +29,15 @@ static int	count_arguments(t_token *start, t_token *end)
 	return (count);
 }
 
-static int fill_command_data(t_cmd *cmd, t_token *start, t_token *end) {
-	t_token *current = start;
-	t_token *prev = NULL;  // Track previous token manually
-	int arg_index = 0;
-		
+static int	fill_command_data(t_cmd *cmd, t_token *start, t_token *end)
+{
+	t_token	*current;
+	t_token	*prev;  // Track previous token manually
+	int		arg_index;
+	
+	current = start;
+	prev = NULL;
+	arg_index = 0;
 	while (current && current != end)
 	{
 		 // Handle redirections
