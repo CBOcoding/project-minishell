@@ -81,7 +81,7 @@ int	add_env_var(char ***envp_old, char *argv)
 		return (1);
 	envp_new[i++] = new_var;
 	envp_new[i] = NULL;
-	free_envp_old(*envp_old, envp_new);
+	free_envp_old(envp_old, envp_new);
 	return (0);
 }
 

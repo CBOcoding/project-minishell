@@ -12,6 +12,7 @@ int	replace_or_add_env(char ***envp_new, char *argv, char *key)
 		free((*envp_new)[position]);
 		(*envp_new)[position] = ft_strdup(argv);
 		if (!(*envp_new)[position])
+			//exit_with_free	//VA COSTRUITA
 			exit(1); //VA COSTRUITA una funzione di uscita con memory clean oppure metto return (1) ma va aggiustato il codice in uscita.
 	}
 	return (0);

@@ -78,6 +78,7 @@ int		variable_with_equal_sign(char **argv, char ***envp_new, char *equal);
 int		is_valid_key(char *key);
 int		key_exists(char **envp_new, char *key);
 int		add_env_var(char ***envp_old, char *argv);
+void	free_envp_old(char ***envp_old, char **envp_new);
 
 
 #endif
