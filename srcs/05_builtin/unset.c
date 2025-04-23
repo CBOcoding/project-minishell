@@ -1,10 +1,4 @@
 #include "minishell.h"
-//not ready
-int	builtin_unset(char **argv, char ***envp_new)
-{
-	int	i;;
-
-<<<<<<< HEAD
 
 int	remove_env_var(char ***envp_old, int position)
 {
@@ -53,16 +47,3 @@ int	builtin_unset(char **argv, char ***envp_new)
 	remove_env_var(envp_new, position);
 	return (0);
 }
-=======
-	i = 0;
-	if (argv[1] == NULL)
-		return (0);
-	else
-		while ((*envp_new)[i])
-		{
-			printf("%s\n", (*envp_new)[i]);
-			i++;
-		}
-		return (0);
-}
->>>>>>> 96b5a69 (Still working on export, missing one function)
