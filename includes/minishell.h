@@ -4,13 +4,11 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-
-#include <readline/readline.h>
-#include <readline/history.h>
-
-#define SUCCESS 0
-#define FAILURE 1
+# define SUCCESS 0
+# define FAILURE 1
 
 # include "../libraries/ft_libft/libft.h"
 
@@ -67,8 +65,8 @@ void	hello_minishell(void);
 void	add_token(t_token **tokens, t_token *new_token);
 void	tokkenize_arrows(char *input, int *i, t_token **tokens);
 void	tokkenize_pipe(int *index, t_token **tokens);
-void	tokenize_single_quote(char *input, int *i, t_token **tokens, t_status *status);
-void	tokenize_double_quote(char *input, int *i, t_token **tokens, t_status *status);
+void	tokenize_squote(char *input, int *i, t_token **tokens, t_status *stat);
+void	tokenize_dquote(char *input, int *i, t_token **tokens, t_status *stat);
 void	tokenize_simple_word(char *input, int *i, t_token **tokens);
 void	tokenize_var_in_dquote(char *input, int *i, t_token **tokens);
 void	tokenize_var(char *input, int *i, t_token **tokens);
@@ -79,8 +77,7 @@ t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
 t_pipeline	*parse_token(t_token *token);
 t_cmd	*parsed_segment(t_token *start, t_token *end);
-t_cmd *create_cmd(void);
-
+t_cmd	*create_cmd(void);
 
 
 #endif
