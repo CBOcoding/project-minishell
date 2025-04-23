@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-<<<<<<< HEAD
 int	replace_or_add_env(char ***envp_new, char *argv, char *key)
 {
 	int	position;
@@ -19,8 +18,6 @@ int	replace_or_add_env(char ***envp_new, char *argv, char *key)
 	return (0);
 }
 
-=======
->>>>>>> 96b5a69 (Still working on export, missing one function)
 int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
 {
 	char *key;
@@ -37,14 +34,7 @@ int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
 		free(key);
 		return (1);
 	}
-<<<<<<< HEAD
 	replace_or_add_env(envp_new, argv[1], key);
 	free(key);
 	return (0);
 }
-=======
-	replace_or_add_env(envp_new, argv[1], key); // funzione da scrivere
-	free(key);
-	return (0);
-}
->>>>>>> 96b5a69 (Still working on export, missing one function)

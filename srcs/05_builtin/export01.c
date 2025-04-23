@@ -71,10 +71,6 @@ int	add_env_var(char ***envp_old, char *argv)
 	envp_new = malloc(sizeof(char *) * len_envp_old + 2);
 	if (!envp_new)
 		return (1);//do we want to print an error message?
-<<<<<<< HEAD
-=======
-	i = 0;
->>>>>>> 96b5a69 (Still working on export, missing one function)
 	while (i < len_envp_old)
 	{
 		envp_new[i] = ft_strdup((*envp_old)[i]);
@@ -85,11 +81,7 @@ int	add_env_var(char ***envp_old, char *argv)
 		return (1);
 	envp_new[i++] = new_var;
 	envp_new[i] = NULL;
-<<<<<<< HEAD
 	free_envp_old(envp_old, envp_new);
-=======
-	free_envp_old(*envp_old, envp_new);
->>>>>>> 96b5a69 (Still working on export, missing one function)
 	return (0);
 }
 
@@ -109,11 +101,7 @@ int	builtin_export(char **argv, char ***envp_new)
 			write(STDERR_FILENO, "Not a valid key\n", 16);
 			return (1);
 		}
-<<<<<<< HEAD
 		if (key_exists(*envp_new, argv[1]) < 0)
-=======
-		if (!key_exists(*envp_new, argv[1]))
->>>>>>> 96b5a69 (Still working on export, missing one function)
 			if (add_env_var(envp_new, argv[1]) == 1) // aggiungi VARIABLE = vuoto
 				return (1);
 	}
