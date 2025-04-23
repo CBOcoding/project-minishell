@@ -34,11 +34,12 @@ int	key_exists(char **envp_new, char *key)
 	len = ft_strlen(key);
 	while (envp_new[i]) //scorro tutto envp_new per vedere se c'e gia una key.
 	{
-		if(ft_strncmp(envp_new[i], key, len) == 0 && envp_new[i][len] == '=') // se la variabile esiste esce con SUCCESS, controlla che ci sia = per evitare falsi positivi, tipo PATH: PATH= vs PATH_EXTRA.
-			return (SUCCESS);
+		if(ft_strncmp(envp_new[i], key, len) == 0 && \
+		(envp_new[i][len] == '=' || envp_new[i][len] == '\0')) // se la variabile esiste esce con SUCCESS, controlla che ci sia = per evitare falsi positivi, tipo PATH: PATH= vs PATH_EXTRA.
+			return (i);//return la posizione della key esistente (ci serve perche usiamo la stessa funzione anche con export VAR="ciao")
 		i++;
 	}
-	return (FAILURE);
+	return (-1);//torniamo -1 perche ogni valore positivo (0 incluso) corrisponde alla posizione della key.
 	
 }
 
@@ -70,7 +71,6 @@ int	add_env_var(char ***envp_old, char *argv)
 	envp_new = malloc(sizeof(char *) * len_envp_old + 2);
 	if (!envp_new)
 		return (1);//do we want to print an error message?
-	i = 0;
 	while (i < len_envp_old)
 	{
 		envp_new[i] = ft_strdup((*envp_old)[i]);
@@ -101,7 +101,7 @@ int	builtin_export(char **argv, char ***envp_new)
 			write(STDERR_FILENO, "Not a valid key\n", 16);
 			return (1);
 		}
-		if (!key_exists(*envp_new, argv[1]))
+		if (key_exists(*envp_new, argv[1]) < 0)
 			if (add_env_var(envp_new, argv[1]) == 1) // aggiungi VARIABLE = vuoto
 				return (1);
 	}

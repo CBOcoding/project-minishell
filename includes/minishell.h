@@ -76,6 +76,8 @@ int		only_export(char ***envp_new);
 int		builtin_echo(char **argv);
 int		variable_with_equal_sign(char **argv, char ***envp_new, char *equal);
 int		is_valid_key(char *key);
+int		key_exists(char **envp_new, char *key);
+int		add_env_var(char ***envp_old, char *argv);
 
 
 #endif
