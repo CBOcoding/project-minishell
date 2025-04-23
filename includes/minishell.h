@@ -15,39 +15,48 @@
 # include "../libraries/ft_libft/libft.h"
 
 
-typedef enum e_token_type
+typedef enum	e_token_type
 {
-    WORD,
-    PIPE,
-    REDIR_IN,
-    REDIR_OUT,
-    APPEND,
-    HEREDOC,
-    ENV_VAR
-}   t_token_type;
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC,
+	ENV_VAR
+}	t_token_type;
 
-typedef enum e_status
+typedef enum	e_status
 {
-    DEFAULT,
-    SQUOTE,
-    DQUOTE
+	DEFAULT,
+	SQUOTE,
+	DQUOTE
 } t_status;
 
-typedef struct s_token {
-    char *value;
-    t_token_type type;
-    t_status status;
-    struct s_token *next;
+typedef struct	s_token
+{
+	char			*value;
+	t_token_type	type;
+	t_status		status;
+	struct s_token	*next;
 } t_token;
 
-/*test structure*/
 typedef struct s_cmd
 {
-    char **argv;
-    char *infile;
-    char *outfile;
-    int   append;
-}   t_cmd;
+	int		append;        // For >> redirection
+	int		heredoc;       // For << heredoc
+	char	**argv;       // Command + args (e.g., ["ls", "-l", NULL])
+	char	*infile;      // Input redirection file
+	char	*outfile;     // Output redirection file
+	char	*delimiter;   // Heredoc delimiter
+} t_cmd;
+
+typedef struct s_pipeline
+{
+	int		cmd_count;     // Number of commands
+	t_cmd	**commands;  // Array of commands
+}	t_pipeline;
+
 
 
 int		ft_strcmp(const char *main, char *compared);
@@ -71,6 +80,7 @@ void	free_token(t_token *tokens);
 void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
 t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
+
 int		builtin_export(char **argv, char ***envp_new);
 int		only_export(char ***envp_new);
 int		builtin_echo(char **argv);
@@ -79,6 +89,11 @@ int		is_valid_key(char *key);
 int		key_exists(char **envp_new, char *key);
 int		add_env_var(char ***envp_old, char *argv);
 void	free_envp_old(char ***envp_old, char **envp_new);
+
+t_pipeline	*parse_token(t_token *token);
+t_cmd	*parsed_segment(t_token *start, t_token *end);
+t_cmd *create_cmd(void);
+
 
 
 #endif
