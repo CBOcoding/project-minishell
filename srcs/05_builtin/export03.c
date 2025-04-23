@@ -4,7 +4,7 @@ int	replace_or_add_env(char ***envp_new, char *argv, char *key)
 {
 	int	position;
 
-	position = key_exists(envp_new, key);
+	position = key_exists(*envp_new, key);
 	if (position < 0)
 		add_env_var(envp_new, argv);
 	else

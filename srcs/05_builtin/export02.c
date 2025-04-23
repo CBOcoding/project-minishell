@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	array_sorting(char *sorted, int envp_len)
+void	array_sorting(char **sorted, int envp_len)
 {
 	int		i;
 	int		j;

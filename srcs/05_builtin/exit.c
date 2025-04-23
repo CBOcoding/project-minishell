@@ -1,3 +1,7 @@
 #include "minishell.h"
 //not ready
-test
+int	builtin_exit(char **argv)
+{
+	(void)argv;
+	return (1);
+}

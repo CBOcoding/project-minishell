@@ -11,3 +11,13 @@ int handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status)
 	else
 		return (execute_command(cmd, *envp_new));
 }
+
+/*
+
+!(*cmd->commands) 
+cmd->commands -> **
+(*cmd->commands) -> * index 0
+++(*cmd->commands) -> * index 1
+cmd->commands[0] -> [0]
+
+*/
