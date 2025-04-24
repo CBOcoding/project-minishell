@@ -21,5 +21,5 @@ int	builtin_echo(char **argv)
 	}
 	if (newline)
 		printf("\n");
-	return (0);
+	return (SUCCESS);
 }

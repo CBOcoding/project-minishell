@@ -15,7 +15,7 @@ int	replace_or_add_env(char ***envp_new, char *argv, char *key)
 			//exit_with_free	//VA COSTRUITA
 			exit(1); //VA COSTRUITA una funzione di uscita con memory clean oppure metto return (1) ma va aggiustato il codice in uscita.
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
@@ -32,9 +32,9 @@ int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
 	{
 		write(STDERR_FILENO, "Not a valid key\n", 16);
 		free(key);
-		return (1);
+		return (FAILURE);
 	}
 	replace_or_add_env(envp_new, argv[1], key);
 	free(key);
-	return (0);
+	return (SUCCESS);
 }
