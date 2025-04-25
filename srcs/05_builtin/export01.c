@@ -74,7 +74,7 @@ int	add_env_var(char ***envp_old, char *argv)
 	len_envp_old = 0;
 	while ((*envp_old)[len_envp_old])
 		len_envp_old++;
-	envp_new = malloc(sizeof(char *) * len_envp_old + 2);
+	envp_new = malloc(sizeof(char *) * (len_envp_old + 2));
 	if (!envp_new)
 		return (FAILURE);//do we want to print an error message?
 	while (i < len_envp_old)
