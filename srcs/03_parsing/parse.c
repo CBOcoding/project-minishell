@@ -16,7 +16,7 @@ static int	count_commands(t_token *token)
 	return (count);
 }
 
-static void	free_pipeline(t_pipeline *pipeline)
+void	free_pipeline(t_pipeline *pipeline)
 {
 	int	i;
 

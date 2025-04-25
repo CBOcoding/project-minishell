@@ -100,6 +100,8 @@ int		builtin_exit(char **argv);
 t_pipeline	*parse_token(t_token *token);
 t_cmd	*parsed_segment(t_token *start, t_token *end);
 t_cmd	*create_cmd(void);
+void	free_pipeline(t_pipeline *pipeline);
+void	free_command(t_cmd *cmd);
 
 
 

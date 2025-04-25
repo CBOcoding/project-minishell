@@ -55,6 +55,8 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
     char *input;
     int last_exit_status;
+	t_pipeline *pipeline = NULL;
+	t_cmd *cmd = NULL;
 
     last_exit_status = 0;
 
@@ -110,7 +112,17 @@ int main(int argc, char **argv, char **envp)
 
             // Parse tokens into command structure
         // t_cmd *cmd = parse_tokens(token); // TODO: implementare parser
-		t_cmd *cmd = NULL;
+		pipeline = parse_token(token);
+
+
+		int i = 0;
+		while (i < pipeline->cmd_count)
+		{
+			
+			handle_command(pipeline->commands[i], &envp_new, last_exit_status);
+			i++;
+		}
+		
 
         // Execute the command
         last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
@@ -119,7 +131,9 @@ int main(int argc, char **argv, char **envp)
         // Free the allocated memory (tokens, cmd, etc.)
         // free_tokens(token); // Free the tokens after use
         // free(cmd); // Free the command string after use
-        free(input);// Free the input string after use
+		free_command(cmd);
+        free_pipeline(pipeline);
+		free(input);// Free the input string after use
     }
 
     // Clear the history before exiting

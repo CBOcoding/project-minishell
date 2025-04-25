@@ -75,7 +75,7 @@ static int	fill_command_data(t_cmd *cmd, t_token *start, t_token *end)
 	cmd->argv[arg_index] = NULL;
 	return (SUCCESS);
 }
-static void	free_command(t_cmd *cmd)
+void	free_command(t_cmd *cmd)
 {
 	int	i;
 	if (!cmd)
