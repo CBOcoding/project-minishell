@@ -18,7 +18,7 @@ printf("%c\n", key[0]);
 				(key[i] >= 'A' && key[i] <= 'Z') || (key[i] >= '0' && key[i] <= '9'))
 				{
 					i++;
-					printf("0");
+					ft_putstr_fd("0",2);
 					continue;
 				}
 			else
@@ -48,18 +48,19 @@ int	key_exists(char **envp_new, char *key)
 
 }
 
-void	free_envp_old(char ***envp_old, char **envp_new)
+void free_envp_old(char ***envp_old, char **envp_new)
 {
-	int	j;
+    int j;
 
-	j = 0;
-	while((*envp_old[j]))
-	{
-		free((*envp_old)[j]);
-		j++;
-	}
-	free(*envp_old);
-	*envp_old = envp_new;
+    j = 0;
+    while ((*envp_old)[j] != NULL)
+    {
+        write(1, "test\n", 5);
+        free((*envp_old)[j]);
+        j++;
+    }
+    free(*envp_old);
+    *envp_old = envp_new;
 }
 
 int	add_env_var(char ***envp_old, char *argv)
@@ -101,7 +102,7 @@ int	builtin_export(char **argv, char ***envp_new) //to be checked
 		variable_with_equal_sign(argv, envp_new, equal);
 	else //parte 2, arriva il comando: export VAR
 	{
-		if (!is_valid_key(argv[1]))
+		if (is_valid_key(argv[1]))
 		{
 			write(STDERR_FILENO, "Not a valid key\n", 16);
 			return (1);
