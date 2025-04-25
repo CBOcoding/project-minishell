@@ -9,9 +9,9 @@ int	builtin_pwd(char **argv)
 	if (path == NULL)
 	{
 		perror("pwd");
-		return (1);
+		return (FAILURE);
 	}
 	printf("%s\n", path);
 	free(path);
-	return (0);
+	return (SUCCESS);
 }

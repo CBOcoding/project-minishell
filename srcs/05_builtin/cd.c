@@ -10,7 +10,7 @@ int	builtin_cd(char **argv)
 		if (!path)
 		{
 			write(STDERR_FILENO, "cd: HOME not set\n", 18);
-			return (1);
+			return (FAILURE);
 		}
 	}
 	else
@@ -20,5 +20,5 @@ int	builtin_cd(char **argv)
 		perror("cd");
 		return (1);
 	}
-	return (0);
+	return (SUCCESS);
 }

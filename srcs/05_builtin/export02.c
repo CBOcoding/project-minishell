@@ -61,7 +61,7 @@ int	only_export(char ***envp_new)
 		if (!sorted)
 		{
 			perror("Malloc error");
-			return (1);
+			return (FAILURE);
 		}
 
 	while (i < envp_len)
@@ -73,5 +73,5 @@ int	only_export(char ***envp_new)
 	array_sorting(sorted, envp_len);
 	print_sorted(sorted);
 	free(sorted);
-	return (0);
+	return (SUCCESS);
 }

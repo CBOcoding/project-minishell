@@ -40,7 +40,7 @@ int	key_exists(char **envp_new, char *key)
 		i++;
 	}
 	return (-1);//torniamo -1 perche ogni valore positivo (0 incluso) corrisponde alla posizione della key.
-	
+
 }
 
 void	free_envp_old(char ***envp_old, char **envp_new)
@@ -70,7 +70,7 @@ int	add_env_var(char ***envp_old, char *argv)
 		len_envp_old++;
 	envp_new = malloc(sizeof(char *) * len_envp_old + 2);
 	if (!envp_new)
-		return (1);//do we want to print an error message?
+		return (FAILURE);//do we want to print an error message?
 	while (i < len_envp_old)
 	{
 		envp_new[i] = ft_strdup((*envp_old)[i]);
@@ -78,14 +78,14 @@ int	add_env_var(char ***envp_old, char *argv)
 	}
 	new_var = ft_strdup(argv);
 	if (!new_var)
-		return (1);
+		return (FAILURE);
 	envp_new[i++] = new_var;
 	envp_new[i] = NULL;
 	free_envp_old(envp_old, envp_new);
-	return (0);
+	return (SUCCESS);
 }
 
-int	builtin_export(char **argv, char ***envp_new)
+int	builtin_export(char **argv, char ***envp_new) //to be checked
 {
 	char *equal;
 
@@ -103,7 +103,7 @@ int	builtin_export(char **argv, char ***envp_new)
 		}
 		if (key_exists(*envp_new, argv[1]) < 0)
 			if (add_env_var(envp_new, argv[1]) == 1) // aggiungi VARIABLE = vuoto
-				return (1);
+				return (FAILURE);
 	}
-	return (0);
+	return (SUCCESS);
 }

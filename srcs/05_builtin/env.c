@@ -8,7 +8,7 @@ int	builtin_env(char **argv, char ***envp_new)
 	if (argv[1] != NULL)
 	{
 		write(STDERR_FILENO, "env: No such file or directory\n", 31);
-		return (1);
+		return (FAILURE);
 	}
 	else
 	{
@@ -17,6 +17,6 @@ int	builtin_env(char **argv, char ***envp_new)
 			printf("%s\n", *envp_new[i]);
 			i++;
 		}
-		return (0);
+		return (SUCCESS);
 	}
 }
