@@ -85,7 +85,7 @@ int	add_env_var(char ***envp_old, char *argv)
 	return (SUCCESS);
 }
 
-int	builtin_export(char **argv, char ***envp_new)
+int	builtin_export(char **argv, char ***envp_new) //to be checked
 {
 	char *equal;
 
