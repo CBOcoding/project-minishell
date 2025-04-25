@@ -57,7 +57,7 @@ typedef struct s_pipeline
 
 
 
-int		ft_strcmp(const char *main, char *compared);
+int		ft_strcmp(const char *main, const char *compared);
 int		ft_isspace(char c);
 int		has_closed_quotes(const char *str);
 int		execute_command(t_cmd *cmd, char **envp);

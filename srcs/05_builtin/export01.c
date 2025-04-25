@@ -4,25 +4,30 @@ int	is_valid_key(char *key)
 {
 	int	i;
 
-	i  = 1;
+	i = 1;
+printf("IS VALID KEY\n");
+printf("---%s---\n", key);
+printf("%c\n", key[0]);
 	if (key[0] == '_' || (key[0] >= 'a' && key[0] <= 'z') || \
 		(key[0] >= 'A' && key[0] <= 'Z'))
 	{
 		while (key[i])
 		{
+			printf("%c\n", key[i]);
 			if (key[i] == '_' || (key[i] >= 'a' && key[i] <= 'z') || \
 				(key[i] >= 'A' && key[i] <= 'Z') || (key[i] >= '0' && key[i] <= '9'))
 				{
 					i++;
+					printf("0");
 					continue;
 				}
 			else
-				return(FAILURE);
+				return(printf("1"), FAILURE);
 		}
-		return(SUCCESS);
+		return(printf("2"), SUCCESS);
 	}
 	else
-		return(FAILURE);
+		return(printf("3"), FAILURE);
 }
 
 int	key_exists(char **envp_new, char *key)
