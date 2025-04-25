@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status)
+int	handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status)
 
 {
 	if (!cmd || !cmd->argv || !cmd->argv[0])
