@@ -1,18 +1,46 @@
 
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//       {
+//         "name": "Debug Minishell",
+//         "type": "cppdbg",
+//         "request": "launch",
+//         "program": "${workspaceFolder}/minishell",
+//         "args": [],
+//         "stopAtEntry": false,
+//         "cwd": "${workspaceFolder}",
+//         "externalConsole": false,
+//         "MIMode": "gdb",
+//         "miDebuggerPath": "/usr/bin/gdb"
+//       }
+//     ]
+//   }
+
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Debug Minishell",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/minishell",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "externalConsole": false,
-        "MIMode": "gdb",
-        "miDebuggerPath": "/usr/bin/gdb"
-      }
-    ]
-  }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Minishell (Mac - LLDB)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/minishell",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": false,
+      "runInTerminal": true
+    },
+    {
+      "name": "Debug Minishell (Linux - GDB)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/minishell",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb"
+    }
+  ]
+}

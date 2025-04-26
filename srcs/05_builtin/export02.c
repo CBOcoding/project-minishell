@@ -90,19 +90,7 @@ int	only_export(char ***envp_new)
 		i++;
 	}
 	sorted[envp_len] = NULL;
-
-	printf("DEBUG: before sort:\n");
-	for (int k = 0; k < envp_len; k++)
-		printf("  [%d] %s\n", k, sorted[k]);
-	
-
 	array_sorting(sorted, envp_len);
-
-	printf("DEBUG: after sort:\n");
-	for (int k = 0; k < envp_len; k++)
-		printf("  [%d] %s\n", k, sorted[k]);
-
-
 	print_sorted(sorted);
 	free_sorted(sorted, envp_len);
 	free(sorted);

@@ -12,7 +12,7 @@ void	handle_sigint(int signum)
 	g_signal = SIGINT;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0); // RIMOSSO SOLO PER TEST SU MAC
 	rl_redisplay();
 }
 
@@ -21,7 +21,7 @@ void	handle_sigquit(int signum)
 	(void)signum;
 	g_signal = SIGQUIT;
 	rl_on_new_line();          // riposiziona correttamente la riga
-	rl_replace_line("", 0);    // svuota input buffer
+	// rl_replace_line("", 0);    // svuota input buffer // RIMOSSO SOLO PER TEST SU MAC
 	rl_redisplay();            // ridisegna il prompt
 	/* Do nothing on Ctrl+\ */
 }

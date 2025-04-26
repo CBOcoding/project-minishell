@@ -5,29 +5,24 @@ int	is_valid_key(char *key)
 	int	i;
 
 	i = 1;
-printf("IS VALID KEY\n");
-printf("---%s---\n", key);
-printf("%c\n", key[0]);
 	if (key[0] == '_' || (key[0] >= 'a' && key[0] <= 'z') || \
 		(key[0] >= 'A' && key[0] <= 'Z'))
 	{
 		while (key[i])
 		{
-			printf("%c\n", key[i]);
 			if (key[i] == '_' || (key[i] >= 'a' && key[i] <= 'z') || \
 				(key[i] >= 'A' && key[i] <= 'Z') || (key[i] >= '0' && key[i] <= '9'))
 				{
 					i++;
-					ft_putstr_fd("0",2);
 					continue;
 				}
 			else
-				return(printf("1"), FAILURE);
+				return(write(1, "1 FAILURE\n", 10), FAILURE);//
 		}
-		return(printf("2"), SUCCESS);
+		return(write(1, "2 SUCCESS\n", 10), SUCCESS);//
 	}
 	else
-		return(printf("3"), FAILURE);
+		return(write(1, "3 FAILURE\n", 10), FAILURE);//
 }
 
 int	key_exists(char **envp_new, char *key)
@@ -50,17 +45,16 @@ int	key_exists(char **envp_new, char *key)
 
 void free_envp_old(char ***envp_old, char **envp_new)
 {
-    int j;
+	int j;
 
-    j = 0;
-    while ((*envp_old)[j] != NULL)
-    {
-        write(1, "test\n", 5);
-        free((*envp_old)[j]);
-        j++;
-    }
-    free(*envp_old);
-    *envp_old = envp_new;
+	j = 0;
+	while ((*envp_old)[j] != NULL)
+	{
+		free((*envp_old)[j]);
+		j++;
+	}
+	free(*envp_old);
+	*envp_old = envp_new;
 }
 
 int	add_env_var(char ***envp_old, char *argv)
@@ -91,10 +85,9 @@ int	add_env_var(char ***envp_old, char *argv)
 	return (SUCCESS);
 }
 
-int	builtin_export(char **argv, char ***envp_new) //to be checked
+int	builtin_export(char **argv, char ***envp_new)
 {
 	char *equal;
-
 	if (argv[1] == NULL)//parte 1, arriva il comando: export
 		return (only_export(envp_new));
 	equal = ft_strchr(argv[1], '='); //non controlla per += va giustificato dicendo che il subject non lo richiede come per esempio richiedeva -n in echo.
@@ -113,3 +106,5 @@ int	builtin_export(char **argv, char ***envp_new) //to be checked
 	}
 	return (SUCCESS);
 }
+
+
