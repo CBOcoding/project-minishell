@@ -83,6 +83,8 @@ void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
 t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
 
+//execution
+int	execute_pipeline(t_pipeline *pipeline, char **envp_new);
 
 //builtin
 int		builtin_cd(char **argv);
