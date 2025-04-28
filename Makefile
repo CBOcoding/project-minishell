@@ -55,7 +55,7 @@ LIBFT_DIR = ./libraries/ft_libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-all : $(NAME)
+all : $(LIBFT) $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
@@ -64,6 +64,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 clean :
+#test_Obj to be removed
 	rm -f $(OBJ) $(TEST_OBJ)
 	$(MAKE) -C $(LIBFT_DIR) clean
 

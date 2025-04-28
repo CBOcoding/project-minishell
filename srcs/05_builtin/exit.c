@@ -31,7 +31,7 @@ int	exit_with_number(char **argv)
 	return (value);
 }
 
-int	builtin_exit(char **argv)
+int	builtin_exit(char **argv, int exit_status)
 {
 	int	i;
 
@@ -46,6 +46,9 @@ int	builtin_exit(char **argv)
 		return ((unsigned char)0); //exit code 0
 	}
 	else //i = 2 ossia esiste argv[1]
-		return ((unsigned char)exit_with_number(argv));
+	{
+		exit_status = (unsigned char)exit_with_number(argv);
+		return (exit_status);
+	}
 	return (SUCCESS);
 }
