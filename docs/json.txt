@@ -1,0 +1,27 @@
+// setting .json
+{
+	"makefile.configureOnOpen": false,
+	"files.associations": {
+		"minishell.h": "c",
+		"readline.h": "c"
+	}
+}
+
+//launch.json
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Minishell",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/minishell",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "externalConsole": false,
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      }
+    ]
+  }

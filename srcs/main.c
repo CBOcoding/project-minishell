@@ -118,11 +118,11 @@ int main(int argc, char **argv, char **envp)
 		int i = 0;
 		while (i < pipeline->cmd_count)
 		{
-			
+
 			handle_command(pipeline->commands[i], &envp_new, last_exit_status);
 			i++;
 		}
-		
+
 
         // Execute the command
         last_exit_status = handle_command(cmd, &envp_new, last_exit_status);

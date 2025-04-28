@@ -4,7 +4,7 @@ int	is_valid_key(char *key)
 {
 	int	i;
 
-	i  = 1;
+	i = 1;
 	if (key[0] == '_' || (key[0] >= 'a' && key[0] <= 'z') || \
 		(key[0] >= 'A' && key[0] <= 'Z'))
 	{
@@ -17,12 +17,12 @@ int	is_valid_key(char *key)
 					continue;
 				}
 			else
-				return(FAILURE);
+				return(write(1, "1 FAILURE\n", 10), FAILURE);//
 		}
-		return(SUCCESS);
+		return(write(1, "2 SUCCESS\n", 10), SUCCESS);//
 	}
 	else
-		return(FAILURE);
+		return(write(1, "3 FAILURE\n", 10), FAILURE);//
 }
 
 int	key_exists(char **envp_new, char *key)
@@ -43,12 +43,12 @@ int	key_exists(char **envp_new, char *key)
 
 }
 
-void	free_envp_old(char ***envp_old, char **envp_new)
+void free_envp_old(char ***envp_old, char **envp_new)
 {
-	int	j;
+	int j;
 
 	j = 0;
-	while((*envp_old[j]))
+	while ((*envp_old)[j] != NULL)
 	{
 		free((*envp_old)[j]);
 		j++;
@@ -68,7 +68,7 @@ int	add_env_var(char ***envp_old, char *argv)
 	len_envp_old = 0;
 	while ((*envp_old)[len_envp_old])
 		len_envp_old++;
-	envp_new = malloc(sizeof(char *) * len_envp_old + 2);
+	envp_new = malloc(sizeof(char *) * (len_envp_old + 2));
 	if (!envp_new)
 		return (FAILURE);//do we want to print an error message?
 	while (i < len_envp_old)
@@ -85,10 +85,9 @@ int	add_env_var(char ***envp_old, char *argv)
 	return (SUCCESS);
 }
 
-int	builtin_export(char **argv, char ***envp_new) //to be checked
+int	builtin_export(char **argv, char ***envp_new)
 {
 	char *equal;
-
 	if (argv[1] == NULL)//parte 1, arriva il comando: export
 		return (only_export(envp_new));
 	equal = ft_strchr(argv[1], '='); //non controlla per += va giustificato dicendo che il subject non lo richiede come per esempio richiedeva -n in echo.
@@ -96,7 +95,7 @@ int	builtin_export(char **argv, char ***envp_new) //to be checked
 		variable_with_equal_sign(argv, envp_new, equal);
 	else //parte 2, arriva il comando: export VAR
 	{
-		if (!is_valid_key(argv[1]))
+		if (is_valid_key(argv[1]))
 		{
 			write(STDERR_FILENO, "Not a valid key\n", 16);
 			return (1);
@@ -107,3 +106,5 @@ int	builtin_export(char **argv, char ***envp_new) //to be checked
 	}
 	return (SUCCESS);
 }
+
+
