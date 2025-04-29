@@ -189,5 +189,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	newstring[x + y] = '\0';
 	return (newstring);
 }
-	
+
+char	**ft_split(char const *s, char c)
+{
+	int		word_count;
+	char	**array;
+
+	word_count = count_words(s, c);
+	array = (char **)malloc((word_count + 1) * sizeof(char *));
+	if (array == NULL)
+		return (NULL);
+	if (filling(array, s, c) == NULL)
+		return (NULL);
+	return (array);
+}
+
 */
