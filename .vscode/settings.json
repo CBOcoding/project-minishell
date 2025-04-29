@@ -3,5 +3,6 @@
 	"files.associations": {
 		"minishell.h": "c",
 		"readline.h": "c"
-	}
+	},
+    "editor.insertSpaces": false
 }
