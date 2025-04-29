@@ -3,13 +3,19 @@ expected from parsing:
 
 typedef struct s_cmd
 {
-	char **argv;         // List of arguments (like {"ls", "-l", NULL})
-	char *infile;        // If input redirection is used (e.g. "< file.txt")
-	char *outfile;       // If output redirection is used (e.g. "> out.txt" or ">> out.txt")
-	int   append;        // 0 = use ">", 1 = use ">>"
+	int		append;        // For >> redirection - 0 = use ">", 1 = use ">>"
+	int		heredoc;       // For << heredoc
+	char	**argv;       // Command + arguments (e.g., ["ls", "-l", NULL])
+	char	*infile;      // Input redirection file - If input redirection is used (e.g. "< file.txt")
+	char	*outfile;     // Output redirection file - If output redirection is used (e.g. "> out.txt" or ">> out.txt")
+	char	*delimiter;   // Heredoc delimiter
 } t_cmd;
 
-
+typedef struct s_pipeline
+{
+	int		cmd_count;     // Number of commands
+	t_cmd	**commands;  // Array of commands
+}	t_pipeline;
 */
 #include "minishell.h"
 #include <unistd.h>	  // fork, execve, dup2, close
@@ -17,6 +23,11 @@ typedef struct s_cmd
 #include <sys/wait.h> // waitpid
 #include <fcntl.h>	  // open
 #include <stdio.h>	  // perror
+
+char *find_executable(char *cmd, char **envp)
+{
+
+}
 
 int execute_command(t_cmd *cmd, char **envp)
 {
@@ -28,7 +39,7 @@ int execute_command(t_cmd *cmd, char **envp)
 	pid = fork(); // Step 1: Create child process
 	if (pid < 0)
 	{
-		perror("fork"); // fork failed
+		perror("fork error"); // fork failed
 		return (1);
 	}
 
@@ -49,7 +60,7 @@ int execute_command(t_cmd *cmd, char **envp)
 				close(infile_fd);
 				exit(1);
 			}
-			close(infile_fd); // not needed anymore
+			close(infile_fd);
 		}
 
 		// Step 3: Handle output redirection
@@ -76,8 +87,14 @@ int execute_command(t_cmd *cmd, char **envp)
 			close(outfile_fd);
 		}
 
+
 		// Step 4: Execute command
-		execve(cmd->argv[0], cmd->argv, envp);
+		//Pre step 4: Trova il percorso dell'eseguibile
+		char *path = find_executable(cmd->argv[0], envp);
+		if (path)
+			execve(path, cmd->argv, envp);
+		else
+			execve(cmd->argv[0], cmd->argv, envp);
 
 		// If execve fails:
 		perror("execve");
@@ -92,4 +109,77 @@ int execute_command(t_cmd *cmd, char **envp)
 	}
 
 	return (WEXITSTATUS(status)); // return child exit code
+}
+
+int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
+{
+	int fd[2];        // file descriptor della pipe
+	int in_fd;    // input corrente, all'inizio è STDIN
+	pid_t pid;        // pid dei figli
+	int i;        // indice dei comandi
+	int status;       // per waitpid
+
+	in_fd = 0;// input corrente, all'inizio è STDIN
+	i = 0;
+	if (pipeline->cmd_count == 1)
+		return(handle_command(pipeline->commands[0], &envp_new, 0));
+	else
+		while (i < pipeline->cmd_count)
+		{
+			// Se non è l'ultimo comando, crea una pipe
+			if (i < pipeline->cmd_count - 1)
+			{
+				if (pipe(fd) == -1)
+				{
+					perror("Fail to create a pipe");
+					return (1);//exit function to free everything!!!!!
+				}
+			}
+		
+			// fork per creare il figlio
+			pid = fork();
+			if (pid < 0)
+			{
+				perror("fork error"); // fork failed
+				return (1);
+			}
+
+			if (pid == 0) // figlio
+			{
+				// Se non è il primo comando, duplica in_fd su STDIN
+				if (in_fd != 0)
+				{
+					dup2(in_fd, STDIN_FILENO);
+					close(in_fd);
+				}
+				// Se non è l'ultimo comando, duplica fd[1] su STDOUT
+				if (i < pipeline->cmd_count - 1)
+				{
+					dup2(fd[1], STDOUT_FILENO);
+					close(fd[0]);
+					close(fd[1]);
+				}
+		
+				// Esegui il comando
+				handle_command(pipeline->commands[i], &envp_new, 0);
+		
+				// Se exec fallisce
+				exit(1);//exit function to free everything!!!!!
+			}
+		
+			// PADRE: gestisce file descriptor
+			if (in_fd != 0)
+				close(in_fd);
+		
+			if (i < pipeline->cmd_count - 1)
+			{
+				close(fd[1]);
+				in_fd = fd[0]; // il prossimo comando leggerà da qui
+			}
+			i++;
+		}
+	while (waitpid(-1, &status, 0) > 0)
+		;
+	return (WEXITSTATUS(status));
+		
 }

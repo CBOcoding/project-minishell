@@ -36,6 +36,7 @@ int	builtin_unset(char **argv, char ***envp_new)
 
 	key = argv[1];
 	if (!is_valid_key(key))
+
 	{
 		// write(STDERR_FILENO, "Not a valid key\n", 16); //BASH non stampa nulla
 		return (FAILURE);
@@ -43,7 +44,6 @@ int	builtin_unset(char **argv, char ***envp_new)
 	position = key_exists(*envp_new, key);
 	if (position < 0)
 		return (SUCCESS); //we need to test the bash behaviour quando non trova nulla da eliminare.
-
 	remove_env_var(envp_new, position);
 	return (SUCCESS);
 }
