@@ -27,7 +27,7 @@ void	free_pipeline(t_pipeline *pipeline)
 		i = 0;
 		while(i < pipeline->cmd_count)
 		{
-			free(pipeline->commands[i]);
+			free_command(pipeline->commands[i]);
 			i++;
 		}
 		free(pipeline->commands);

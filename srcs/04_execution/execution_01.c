@@ -175,9 +175,9 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
 
 	input_fd = 0;// input corrente, all'inizio è STDIN
 	i = 0;
-	if (pipeline->cmd_count == 1)
-		return(handle_command(pipeline->commands[0], &envp_new, 0));
-	else
+	// if (pipeline->cmd_count == 1)
+	// 	return(handle_command(pipeline->commands[0], &envp_new, 0));
+	// else
 		while (i < pipeline->cmd_count)
 		{
 			// Se non è l'ultimo comando, crea una pipe
@@ -215,10 +215,10 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
 				}
 		
 				// Esegui il comando
-				handle_command(pipeline->commands[i], &envp_new, 0);
-		
+				status = handle_command(pipeline->commands[i], &envp_new, 0);
+				exit (status);
 				// Se exec fallisce
-				exit(1);//exit function to free everything!!!!!
+				// exit(1);//exit function to free everything!!!!!
 			}
 		
 			// PADRE: gestisce file descriptor

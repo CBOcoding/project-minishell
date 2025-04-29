@@ -59,7 +59,7 @@ int main(int argc, char **argv, char **envp)
 	t_cmd *cmd = NULL;
 
     last_exit_status = 0;
-
+	(void)cmd;
     setup_signals();
     disable_echoctl();
 
@@ -126,13 +126,14 @@ int main(int argc, char **argv, char **envp)
 
 		if(pipeline)
 			last_exit_status = execute_pipeline(pipeline, envp_new);
-		free_pipeline(pipeline);
+		// free_pipeline(pipeline);
         }
         // Free the allocated memory (tokens, cmd, etc.)
-        // free_tokens(token); // Free the tokens after use
+		// free_pipeline(pipeline);
+		free_token(token); // Free the tokens after use
         // free(cmd); // Free the command string after use
-		free_command(cmd);
-        // free_pipeline(pipeline);
+		// free_command(cmd);
+        free_pipeline(pipeline);
 		free(input);// Free the input string after use
     }
 
