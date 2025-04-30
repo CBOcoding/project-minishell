@@ -85,6 +85,7 @@ t_token	*create_token(char *value, t_token_type type);
 
 //execution
 int	execute_pipeline(t_pipeline *pipeline, char **envp_new);
+int	handle_heredoc(t_cmd *cmd);
 
 //builtin
 int		builtin_cd(char **argv);

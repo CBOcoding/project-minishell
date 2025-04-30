@@ -47,6 +47,18 @@ void	print_sorted(char **sorted)
 	}
 }
 
+void	free_sorted(char **sorted, int envp_len)
+{
+	int	k;
+
+	k = 0;
+	while (k < envp_len)
+	{
+		free(sorted[k]);
+		k++;
+	}
+}
+
 int	only_export(char ***envp_new)
 {
 	int		i;
@@ -63,15 +75,24 @@ int	only_export(char ***envp_new)
 			perror("Malloc error");
 			return (FAILURE);
 		}
-
 	while (i < envp_len)
 	{
-		sorted[i] = (*envp_new)[i];
+		sorted[i] = ft_strdup((*envp_new)[i]);
+		if (!sorted[i])
+		{
+			perror("Malloc error");
+			// libera già allocati
+			while (--i >= 0)
+				free(sorted[i]);
+			free(sorted);
+			return (FAILURE);
+		}
 		i++;
 	}
 	sorted[envp_len] = NULL;
 	array_sorting(sorted, envp_len);
 	print_sorted(sorted);
+	free_sorted(sorted, envp_len);
 	free(sorted);
 	return (SUCCESS);
 }

@@ -173,4 +173,19 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
+
+char	**ft_split(char const *s, char c)
+{
+	int		word_count;
+	char	**array;
+
+	word_count = count_words(s, c);
+	array = (char **)malloc((word_count + 1) * sizeof(char *));
+	if (array == NULL)
+		return (NULL);
+	if (filling(array, s, c) == NULL)
+		return (NULL);
+	return (array);
+}
+
 */

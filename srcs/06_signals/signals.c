@@ -13,7 +13,7 @@ void	handle_sigint(int signum)
 	g_signal = SIGINT;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	// rl_replace_line("", 0); // RIMOSSO SOLO PER TEST SU MAC
+	rl_replace_line("", 0); // RIMOSSO SOLO PER TEST SU MAC
 	rl_redisplay();
 }
 

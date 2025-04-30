@@ -39,8 +39,11 @@ void	free_token(t_token *tokens)
 {
 	t_token	*tmp;
 
-	tmp = tokens;
-	tokens = tokens->next;
-	free(tmp->value);
-	free(tmp);
+	while (tokens)
+	{
+		tmp = tokens;
+		tokens = tokens->next;
+		free(tmp->value);
+		free(tmp);
+	}
 }

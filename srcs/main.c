@@ -56,10 +56,10 @@ int main(int argc, char **argv, char **envp)
     char *input;
     int last_exit_status;
 	t_pipeline *pipeline = NULL;
-	t_cmd *cmd = NULL;
+	// t_cmd *cmd = NULL;
+	t_cmd *cmd;
 
     last_exit_status = 0;
-
     setup_signals();
     disable_echoctl();
 
@@ -108,30 +108,30 @@ int main(int argc, char **argv, char **envp)
 
             expand_env_vars(token, envp, last_exit_status); //rimane // Expand environment variables
 
-            print_tokens(token); //DEBUG da rimuovere
+            // print_tokens(token); //DEBUG da rimuovere
 
             // Parse tokens into command structure
         // t_cmd *cmd = parse_tokens(token); // TODO: implementare parser
 		pipeline = parse_token(token);
 
 
-		int i = 0;
-		while (i < pipeline->cmd_count)
+		if(pipeline)
 		{
-
-			handle_command(pipeline->commands[i], &envp_new, last_exit_status);
-			i++;
+			cmd = pipeline->commands[0];
+		
+			if (pipeline->cmd_count == 1 && is_builtin(cmd->argv[0]))
+				last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
+			else
+				last_exit_status = execute_pipeline(pipeline, envp_new);
 		}
-
-
-        // Execute the command
-        last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
-
+		
+		// free_pipeline(pipeline);
         }
         // Free the allocated memory (tokens, cmd, etc.)
-        // free_tokens(token); // Free the tokens after use
+		// free_pipeline(pipeline);
+		free_token(token); // Free the tokens after use
         // free(cmd); // Free the command string after use
-		free_command(cmd);
+		// free_command(cmd);
         free_pipeline(pipeline);
 		free(input);// Free the input string after use
     }
