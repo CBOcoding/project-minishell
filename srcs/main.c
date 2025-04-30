@@ -59,6 +59,7 @@ int main(int argc, char **argv, char **envp)
 	// t_cmd *cmd = NULL;
 	t_cmd *cmd;
 
+	(void)cmd;
     last_exit_status = 0;
     setup_signals();
     disable_echoctl();
@@ -119,7 +120,7 @@ int main(int argc, char **argv, char **envp)
 		{
 			cmd = pipeline->commands[0];
 		
-			if (pipeline->cmd_count == 1 && is_builtin(cmd->argv[0]))
+			if (pipeline->cmd_count == 1 && is_builtin(cmd->argv[0]) && ft_strcmp(cmd->argv[0], "cd") == 0 && !cmd->infile && !cmd->outfile && !cmd->heredoc)
 				last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
 			else
 				last_exit_status = execute_pipeline(pipeline, envp_new);
