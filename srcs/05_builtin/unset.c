@@ -35,7 +35,7 @@ int	builtin_unset(char **argv, char ***envp_new)
 	int		position;
 
 	key = argv[1];
-	if (!is_valid_key(key))
+	if (is_valid_key(key))
 
 	{
 		// write(STDERR_FILENO, "Not a valid key\n", 16); //BASH non stampa nulla
