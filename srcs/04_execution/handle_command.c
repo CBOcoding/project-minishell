@@ -16,6 +16,9 @@ int	handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status)
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (last_exit_status);
 
+	if (cmd->heredoc)
+		handle_heredoc(cmd);
+
 	// Input redirection
 	if (cmd->infile)
 	{

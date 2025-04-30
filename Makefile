@@ -30,6 +30,7 @@ SRC = \
 		./srcs/02_tokenization/word_tokens.c \
 		./srcs/04_execution/execution_01.c \
 		./srcs/04_execution/handle_command.c \
+		./srcs/04_execution/heredoc.c \
 		./srcs/05_builtin/builtin.c \
 		./srcs/05_builtin/cd.c \
 		./srcs/05_builtin/echo.c \

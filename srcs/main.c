@@ -56,10 +56,10 @@ int main(int argc, char **argv, char **envp)
     char *input;
     int last_exit_status;
 	t_pipeline *pipeline = NULL;
-	t_cmd *cmd = NULL;
+	// t_cmd *cmd = NULL;
+	t_cmd *cmd;
 
     last_exit_status = 0;
-	(void)cmd;
     setup_signals();
     disable_echoctl();
 
@@ -108,7 +108,7 @@ int main(int argc, char **argv, char **envp)
 
             expand_env_vars(token, envp, last_exit_status); //rimane // Expand environment variables
 
-            print_tokens(token); //DEBUG da rimuovere
+            // print_tokens(token); //DEBUG da rimuovere
 
             // Parse tokens into command structure
         // t_cmd *cmd = parse_tokens(token); // TODO: implementare parser
@@ -125,7 +125,15 @@ int main(int argc, char **argv, char **envp)
         // last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
 
 		if(pipeline)
-			last_exit_status = execute_pipeline(pipeline, envp_new);
+		{
+			cmd = pipeline->commands[0];
+		
+			if (pipeline->cmd_count == 1 && is_builtin(cmd->argv[0]))
+				last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
+			else
+				last_exit_status = execute_pipeline(pipeline, envp_new);
+		}
+		
 		// free_pipeline(pipeline);
         }
         // Free the allocated memory (tokens, cmd, etc.)

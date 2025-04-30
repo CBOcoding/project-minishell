@@ -99,6 +99,10 @@ int execute_command(t_cmd *cmd, char **envp) //add PATH section
 
 	if (pid == 0) // Child process
 	{
+		// // Step 1: Handle heredoc (se presente)
+		// if (cmd->heredoc)
+		// handle_heredoc(cmd);
+
 		// Step 2: Handle input redirection
 		if (cmd->infile)
 		{
@@ -145,8 +149,11 @@ int execute_command(t_cmd *cmd, char **envp) //add PATH section
 		// Step 4: Execute command
 		//Pre step 4: Trova il percorso dell'eseguibile
 		char *path = find_executable(cmd->argv[0], envp);
-		if (path)
+		if (path && path != cmd->argv[0])
+		{
 			execve(path, cmd->argv, envp);
+			free(path);
+		}
 		else
 			execve(cmd->argv[0], cmd->argv, envp);
 
