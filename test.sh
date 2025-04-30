@@ -1,8 +1,4 @@
-#!/bin/bash
 
-# Minishell test script
-
-# Section 1: External commands
 echo "TEST: ls"
 ls
 echo "TEST: /bin/ls"

@@ -107,14 +107,20 @@ int main(int argc, char **argv, char **envp)
             // last_exit_status = 0;// to be  removed when parsing is done.
             // //last_exit_status = execute_command(cmd, envp); //this is what is remaining when parsing is done.
 
-            expand_env_vars(token, envp, last_exit_status); //rimane // Expand environment variables
+            expand_env_vars(token, envp_new, last_exit_status); //rimane // Expand environment variables
 
             // print_tokens(token); //DEBUG da rimuovere
 
             // Parse tokens into command structure
         // t_cmd *cmd = parse_tokens(token); // TODO: implementare parser
 		pipeline = parse_token(token);
-
+		if (!pipeline)
+		{
+			free_token(token);
+			free(input);
+			continue;
+		}
+		
 
 		if(pipeline)
 		{
@@ -126,14 +132,16 @@ int main(int argc, char **argv, char **envp)
 				last_exit_status = execute_pipeline(pipeline, envp_new);
 		}
 		
-		// free_pipeline(pipeline);
+		free_pipeline(pipeline);
+		pipeline = NULL;
         }
         // Free the allocated memory (tokens, cmd, etc.)
 		// free_pipeline(pipeline);
 		free_token(token); // Free the tokens after use
         // free(cmd); // Free the command string after use
 		// free_command(cmd);
-        free_pipeline(pipeline);
+		// if (pipeline)
+			// free_pipeline(pipeline);
 		free(input);// Free the input string after use
     }
 
