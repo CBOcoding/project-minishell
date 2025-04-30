@@ -33,7 +33,7 @@ void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 	current = tokens;
 	while (current)
 	{
-		if (current->value[0] == '$' && current->type == ENV_VAR)
+		if (current->type == ENV_VAR && current->status != SQUOTE)
 		{
 			key = current->value + 1;
 			if (strcmp(key, "?") == 0)
