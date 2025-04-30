@@ -1,35 +1,53 @@
 #include "minishell.h"
 #include <signal.h> // for sig_atomic_t
 
-
 extern volatile sig_atomic_t g_signal; // already declared in signals.h
 
-void expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
+static char	*handler_env_value(char *key, char **envp)
 {
-    t_token *curr = tokens;
-    char *key;
-    char *val;
+	int		i;
+	char	*val;
 
-    (void)envp; // if not used, avoid unused var warning
+	i = 0;
+	val = NULL;
+	while (envp[i])
+	{
+		if (ft_strncmp(key, envp[i], ft_strlen(key)) == SUCCESS && envp[i][ft_strlen(key)] == '=')
+		{
+			val = ft_strdup(envp[i] + ft_strlen(key) + 1);
+			break;
+		}
+		i++;
+	}
+	if (!val)
+		val = ft_strdup("");
+	return (val);
+}
 
-    while (curr)
-    {
-        // Step-by-step logic will go here
-		if (curr->type == ENV_VAR && curr->value && curr->value[0] == '$')
-        {
-            key = curr->value + 1; // skip '$'
+void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
+{
+	char	*key;
+	char	*val;
+	t_token	*current;
 
-            if (ft_strcmp(key, "?") == SUCCESS)
-                val = ft_itoa(last_exit_status); // expand $?
-            else
-                val = getenv(key); // fetch env var
-
-            free(curr->value);
-            if (val)
-                curr->value = ft_strdup(val);
-            else
-                curr->value = ft_strdup(""); // if not found, empty string
-        }
-        curr = curr->next;
-    }
+	current = tokens;
+	while (current)
+	{
+		if (current->type == ENV_VAR && current->status != SQUOTE)
+		{
+			key = current->value + 1;
+			if (strcmp(key, "?") == 0)
+				val = ft_itoa(last_exit_status);
+			else if (ft_strcmp(key, "$") == SUCCESS)
+				val = ft_strdup("$$");
+			else if (*key == '\0')
+				val = ft_strdup("$");
+			else
+				val = handler_env_value(key, envp);
+			free(current->value);
+			current->value = val;
+			current->type = WORD;
+		}
+		current = current->next;
+	}
 }
