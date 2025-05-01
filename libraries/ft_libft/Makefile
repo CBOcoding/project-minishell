@@ -50,7 +50,7 @@ OBJ = $(SRCS:.c=.o)
 BOBJ = $(BSRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g2
 AR = ar -rcs
 
 all: $(NAME)
