@@ -59,9 +59,8 @@ static int	parse_commands(t_token *token, t_pipeline *pipeline)
 		start = current;
 		end = find_command_end(current);
 		pipeline->commands[cmnd_index] = parsed_segment(start, end);
-		if (pipeline->commands[cmnd_index])
+		if (!pipeline->commands[cmnd_index])
 			{
-				free_pipeline(pipeline);
 				return (FAILURE);
 			}
 		cmnd_index++;
