@@ -36,7 +36,7 @@ void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 		if (current->type == ENV_VAR && current->status != SQUOTE)
 		{
 			key = current->value + 1;
-			if (strcmp(key, "?") == 0)
+			if (ft_strcmp(key, "?") == 0)
 				val = ft_itoa(last_exit_status);
 			else if (ft_strcmp(key, "$") == SUCCESS)
 				val = ft_strdup("$$");

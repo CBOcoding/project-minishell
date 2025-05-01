@@ -79,7 +79,7 @@ void	tokenize_var_in_dquote(char *input, int *i, t_token **tokens);
 void	tokenize_var(char *input, int *i, t_token **tokens);
 void	print_tokens(t_token *token);
 void	free_token(t_token *tokens);
-void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
+void	expand_env_vars(t_token *tokens, char **envp_new, int last_exit_status);
 t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
 
