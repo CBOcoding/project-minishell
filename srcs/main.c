@@ -120,18 +120,19 @@ int main(int argc, char **argv, char **envp)
 			free(input);
 			continue;
 		}
-		
+
 
 		if(pipeline)
 		{
 			cmd = pipeline->commands[0];
-		
-			if (pipeline->cmd_count == 1 && is_builtin(cmd->argv[0]) && ft_strcmp(cmd->argv[0], "cd") == 0 && !cmd->infile && !cmd->outfile && !cmd->heredoc)
+
+			if ((pipeline->cmd_count == 1 && is_builtin(cmd->argv[0]))||
+			(ft_strcmp(cmd->argv[0], "cd") == 0 && !cmd->infile && !cmd->outfile && !cmd->heredoc))
 				last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
 			else
 				last_exit_status = execute_pipeline(pipeline, envp_new);
 		}
-		
+
 		free_pipeline(pipeline);
 		pipeline = NULL;
         }
