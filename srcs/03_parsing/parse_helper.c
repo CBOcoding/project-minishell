@@ -20,7 +20,7 @@ static int count_arguments(t_token *start, t_token *end)
 	count = 0;
 	while (current && current != end)
 	{
-		if ((current->type == WORD || current->type == ENV_VAR) && is_prev_not_redirection(prev))
+		if (current->type == WORD && is_prev_not_redirection(prev))
 			count++;
 		prev = current;
 		current = current->next;
