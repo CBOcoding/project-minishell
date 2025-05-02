@@ -31,7 +31,7 @@ int	exit_with_number(char **argv)
 	return (value);
 }
 
-int	builtin_exit(char **argv, int exit_status)
+int	builtin_exit(char **argv, int exit_status, int *should_exit)
 {
 	int	i;
 
@@ -42,6 +42,7 @@ int	builtin_exit(char **argv, int exit_status)
 		write(2, "exit: too many arguments\n", 25);
 	if (i == 1) // Check if there is no argument
 	{
+		*should_exit = 1;
 		write(1, "exit\n", 5);
 		return ((unsigned char)0); //exit code 0
 	}
