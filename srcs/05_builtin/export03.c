@@ -1,8 +1,29 @@
 #include "minishell.h"
 
-int	replace_or_add_env(char ***envp_new, char *argv, char *key)
+char	*join_export_args(char **argv)
+{
+	char	*joined;
+	char	*tmp;
+
+	joined = ft_strdup(argv[1]);
+	if (!joined)
+		return (NULL);
+
+	if (argv[2])
+	{
+		tmp = joined;
+		joined = ft_strjoin(tmp, argv[2]);
+		free(tmp);
+		if (!joined)
+			return (NULL);
+	}
+	return (joined);
+}
+
+int	replace_or_add_env(char ***envp_new, char **argv, char *key)
 {
 	int	position;
+	char	*joined;
 
 	position = key_exists(*envp_new, key);
 	if (position < 0)
@@ -10,10 +31,10 @@ int	replace_or_add_env(char ***envp_new, char *argv, char *key)
 	else
 	{
 		free((*envp_new)[position]);
-		(*envp_new)[position] = ft_strdup(argv);
-		if (!(*envp_new)[position])
-			//exit_with_free	//VA COSTRUITA
-			exit(1); //VA COSTRUITA una funzione di uscita con memory clean oppure metto return (1) ma va aggiustato il codice in uscita.
+		joined = join_export_args(argv);
+		if (!joined)
+			return (FAILURE);
+		(*envp_new)[position] = joined;
 	}
 	return (SUCCESS);
 }
@@ -34,7 +55,9 @@ int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
 		free(key);
 		return (FAILURE);
 	}
-	replace_or_add_env(envp_new, argv[1], key);
+	// replace_or_add_env(envp_new, argv[1], key);
+	if (replace_or_add_env(envp_new, argv, key) == FAILURE)
+		return (FAILURE);
 	free(key);
 	return (SUCCESS);
 }

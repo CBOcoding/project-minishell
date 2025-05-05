@@ -57,7 +57,7 @@ void free_envp_old(char ***envp_old, char **envp_new)
 	*envp_old = envp_new;
 }
 
-int	add_env_var(char ***envp_old, char *argv)
+int	add_env_var(char ***envp_old, char **argv)
 {
 	char	**envp_new;
 	int		i;
@@ -76,7 +76,7 @@ int	add_env_var(char ***envp_old, char *argv)
 		envp_new[i] = ft_strdup((*envp_old)[i]);
 		i++;
 	}
-	new_var = ft_strdup(argv);
+	new_var = join_export_args(argv);
 	if (!new_var)
 		return (FAILURE);
 	envp_new[i++] = new_var;
@@ -92,7 +92,10 @@ int	builtin_export(char **argv, char ***envp_new)
 		return (only_export(envp_new));
 	equal = ft_strchr(argv[1], '='); //non controlla per += va giustificato dicendo che il subject non lo richiede come per esempio richiedeva -n in echo.
 	if (equal) //parte 3, arriva il comando: export VAR=valore
-		variable_with_equal_sign(argv, envp_new, equal);
+		{
+			if (variable_with_equal_sign(argv, envp_new, equal) == FAILURE)
+				return (FAILURE);
+		}
 	else //parte 2, arriva il comando: export VAR
 	{
 		if (is_valid_key(argv[1]))
@@ -101,7 +104,7 @@ int	builtin_export(char **argv, char ***envp_new)
 			return (1);
 		}
 		if (key_exists(*envp_new, argv[1]) < 0)
-			if (add_env_var(envp_new, argv[1]) == 1) // aggiungi VARIABLE = vuoto
+			if (add_env_var(envp_new, &argv[1]) == 1) // aggiungi VARIABLE = vuoto
 				return (FAILURE);
 	}
 	return (SUCCESS);
