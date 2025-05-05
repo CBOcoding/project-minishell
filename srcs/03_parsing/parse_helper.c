@@ -146,7 +146,7 @@ t_cmd *parsed_segment(t_token *start, t_token *end)
     }
     
     // Inizializza tutti gli elementi di argv a NULL
-    for (int i = 0; i <= arg_count; i++)
+    for (int i = 0; i <= arg_count; i++)//FOR LOOP
         cmd->argv[i] = NULL;
     
     // Parse arguments and redirections
