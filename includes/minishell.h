@@ -100,7 +100,7 @@ int		add_env_var(char ***envp_old, char *argv);
 void	free_envp_old(char ***envp_old, char **envp_new);
 int		builtin_pwd(char **argv);
 int		builtin_unset(char **argv, char ***envp_new);
-int		builtin_exit(char **argv, int exit_status);
+int		builtin_exit(char **argv, int exit_status, int *should_exit);
 
 
 

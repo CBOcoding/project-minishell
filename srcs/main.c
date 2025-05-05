@@ -77,7 +77,7 @@ int main(int argc, char **argv, char **envp)
 
 
 
-    while (1)
+    while (!should_exit)
     {
         // Step 1: Display prompt and read input
         input = readline("minishell$ ");
@@ -154,7 +154,7 @@ int main(int argc, char **argv, char **envp)
     rl_clear_history();
     // reset_terminal_settings();
     free_envp_new(envp_new); //creata con malloc ad inizio MAIN con "space_for_envp_new".
-    return (0);
+    return (last_exit_status);
 }
 
 // //the following is avoiding crashes of the terminal.
