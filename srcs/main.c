@@ -134,7 +134,13 @@ int main(int argc, char **argv, char **envp)
 			else
 				last_exit_status = execute_pipeline(pipeline, envp_new);
 			if (should_exit)
-				break;
+				{
+					free_pipeline(pipeline);
+					pipeline = NULL;
+					free_token(token);
+					free(input);
+					break;
+				}
 		}
 
 		free_pipeline(pipeline);
