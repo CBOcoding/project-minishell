@@ -65,9 +65,9 @@ int		ft_strcmp(const char *main, const char *compared);
 int		ft_isspace(char c);
 int		has_closed_quotes(const char *str);
 int		execute_command(t_cmd *cmd, char **envp);
-int		handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status);
+int		handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *should_exit);
 int		is_builtin(char *cmd);
-int		execute_builtin(char **argv, char ***envp, int exit_status);
+int		execute_builtin(char **argv, char ***envp, int exit_status, int *should_exit);
 void	hello_minishell(void);
 void	add_token(t_token **tokens, t_token *new_token);
 void	tokkenize_arrows(char *input, int *i, t_token **tokens);
@@ -100,7 +100,7 @@ int		add_env_var(char ***envp_old, char *argv);
 void	free_envp_old(char ***envp_old, char **envp_new);
 int		builtin_pwd(char **argv);
 int		builtin_unset(char **argv, char ***envp_new);
-int		builtin_exit(char **argv, int exit_status);
+int		builtin_exit(char **argv, int exit_status, int *should_exit);
 
 
 

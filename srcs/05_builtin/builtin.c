@@ -28,7 +28,7 @@ int	is_builtin(char *cmd)
 }
 
 // Dispatcher
-int	execute_builtin(char **argv, char ***envp_new, int exit_status)
+int	execute_builtin(char **argv, char ***envp_new, int exit_status, int *should_exit)
 {
 	// (void)exit_status; // ci serve solo per Exit builtin
 	if (ft_strcmp(argv[0], "echo") == 0)
@@ -44,7 +44,7 @@ int	execute_builtin(char **argv, char ***envp_new, int exit_status)
 	if (ft_strcmp(argv[0], "env") == 0)
 		return (builtin_env(argv, envp_new));
 	if (ft_strcmp(argv[0], "exit") == 0)
-		return (builtin_exit(argv, exit_status));
+		return (builtin_exit(argv, exit_status, should_exit));
 	return (1);
 }
 

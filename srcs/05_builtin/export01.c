@@ -17,12 +17,12 @@ int	is_valid_key(char *key)
 					continue;
 				}
 			else
-				return(write(1, "1 FAILURE\n", 10), FAILURE);//
+				return(FAILURE);
 		}
-		return(write(1, "2 SUCCESS\n", 10), SUCCESS);//
+		return(SUCCESS);
 	}
 	else
-		return(write(1, "3 FAILURE\n", 10), FAILURE);//
+		return(FAILURE);
 }
 
 int	key_exists(char **envp_new, char *key)

@@ -179,9 +179,11 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
 	pid_t pid;        // pid dei figli
 	int i;        // indice dei comandi
 	int status;       // per waitpid
+	int fake_should_exit; // unused in pipeline but required by handle_command
 
 	input_fd = 0;// input corrente, all'inizio è STDIN
 	i = 0;
+	fake_should_exit = 0;
 	// if (pipeline->cmd_count == 1)
 	// 	return(handle_command(pipeline->commands[0], &envp_new, 0));
 	// else
@@ -222,7 +224,7 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
 				}
 		
 				// Esegui il comando
-				status = handle_command(pipeline->commands[i], &envp_new, 0);
+				status = handle_command(pipeline->commands[i], &envp_new, 0, &fake_should_exit);
 				exit (status);
 				// Se exec fallisce
 				// exit(1);//exit function to free everything!!!!!

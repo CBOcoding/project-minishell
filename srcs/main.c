@@ -55,12 +55,14 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
     char *input;
     int last_exit_status;
+	int	should_exit;
 	t_pipeline *pipeline = NULL;
 	// t_cmd *cmd = NULL;
 	t_cmd *cmd;
 
 	(void)cmd;
     last_exit_status = 0;
+	should_exit = 0;
     setup_signals();
     disable_echoctl();
 
@@ -75,7 +77,7 @@ int main(int argc, char **argv, char **envp)
 
 
 
-    while (1)
+    while (!should_exit)
     {
         // Step 1: Display prompt and read input
         input = readline("minishell$ ");
@@ -88,7 +90,7 @@ int main(int argc, char **argv, char **envp)
         }
 
         // Step 2: Display the input (just to show it worked)
-        printf("You entered: %s\n", input);
+        // printf("You entered: %s\n", input);
 
         // Add command to history if it's not empty
         if (input[0] != '\0')
@@ -128,9 +130,17 @@ int main(int argc, char **argv, char **envp)
 
 			if ((pipeline->cmd_count == 1 && is_builtin(cmd->argv[0]))||
 			(ft_strcmp(cmd->argv[0], "cd") == 0 && !cmd->infile && !cmd->outfile && !cmd->heredoc))
-				last_exit_status = handle_command(cmd, &envp_new, last_exit_status);
+				last_exit_status = handle_command(cmd, &envp_new, last_exit_status, &should_exit);
 			else
 				last_exit_status = execute_pipeline(pipeline, envp_new);
+			if (should_exit)
+				{
+					free_pipeline(pipeline);
+					pipeline = NULL;
+					free_token(token);
+					free(input);
+					break;
+				}
 		}
 
 		free_pipeline(pipeline);
@@ -150,7 +160,7 @@ int main(int argc, char **argv, char **envp)
     rl_clear_history();
     // reset_terminal_settings();
     free_envp_new(envp_new); //creata con malloc ad inizio MAIN con "space_for_envp_new".
-    return (0);
+    return (last_exit_status);
 }
 
 // //the following is avoiding crashes of the terminal.
