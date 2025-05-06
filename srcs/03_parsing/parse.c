@@ -83,10 +83,10 @@ t_pipeline	*parse_token(t_token *token)
 	if(!pipeline->commands)
 		return (free(pipeline), NULL);
 	if(parse_commands(token,pipeline) == FAILURE)
-		{
+	{
 		free_pipeline(pipeline);
 		pipeline = NULL;
 		return (NULL);
-		}
+	}
 	return (pipeline);
 }

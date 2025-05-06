@@ -5,6 +5,7 @@ int	builtin_echo(char **argv)
 	int i;
 	int newline;
 
+
 	i = 1;
 	newline = 1;
 	if (argv[1] && ft_strcmp(argv[1], "-n") == 0)
@@ -15,8 +16,9 @@ int	builtin_echo(char **argv)
 	while (argv[i])
 	{
 		printf("%s", argv[i]);
-		if (argv[i + 1])
-			printf(" ");
+		if ((argv[i + 1] && (argv[i][0] != '\'') && (argv[i + 1][0] != '\''))
+			&& (argv[i + 1] && (argv[i + 1][0] != '$')))
+				printf(" ");
 		i++;
 	}
 	if (newline)
