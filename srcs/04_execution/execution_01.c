@@ -24,6 +24,8 @@ typedef struct s_pipeline
 #include <fcntl.h>	  // open
 #include <stdio.h>	  // perror
 
+extern volatile sig_atomic_t g_signal; // already declared in signals.h
+
 void free_matrix(char **matrix)
 {
 	int	i;
@@ -99,9 +101,12 @@ int execute_command(t_cmd *cmd, char **envp) //add PATH section
 
 	if (pid == 0) // Child process
 	{
-		// // Step 1: Handle heredoc (se presente)
+		// // // Step 1: Handle heredoc (se presente)
 		// if (cmd->heredoc)
-		// handle_heredoc(cmd);
+		//  {
+		// 	if (handle_heredoc(cmd) == -1)
+		// 		exit(1); //memory leak!!!!!
+		//  }
 
 		// Step 2: Handle input redirection
 		if (cmd->infile)
@@ -169,7 +174,10 @@ int execute_command(t_cmd *cmd, char **envp) //add PATH section
 		return (1);
 	}
 
-	return (WEXITSTATUS(status)); // return child exit code
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status)); // es. 130 per SIGINT
+	return (WEXITSTATUS(status));
+
 }
 
 int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
@@ -209,6 +217,9 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
 
 			if (pid == 0) // figlio
 			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
+
 				// Se non è il primo comando, duplica input_fd su STDIN
 				if (input_fd != 0)
 				{
@@ -241,8 +252,11 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
 			}
 			i++;
 		}
-	while (waitpid(-1, &status, 0) > 0)
-		;
-	return (WEXITSTATUS(status));
-		
+		while (waitpid(-1, &status, 0) > 0)
+		{
+			if (WIFSIGNALED(status))
+				return (128 + WTERMSIG(status));
+		}
+		return (WEXITSTATUS(status));
+	
 }

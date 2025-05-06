@@ -49,33 +49,37 @@ int	space_for_envp_new(char **envp, char ***envp_new)
     return (SUCCESS);
     }
 
-	int	process_heredocs(t_pipeline *pipeline)
-	{
-		int		i;
-		char	*line;
-	
-		i = 0;
-		while (i < pipeline->cmd_count)
-		{
-			t_cmd *cmd = pipeline->commands[i];
-			if (cmd->heredoc && cmd->delimiter)
-			{
-				while (1)
-				{
-					line = readline("> ");
-					if (!line || ft_strcmp(line, cmd->delimiter) == 0)
-					{
-						free(line);
-						break;
-					}
-					// Se non c'è comando, ignora l'input
-					free(line);
-				}
-			}
-			i++;
-		}
-		return (SUCCESS);
-	}
+// 	int	process_heredocs(t_pipeline *pipeline)
+// {
+// 	int		i;
+// 	t_cmd	*cmd;
+
+// 	i = 0;
+// 	while (i < pipeline->cmd_count)
+// 	{
+// 		cmd = pipeline->commands[i];
+// 		if (cmd->heredoc && cmd->delimiter)
+// 		{
+// 			// ⚠️ esegui heredoc SOLO se il comando non esiste
+// 			if (!cmd->argv || !cmd->argv[0])
+// 			{
+// 				char *line;
+// 				while (1)
+// 				{
+// 					line = readline("> ");
+// 					if (!line || ft_strcmp(line, cmd->delimiter) == 0)
+// 					{
+// 						free(line);
+// 						break;
+// 					}
+// 					free(line); // scarta input
+// 				}
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (SUCCESS);
+// }
 	
 	
 
@@ -153,25 +157,25 @@ int main(int argc, char **argv, char **envp)
 			continue;
 		}
 
-		cmd = pipeline->commands[0];
+		// cmd = pipeline->commands[0];
 
-		// anche se argv è NULL, possiamo avere heredoc
-		if (process_heredocs(pipeline) == FAILURE)
-		{
-			free_pipeline(pipeline);
-			free_token(token);
-			free(input);
-			continue;
-		}
+		// // anche se argv è NULL, possiamo avere heredoc
+		// if (process_heredocs(pipeline) == FAILURE)
+		// {
+		// 	free_pipeline(pipeline);
+		// 	free_token(token);
+		// 	free(input);
+		// 	continue;
+		// }
 		
-		// se non c’è comando, non fare nulla, ma esci pulito (come bash)
-		if (!cmd || !cmd->argv || !cmd->argv[0])
-		{
-			free_pipeline(pipeline);
-			free_token(token);
-			free(input);
-			continue;
-		}
+		// // se non c’è comando, non fare nulla, ma esci pulito (come bash)
+		// if (!cmd || !cmd->argv || !cmd->argv[0])
+		// {
+		// 	free_pipeline(pipeline);
+		// 	free_token(token);
+		// 	free(input);
+		// 	continue;
+		// }
 		
 		
 
