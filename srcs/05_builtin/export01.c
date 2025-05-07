@@ -85,6 +85,34 @@ int	add_env_var(char ***envp_old, char **argv)
 	return (SUCCESS);
 }
 
+int	add_env_var2(char ***envp_old, char *argv)
+{
+	char	**envp_new;
+	int		i;
+	int		len_envp_old;
+	char	*new_var;
+
+	i = 0;
+	len_envp_old = 0;
+	while ((*envp_old)[len_envp_old])
+		len_envp_old++;
+	envp_new = malloc(sizeof(char *) * (len_envp_old + 2));
+	if (!envp_new)
+		return (FAILURE);//do we want to print an error message?
+	while (i < len_envp_old)
+	{
+		envp_new[i] = ft_strdup((*envp_old)[i]);
+		i++;
+	}
+	new_var = ft_strdup(argv);
+	if (!new_var)
+		return (FAILURE);
+	envp_new[i++] = new_var;
+	envp_new[i] = NULL;
+	free_envp_old(envp_old, envp_new);
+	return (SUCCESS);
+}
+
 int	builtin_export(char **argv, char ***envp_new)
 {
 	char *equal;
@@ -104,7 +132,7 @@ int	builtin_export(char **argv, char ***envp_new)
 			return (1);
 		}
 		if (key_exists(*envp_new, argv[1]) < 0)
-			if (add_env_var(envp_new, &argv[1]) == 1) // aggiungi VARIABLE = vuoto
+			if (add_env_var2(envp_new, argv[1]) == 1) // aggiungi VARIABLE = vuoto
 				return (FAILURE);
 	}
 	return (SUCCESS);
