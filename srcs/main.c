@@ -135,7 +135,8 @@ int main(int argc, char **argv, char **envp)
         //(void)envp; //for testing
         t_token *token = tokenize_input(input);
         if (!token)
-            printf("No tokens generated.\n");
+			continue;
+            // printf("No tokens generated.\n");
         else
         {
             // // Placeholder: simulate successful command result for now
