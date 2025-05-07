@@ -88,6 +88,7 @@ t_token	*create_token(char *value, t_token_type type);
 //execution
 int	execute_pipeline(t_pipeline *pipeline, char **envp_new);
 int	handle_heredoc(t_cmd *cmd);
+size_t	ft_strspn(const char *s, const char *accept);
 
 //builtin
 int		builtin_cd(char **argv);

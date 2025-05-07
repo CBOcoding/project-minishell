@@ -16,9 +16,14 @@
 		int stdout_backup = -1; // To store original stdout
 		int result;
 	
-		if (!cmd || !cmd->argv || !cmd->argv[0])
-			return (last_exit_status);
-	
+		if (!cmd || !cmd->argv || !cmd->argv[0] ||
+				ft_strspn(cmd->argv[0], " \t") == ft_strlen(cmd->argv[0]))
+			{
+				fprintf(stderr, "minishell: command not found\n");
+				return (127);
+			}
+			
+			
 		if (cmd->heredoc)
 			handle_heredoc(cmd);
 	
