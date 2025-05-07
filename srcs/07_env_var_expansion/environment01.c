@@ -23,6 +23,43 @@ static char	*handler_env_value(char *key, char **envp)
 		val = ft_strdup("");
 	return (val);
 }
+static void merge_adjacent_tokens(t_token **tokens)
+{
+    t_token *current, *next;
+
+    
+    if (!tokens || !*tokens)
+        return;
+    
+    current = *tokens;
+
+    
+    while (current && current->next)
+    {
+        next = current->next;
+        
+        // If both tokens are in the same quoted context, merge them
+        if (current->status != DEFAULT && current->status == next->status)
+        {
+            // Merge values
+            char *merged = ft_strjoin(current->value, next->value);
+            free(current->value);
+            current->value = merged;
+            
+            // Remove the next token from the list
+            current->next = next->next;
+            free(next->value);
+            free(next);
+            
+            // Don't advance current, as we may need to merge with the next token too
+        }
+        else
+        {
+
+            current = current->next;
+        }
+    }
+}
 
 void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 {
@@ -50,4 +87,5 @@ void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 		}
 		current = current->next;
 	}
+	merge_adjacent_tokens(&tokens);
 }
