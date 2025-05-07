@@ -7,6 +7,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# include <stdbool.h>
+
 # ifdef __APPLE__
 #  define rl_clear_history clear_history
 # endif
@@ -89,7 +91,7 @@ int	handle_heredoc(t_cmd *cmd);
 
 //builtin
 int		builtin_cd(char **argv);
-int		builtin_echo(char **argv);
+int		builtin_echo(char **argv, char ***envp_new);
 int		builtin_env(char **argv, char ***envp_new);
 int		builtin_export(char **argv, char ***envp_new);
 int		only_export(char ***envp_new);
