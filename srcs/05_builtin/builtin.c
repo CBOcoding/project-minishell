@@ -32,7 +32,7 @@ int	execute_builtin(char **argv, char ***envp_new, int exit_status, int *should_
 {
 	// (void)exit_status; // ci serve solo per Exit builtin
 	if (ft_strcmp(argv[0], "echo") == 0)
-		return (builtin_echo(argv));
+		return (builtin_echo(argv, envp_new));
 	if (ft_strcmp(argv[0], "cd") == 0)
 		return (builtin_cd(argv));
 	if (ft_strcmp(argv[0], "pwd") == 0)
