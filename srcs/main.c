@@ -110,17 +110,26 @@ int main(int argc, char **argv, char **envp)
 
 
 
-    while (!should_exit)
-    {
-        // Step 1: Display prompt and read input
-        input = readline("minishell$ ");
-
-        // Check if readline returned NULL (happens on Ctrl+D or EOF)
-        if (!input)
-        {
-            printf("exit\n");
-            break;
-        }
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
+	
+		while (!should_exit)
+		{
+			g_signal = 42;
+			input = readline("minishell$ ");
+			g_signal = 0;
+	
+			if (!input)
+			{
+				write(1, "exit\n", 5);
+				break;
+			}
+	
+			if (input[0] == '\0')
+			{
+				free(input);
+				continue;
+			}
 
         // Step 2: Display the input (just to show it worked)
         // printf("You entered: %s\n", input);
