@@ -4,17 +4,28 @@
 #include <unistd.h>
 #include <termios.h>
 
-volatile sig_atomic_t g_signal = 0;
+volatile sig_atomic_t g_signal;
+
 
 void	handle_sigint(int signum)
 {
 	(void)signum;
-	g_signal = SIGINT;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0); // RIMOSSO SOLO PER TEST SU MAC
-	//rl_redisplay();
+
+	// Solo se siamo dentro readline
+	if (g_signal == 42)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	else
+	{
+		// Esempio: durante esecuzione comando come cat
+		write(1, "\n", 1);
+	}
 }
+
 
 void	handle_sigquit(int signum)
 {

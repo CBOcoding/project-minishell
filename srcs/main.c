@@ -110,22 +110,25 @@ int main(int argc, char **argv, char **envp)
 
 
 
-		while (!should_exit) {
-			//  Reset signal flag before readline
-			g_signal = 0;
-			input = readline("minishell$ ");
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
 	
-			if (!input) {
-				//  Handle Ctrl+D (EOF)
-				printf("exit\n");
+		while (!should_exit)
+		{
+			g_signal = 42;
+			input = readline("minishell$ ");
+			g_signal = 0;
+	
+			if (!input)
+			{
+				write(1, "exit\n", 5);
 				break;
 			}
 	
-			if (g_signal == SIGINT) {
-				//  readline was interrupted by Ctrl+C
-				free(input); //  Free input if readline allocated memory
-				input = NULL;  //  Important: set input to NULL
-				continue;      //  Go to the next loop iteration, *no* prompt
+			if (input[0] == '\0')
+			{
+				free(input);
+				continue;
 			}
 
         // Step 2: Display the input (just to show it worked)
