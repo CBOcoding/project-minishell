@@ -107,8 +107,26 @@ void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 			key = current->value + 1; // salta il $
 			if (strcmp(key, "?") == 0)
 				val = ft_itoa(last_exit_status);
-			else if (ft_strcmp(key, "$") == SUCCESS)
-				val = ft_strdup("$$");
+			// else if (ft_strcmp(key, "$") == SUCCESS)
+			// 	val = ft_itoa(getpid());
+			else if (key[0] == '$' && ft_strspn(key, "$") == ft_strlen(key))
+{
+	// key è tipo "$$", "$$$", etc.
+	// int pid_len = 0;
+	char *pid_str = ft_itoa(getpid());
+	char *result = ft_strdup("");
+
+	for (int j = 0; key[j]; j++)
+	{
+		char *tmp = result;
+		result = ft_strjoin(result, pid_str);
+		free(tmp);
+	}
+	free(pid_str);
+	val = result;
+}
+
+
 			else if (*key == '\0')
 				val = ft_strdup("$");
 			else
