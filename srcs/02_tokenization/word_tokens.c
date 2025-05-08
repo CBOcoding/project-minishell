@@ -16,8 +16,8 @@ void	tokenize_squote(char *input, int *i, t_token **tok, t_status *status)
 		new_token = create_token(word, WORD);
 		new_token->status = SQUOTE;
 		add_token(tok, new_token);
+		free(word);
 	}
-	free(word);
 	if (input[*i] == '\'')
 	{
 		(*i)++; // Skip closing quote
