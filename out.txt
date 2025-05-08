@@ -1,9 +1,0 @@
-total 1280
-drwxr-xr-x  2 cborrome 2020      59 Apr  8 13:45 docs
-drwxr-xr-x  2 cborrome 2020      42 Apr 10 12:09 includes
-drwxr-xr-x  4 cborrome 2020      44 Apr  9 17:29 libraries
--rw-r--r--  1 cborrome 2020    1529 Apr 10 14:39 Makefile
--rwxr-xr-x  1 cborrome 2020 1298616 Apr 10 15:07 minishell_test
--rw-r--r--  1 cborrome 2020       0 Apr 10 15:07 out.txt
--rw-r--r--  1 cborrome 2020      19 Apr  2 13:10 README.md
-drwxr-xr-x 10 cborrome 2020     223 Apr 10 15:07 srcs

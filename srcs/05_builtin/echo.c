@@ -24,14 +24,17 @@ int	builtin_echo(char **argv, char ***envp_new)
 
 	i = 1;
 	newline = 1;
-	check = checking_envp_new(argv[i + 1], envp_new);
-
-
+	check = false;
+	
 	if (argv[1] && ft_strcmp(argv[1], "-n") == 0)
 	{
 		newline = 0;
 		i++;
 	}
+
+	if (argv[i] && argv[i + 1])
+		check = checking_envp_new(argv[i + 1], envp_new);
+
 	// Se non ci sono argomenti, stampa solo newline
 	if (!argv[i])
 	{
@@ -42,8 +45,11 @@ int	builtin_echo(char **argv, char ***envp_new)
 	while (argv[i])
 	{
 		printf("%s", argv[i]);
-		if ((argv[i + 1] && (argv[i][0] != '\'') && (argv[i + 1][0] != '\''))
-			&& (argv[i + 1] && (argv[i + 1][0] != '$')) && !check)
+		if (argv[i + 1] && 
+			(argv[i][0] != '\'') && 
+			(argv[i + 1][0] != '\'') &&
+			(argv[i + 1][0] != '$') && 
+			!check)
 				printf(" ");
 		i++;
 	}

@@ -101,6 +101,11 @@ int execute_command(t_cmd *cmd, char **envp) //add PATH section
 
 	if (pid == 0) // Child process
 	{
+		if (!cmd->argv[0] || ft_strspn(cmd->argv[0], " \t") == ft_strlen(cmd->argv[0]))
+		{
+			fprintf(stderr, "minishell: command not found\n");
+			exit (127);
+		}
 		// // // Step 1: Handle heredoc (se presente)
 		// if (cmd->heredoc)
 		//  {
