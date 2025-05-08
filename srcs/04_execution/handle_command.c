@@ -8,7 +8,7 @@
 	// printf("ENVP_NEW[%i]=%s\n", k, (*envp_new)[k]);
 	// //debug end
 
-	int	handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *should_exit)
+	int	handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *should_exit, t_token *token)
 	{
 		int infile_fd;
 		int outfile_fd;
@@ -77,7 +77,7 @@
 	
 		// Execute the command
 		if (is_builtin(cmd->argv[0]))
-			result = execute_builtin(cmd->argv, envp_new, last_exit_status, should_exit);
+			result = execute_builtin(cmd->argv, envp_new, last_exit_status, should_exit, token);
 		else
 			result = execute_command(cmd, *envp_new);
 	

@@ -93,6 +93,8 @@ void	tokenize_simple_word(char *input, int *i, t_token **tokens)
 	{
 		new_token = create_token(word, WORD);
 		new_token->status = DEFAULT;
+		if (input[*i] == '$')
+			new_token->skip_space = 1;
 		add_token(tokens, new_token);
 		free(word);
 	}
