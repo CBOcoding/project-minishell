@@ -1,93 +1,17 @@
 #include "minishell.h"
-// Handle single quoted text
-void	tokenize_squote(char *input, int *i, t_token **tok, t_status *status)
-{
-	int		start;
-	char	*word;
-	t_token	*new_token;
 
-	(*i)++; // Skip opening quote
-	start = *i;
-	while (input[*i] && input[*i] != '\'')
-		(*i)++;
-	word = ft_substr(input, start, *i - start);
-	if (word && *word)
-	{
-		new_token = create_token(word, WORD);
-		new_token->status = SQUOTE;
-		add_token(tok, new_token);
-		free(word);
-	}
-	if (input[*i] == '\'')
-	{
-		(*i)++; // Skip closing quote
-		*status = DEFAULT;
-	}
-}
-// Handle double quoted text
-void	tokenize_dquote(char *input, int *i, t_token **tok, t_status *status)
-{
-	int		start;
-	char	*word;
-	t_token	*new_token;
-
-	(*i)++; // Skip opening quote
-	start = *i;
-	while (input[*i] && input[*i] != '"')
-	{
-		// Handle variable inside double quotes
-		if (input[*i] == '$')
-		{
-			// Add content before the variable
-			if (*i > start)
-			{
-				word = ft_substr(input, start, *i - start);
-				if (word && *word)
-				{
-					new_token = create_token(word, WORD);
-					new_token->status = DQUOTE;
-					add_token(tok, new_token);
-					free(word);
-				}
-			}
-			tokenize_var_in_dquote(input, i, tok);
-			start = *i;
-			continue;
-		}
-		(*i)++;
-	}
-	// Add remaining content in quotes
-	if (*i > start)
-	{
-		word = ft_substr(input, start, *i - start);
-		if (word && *word)
-		{
-			new_token = create_token(word, WORD);
-			new_token->status = DQUOTE;
-			add_token(tok, new_token);
-			free(word);
-		}
-	}
-	if (input[*i] == '"')
-	{
-		(*i)++; // Skip closing quote
-		*status = DEFAULT;
-	}
-}
-
-// Handle regular word (not in quotes)
 void	tokenize_simple_word(char *input, int *i, t_token **tokens)
 {
-	int		start;
-	char	*word;
-	t_token	*new_token;
+	int start;
+	char *word;
+	t_token *new_token;
 
 	start = *i;
 	while (input[*i] && !ft_isspace(input[*i])
-		&& input[*i] != '>' && input[*i] != '<'
-		&& input[*i] != '|' && input[*i] != '\''
-		&& input[*i] != '"' && input[*i] != '$')
-			(*i)++;
+	&& input[*i] != '>' && input[*i] != '<'
+	&& input[*i] != '|' && input[*i] != '\''
+	&& input[*i] != '"' && input[*i] != '$')
+		(*i)++;
 	word = ft_substr(input, start, *i - start);
 	if (word && *word)
 	{
@@ -100,102 +24,66 @@ void	tokenize_simple_word(char *input, int *i, t_token **tokens)
 	}
 }
 
-// Handle environment variable in double quotes
-void	tokenize_var_in_dquote(char *input, int *i, t_token **tokens)
+static char	*extract_dollar_sequence(char *input, int *i)
+{
+	int		count;
+	int		j;
+	char	*var_name;
+
+	count = 0;
+	j = 0;
+	while (input[*i + 1] == '$')
+	{
+		count++;
+		(*i)++;
+	}
+	(*i)++;
+	var_name = malloc(count + 2);
+	if (!var_name)
+		return NULL;
+	while (j < count + 1)
+	{
+		var_name[j] = '$';
+		j++;
+	}
+	var_name[count + 1] = '\0';
+	return var_name;
+}
+
+static char	*extract_exit_status_var(int *i)
+{
+	char *var_name;
+
+	var_name = ft_strdup("$?");
+	(*i) += 2;
+	return var_name;
+}
+
+static char	*extract_normal_var(char *input, int *i, int start)
+{
+	char	*var_name;
+
+	(*i)++; // Salta il $
+	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+		(*i)++;
+	var_name = ft_substr(input, start, *i - start);
+	return var_name;
+}
+
+void	tokenize_var(char *input, int *i, t_token **tokens)
 {
 	int		start;
 	char	*var_name;
 	t_token	*new_token;
 
 	start = *i;
-	(*i)++; // Skip '$'
-	// Handle special case of $?
-	if (input[*i] == '?')
-	{
-		var_name = ft_strdup("$?");
-		(*i)++;
-	}
-	else
-	{
-		while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
-			(*i)++;
-		var_name = ft_substr(input, start, *i - start);
-	}
-	if (var_name && *var_name)
-	{
-		new_token = create_token(var_name, ENV_VAR);
-		new_token->status = DQUOTE;
-		add_token(tokens, new_token);
-		free(var_name);
-	}
-}
-
-// // Update the existing tokenize_var function to handle variables outside quotes
-// void	tokenize_var(char *input, int *i, t_token **tokens)
-// {
-// 	int		start;
-// 	char	*var_name;
-// 	t_token	*new_token;
-
-// 	start = *i;
-// 	// Handle special case of $?
-// 	if (input[*i + 1] == '?')
-// 	{
-// 		var_name = ft_strdup("$?");
-// 		(*i) += 2;
-// 	}
-// 	else
-// 	{
-// 		(*i)++; // Skip '$'
-// 		while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
-// 			(*i)++;
-// 		var_name = ft_substr(input, start, *i - start);
-// 	}
-// 	if (var_name && *var_name)
-// 	{
-// 		new_token = create_token(var_name, ENV_VAR);
-// 		new_token->status = DEFAULT;
-// 		add_token(tokens, new_token);
-// 		free(var_name);
-// 	}
-// }
-
-void	tokenize_var(char *input, int *i, t_token **tokens)
-{
-	int		start = *i;
-	char	*var_name;
-	t_token	*new_token;
-
+	var_name = NULL;
 	if (input[*i + 1] == '$')
-	{
-		// Consuma tutti i '$' consecutivi (es. $$$ → "$$" + "$")
-		int count = 0;
-		while (input[*i + 1] == '$')
-		{
-			count++;
-			(*i)++;
-		}
-		(*i)++; // Consuma il primo $
-		var_name = malloc(count + 2);
-		if (!var_name)
-			return;
-		for (int j = 0; j < count + 1; j++)
-			var_name[j] = '$';
-		var_name[count + 1] = '\0';
-	}
+		var_name = extract_dollar_sequence(input, i);
 	else if (input[*i + 1] == '?')
-	{
-		var_name = ft_strdup("$?");
-		(*i) += 2;
-	}
+		var_name = extract_exit_status_var(i);
 	else
-	{
-		(*i)++; // Salta il $
-		while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
-			(*i)++;
-		var_name = ft_substr(input, start, *i - start);
-	}
-
+		var_name = extract_normal_var(input, i, start);
 	if (var_name && *var_name)
 	{
 		new_token = create_token(var_name, ENV_VAR);
@@ -204,4 +92,3 @@ void	tokenize_var(char *input, int *i, t_token **tokens)
 		free(var_name);
 	}
 }
-

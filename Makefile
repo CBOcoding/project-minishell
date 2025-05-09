@@ -1,99 +1,65 @@
 NAME = minishell
 
 CC = cc
-
-
-#test to be removed
-# Test build (separate target)
-TEST_NAME = minishell_test
-TEST_SRC = \
-		./srcs/test_main.c \
-		./srcs/04_execution/execution_01.c \
-TEST_OBJ = $(TEST_SRC:.c=.o)
-
-
-
 CFLAGS = -Wall -Werror -Wextra -g -Iincludes
-
 LDFLAGS = -lreadline
 
 # Sanitizer flags
 FSANITIZER_ADDRESS_FLAG = -fsanitize=address -O2
-FSANITIZER_THREAD_FLAG = -fsanitize=thread -O2
+FSANITIZER_THREAD_FLAG  = -fsanitize=thread -O2
 
 SRC = \
-		./srcs/main.c \
-		./srcs/01_input_validation/checks.c\
-		./srcs/02_tokenization/list_token.c \
-		./srcs/02_tokenization/print_token.c \
-		./srcs/02_tokenization/tokenization.c \
-		./srcs/02_tokenization/word_tokens.c \
-		./srcs/04_execution/execution_01.c \
-		./srcs/04_execution/handle_command.c \
-		./srcs/04_execution/heredoc.c \
-		./srcs/05_builtin/builtin.c \
-		./srcs/05_builtin/cd.c \
-		./srcs/05_builtin/echo.c \
-		./srcs/05_builtin/env.c \
-		./srcs/05_builtin/export01.c \
-		./srcs/05_builtin/export02.c \
-		./srcs/05_builtin/export03.c \
-		./srcs/05_builtin/pwd.c \
-		./srcs/05_builtin/unset.c \
-		./srcs/05_builtin/exit.c \
-		./srcs/06_signals/signals.c \
-		./srcs/07_env_var_expansion/environment01.c \
-		./srcs/03_parsing/parse.c \
-		./srcs/03_parsing/parse_helper.c \
-		./srcs/utils/utils.c \
-
-
-
+	./srcs/main.c \
+	./srcs/01_input_validation/checks.c \
+	./srcs/02_tokenization/list_token.c \
+	./srcs/02_tokenization/tokenization.c \
+	./srcs/02_tokenization/word_tokens.c \
+	./srcs/02_tokenization/quote_token.c \
+	./srcs/03_parsing/parse.c \
+	./srcs/03_parsing/parse_helper.c \
+	./srcs/03_parsing/parse_redirection.c \
+	./srcs/04_execution/execution_01.c \
+	./srcs/04_execution/handle_command.c \
+	./srcs/04_execution/heredoc.c \
+	./srcs/05_builtin/builtin.c \
+	./srcs/05_builtin/cd.c \
+	./srcs/05_builtin/echo.c \
+	./srcs/05_builtin/env.c \
+	./srcs/05_builtin/export01.c \
+	./srcs/05_builtin/export02.c \
+	./srcs/05_builtin/export03.c \
+	./srcs/05_builtin/pwd.c \
+	./srcs/05_builtin/unset.c \
+	./srcs/05_builtin/exit.c \
+	./srcs/06_signals/signals.c \
+	./srcs/07_env_var_expansion/environment.c \
+	./srcs/utils/utils.c \
+	./srcs/utils/utils_2.c \
+	./srcs/utils/utils_3.c \
+	./srcs/utils/ft_split.c
 
 OBJ = $(SRC:.c=.o)
 
-LIBFT_DIR = ./libraries/ft_libft
+all: $(NAME)
 
-LIBFT = $(LIBFT_DIR)/libft.a
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-all : $(LIBFT) $(NAME)
+clean:
+	rm -f $(OBJ)
 
-$(NAME) : $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
-
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
-
-clean :
-#test_Obj to be removed
-	rm -f $(OBJ) $(TEST_OBJ)
-	$(MAKE) -C $(LIBFT_DIR) clean
-
-fclean : clean
+fclean: clean
 	rm -f $(NAME)
-#$(MAKE) -C $(LIBFT_DIR) clean
-#test to be removed
-	rm -f $(TEST_NAME)
-	$(MAKE) -C $(LIBFT_DIR) clean
 
-re : fclean all
+re: fclean all
 
-# Aliases
+# Sanitizer builds
 asan:
 	$(MAKE) fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_ADDRESS_FLAG)" all
+
 tsan:
 	$(MAKE) fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_THREAD_FLAG)" all
 
-#test to be removed
-test:
-	$(MAKE) fclean
-	$(MAKE) $(TEST_NAME)
-
-
-$(TEST_NAME): $(TEST_OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(FSANITIZER_ADDRESS_FLAG) -o $(TEST_NAME) $(TEST_OBJ) $(LIBFT) $(LDFLAGS)
-
-
-.PHONY : all clean fclean re
+.PHONY: all clean fclean re asan tsan

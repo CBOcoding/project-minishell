@@ -1,5 +1,5 @@
 #include "minishell.h"
-#include <fcntl.h>	  // open
+	  // open
 
 
 	// //debug start

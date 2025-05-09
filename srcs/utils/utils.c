@@ -1,66 +1,6 @@
 #include "minishell.h"
 
-t_cmd *create_cmd(void)
-{
-    t_cmd *cmd = malloc(sizeof(t_cmd));
-    if (!cmd)
-        return NULL;
-    ft_memset(cmd, 0, sizeof(t_cmd));
-    return cmd;
-}
-
-size_t	ft_strspn(const char *s, const char *accept)
-{
-	size_t	i = 0;
-	size_t	j;
-
-	while (s[i])
-	{
-		j = 0;
-		while (accept[j] && s[i] != accept[j])
-			j++;
-		if (!accept[j])
-			break;
-		i++;
-	}
-	return (i);
-}
-
-/*
-void	*ft_memset(void *s, int c, size_t len)
-{
-	size_t	i;
-	char	*pointer;
-
-	i = 0;
-	pointer = (char *)s;
-	while (i < len)
-	{
-		pointer[i] = c;
-		i++;
-	}
-	return (s);
-}
-	char	*ft_strdup(const char *s)
-{
-	char	*src;
-	char	*scopy;
-	int		x;
-
-	src = (char *)s;
-	scopy = (char *) malloc((ft_strlen(src) + 1) * sizeof(char));
-	if (scopy == NULL)
-		return (NULL);
-	x = 0;
-	while (src[x] != '\0')
-	{
-		scopy[x] = src[x];
-		x++;
-	}
-	scopy[x] = '\0';
-	return (scopy);
-}
-	static	unsigned int	ft_arraysize(int number)
+static	unsigned int	ft_arraysize(int number)
 {
 	unsigned int		length;
 
@@ -105,7 +45,8 @@ char	*ft_itoa(int n)
 	}
 	return (string);
 }
-	char	*ft_substr(char const *s, unsigned int start, size_t len)
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substring;
 	size_t	x;
@@ -128,7 +69,8 @@ char	*ft_itoa(int n)
 	substring[y] = '\0';
 	return (substring);
 }
-	int	ft_strncmp(const char *s1, const char *s2, size_t n)
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	x;
 
@@ -143,67 +85,18 @@ char	*ft_itoa(int n)
 	}
 	return (0);
 }
-	size_t	ft_strlen(const char *s)
-{
-	int		i;
-	char	*str;
 
-	i = 0;
-	str = (char *)s;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-int	ft_atoi(const char *nptr)
+char	*ft_strchr(const char *s, int c)
 {
-	int	result;
 	int	i;
-	int	sign;
 
-	result = 0;
 	i = 0;
-	sign = 1;
-	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == ' ')
-		i = i + 1;
-	if (nptr[i] == '-' || nptr[i] == '+')
+	while (s[i] != '\0' && (s[i] != c))
 	{
-		if (nptr[i] == '-')
-			sign = sign * (-1);
-		i = i + 1;
+		i++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		result = (result * 10) + (nptr[i] - '0');
-		i = i + 1;
-	}
-	result = result * sign;
-	return (result);
-}
-
-int	ft_isalnum(int c)
-{
-	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') \
-	|| (c >= 'A' && c <= 'Z'))
-	{
-		return (1);
-	}
+	if (s[i] != c)
+		return (NULL);
 	else
-		return (0);
+		return ((char *)s + i);
 }
-
-char	**ft_split(char const *s, char c)
-{
-	int		word_count;
-	char	**array;
-
-	word_count = count_words(s, c);
-	array = (char **)malloc((word_count + 1) * sizeof(char *));
-	if (array == NULL)
-		return (NULL);
-	if (filling(array, s, c) == NULL)
-		return (NULL);
-	return (array);
-}
-
-*/
