@@ -7,7 +7,7 @@ int	builtin_env(char **argv, char ***envp_new)
 	i = 0;
 	if (argv[1] != NULL)
 	{
-		write(STDERR_FILENO, "env: No such file or directory\n", 31);
+		ft_putstr_fd("env: No such file or directory\n", STDERR_FILENO);
 		return (FAILURE);
 	}
 	else

@@ -51,7 +51,7 @@ int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
 		}
 	if (is_valid_key(key))
 	{
-		write(STDERR_FILENO, "Not a valid key\n", 16);
+		ft_putstr_fd("Not a valid key\n", STDERR_FILENO);
 		free(key);
 		return (FAILURE);
 	}

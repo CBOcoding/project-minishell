@@ -1,10 +1,4 @@
 #include "minishell.h"
-#include <readline/readline.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <signal.h>
 
 int	handle_heredoc(t_cmd *cmd)
 {
@@ -41,8 +35,8 @@ int	handle_heredoc(t_cmd *cmd)
 			free(line);
 			break;
 		}
-		write(pipe_fd[1], line, strlen(line));
-		write(pipe_fd[1], "\n", 1);
+		ft_putstr_fd( line, pipe_fd[1]);
+		ft_putstr_fd( "\n", pipe_fd[1]);
 		free(line);
 	}
 

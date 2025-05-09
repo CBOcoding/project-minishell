@@ -40,7 +40,6 @@ void	tokenize_word(char *input, int *i, t_token **tokens, t_status *status)
 {
 	if (*status == DEFAULT)
 	{
-		// Check if this is the start of a quoted section
 		if (input[*i] == '\'')
 		{
 			*status = SQUOTE;
@@ -62,6 +61,15 @@ void	tokenize_word(char *input, int *i, t_token **tokens, t_status *status)
 		tokenize_dquote(input, i, tokens, status);
 }
 
+static void	unclosed_quotes_handle(t_status status, t_token **tokens)
+{
+	if (status != DEFAULT)
+	{
+		ft_putstr_fd("Error: Unclosed quotes\n", 2);
+		free_token(*tokens);
+		*tokens = NULL;
+	}
+}
 
 t_token	*tokenize_input(char *input)
 {
@@ -74,13 +82,8 @@ t_token	*tokenize_input(char *input)
 	i = 0;
 	while (input[i])
 	{
-		// Skip spaces outside quotes
-		if (ft_isspace(input[i]) && status == DEFAULT)
-		{
+		while (ft_isspace(input[i]) && status == DEFAULT)
 			i++;
-			continue ;
-		}
-		// Handle special characters outside quotes
 		if (status == DEFAULT)
 		{
 			if (input[i] == '>' || input[i] == '<')
@@ -94,16 +97,9 @@ t_token	*tokenize_input(char *input)
 				continue ;
 			}
 		}
-		// Handle words or quoted content
 		tokenize_word(input, &i, &tokens, &status);
 	}
-	// Check for unclosed quotes
-	if (status != DEFAULT)
-	{
-		printf("Error: Unclosed quotes\n");
-		free_token(tokens);
-		return (NULL);
-	}
+	unclosed_quotes_handle(status, &tokens);
 	return (tokens);
 }
 

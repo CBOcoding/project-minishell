@@ -1,8 +1,4 @@
-#include "signals.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <termios.h>
+#include "minishell.h"
 
 volatile sig_atomic_t g_signal;
 

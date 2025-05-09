@@ -1,6 +1,4 @@
 #include "minishell.h"
-#include "signals.h"
-#include <termios.h>
 
 // void	reset_terminal_settings(void);
     //se serve fare spazio per norminette, si puo mettere magari in un file con tutte le free
@@ -121,7 +119,7 @@ int main(int argc, char **argv, char **envp)
 	
 			if (!input)
 			{
-				write(1, "exit\n", 5);
+				ft_putstr_fd("exit\n", 2);
 				break;
 			}
 	

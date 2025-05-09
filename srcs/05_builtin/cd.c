@@ -9,7 +9,7 @@ int	builtin_cd(char **argv)
 		path = getenv("HOME"); //se non c'é argomento vai alla HOME.
 		if (!path)
 		{
-			write(STDERR_FILENO, "cd: HOME not set\n", 18);
+			ft_putstr_fd("cd: HOME not set\n",STDERR_FILENO);
 			return (FAILURE);
 		}
 	}

@@ -39,10 +39,10 @@ int	builtin_exit(char **argv, int exit_status, int *should_exit)
 	while (argv[i]) // Count the number of arguments in argv
 		i++;
 	if (isatty(STDIN_FILENO))
-		write(1, "exit\n", 5);
+		ft_putstr_fd("exit\n", 1);
 	if (i > 2) // Check if there are too many arguments
 	{
-		write(2, "exit: too many arguments\n", 25);
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		return (1); // Stay in shell
 	}
 	if (i == 2)
