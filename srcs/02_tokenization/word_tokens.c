@@ -93,6 +93,8 @@ void	tokenize_simple_word(char *input, int *i, t_token **tokens)
 	{
 		new_token = create_token(word, WORD);
 		new_token->status = DEFAULT;
+		if (input[*i] == '$')
+			new_token->skip_space = 1;
 		add_token(tokens, new_token);
 		free(word);
 	}
@@ -127,27 +129,73 @@ void	tokenize_var_in_dquote(char *input, int *i, t_token **tokens)
 		free(var_name);
 	}
 }
-// Update the existing tokenize_var function to handle variables outside quotes
+
+// // Update the existing tokenize_var function to handle variables outside quotes
+// void	tokenize_var(char *input, int *i, t_token **tokens)
+// {
+// 	int		start;
+// 	char	*var_name;
+// 	t_token	*new_token;
+
+// 	start = *i;
+// 	// Handle special case of $?
+// 	if (input[*i + 1] == '?')
+// 	{
+// 		var_name = ft_strdup("$?");
+// 		(*i) += 2;
+// 	}
+// 	else
+// 	{
+// 		(*i)++; // Skip '$'
+// 		while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+// 			(*i)++;
+// 		var_name = ft_substr(input, start, *i - start);
+// 	}
+// 	if (var_name && *var_name)
+// 	{
+// 		new_token = create_token(var_name, ENV_VAR);
+// 		new_token->status = DEFAULT;
+// 		add_token(tokens, new_token);
+// 		free(var_name);
+// 	}
+// }
+
 void	tokenize_var(char *input, int *i, t_token **tokens)
 {
-	int		start;
+	int		start = *i;
 	char	*var_name;
 	t_token	*new_token;
 
-	start = *i;
-	// Handle special case of $?
-	if (input[*i + 1] == '?')
+	if (input[*i + 1] == '$')
+	{
+		// Consuma tutti i '$' consecutivi (es. $$$ → "$$" + "$")
+		int count = 0;
+		while (input[*i + 1] == '$')
+		{
+			count++;
+			(*i)++;
+		}
+		(*i)++; // Consuma il primo $
+		var_name = malloc(count + 2);
+		if (!var_name)
+			return;
+		for (int j = 0; j < count + 1; j++)
+			var_name[j] = '$';
+		var_name[count + 1] = '\0';
+	}
+	else if (input[*i + 1] == '?')
 	{
 		var_name = ft_strdup("$?");
 		(*i) += 2;
 	}
 	else
 	{
-		(*i)++; // Skip '$'
+		(*i)++; // Salta il $
 		while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 			(*i)++;
 		var_name = ft_substr(input, start, *i - start);
 	}
+
 	if (var_name && *var_name)
 	{
 		new_token = create_token(var_name, ENV_VAR);
@@ -156,3 +204,4 @@ void	tokenize_var(char *input, int *i, t_token **tokens)
 		free(var_name);
 	}
 }
+

@@ -39,6 +39,7 @@ typedef enum	e_status
 
 typedef struct	s_token
 {
+	int				skip_space;
 	char			*value;
 	t_token_type	type;
 	t_status		status;
@@ -67,9 +68,9 @@ int		ft_strcmp(const char *main, const char *compared);
 int		ft_isspace(char c);
 int		has_closed_quotes(const char *str);
 int		execute_command(t_cmd *cmd, char **envp);
-int		handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *should_exit);
+int		handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *should_exit, t_token *token);
 int		is_builtin(char *cmd);
-int		execute_builtin(char **argv, char ***envp, int exit_status, int *should_exit);
+int		execute_builtin(char **argv, char ***envp, int exit_status, int *should_exit, t_token *token);
 void	hello_minishell(void);
 void	add_token(t_token **tokens, t_token *new_token);
 void	tokkenize_arrows(char *input, int *i, t_token **tokens);
@@ -86,13 +87,13 @@ t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
 
 //execution
-int	execute_pipeline(t_pipeline *pipeline, char **envp_new);
+int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token);
 int	handle_heredoc(t_cmd *cmd);
 size_t	ft_strspn(const char *s, const char *accept);
 
 //builtin
 int		builtin_cd(char **argv);
-int		builtin_echo(char **argv, char ***envp_new);
+int		builtin_echo(char **argv, t_token *token);
 int		builtin_env(char **argv, char ***envp_new);
 int		builtin_export(char **argv, char ***envp_new);
 int		only_export(char ***envp_new);

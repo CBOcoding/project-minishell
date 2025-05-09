@@ -185,7 +185,7 @@ int execute_command(t_cmd *cmd, char **envp) //add PATH section
 
 }
 
-int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
+int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token)
 {
 	int fd[2];        // file descriptor della pipe
 	int input_fd;    // input corrente, all'inizio è STDIN
@@ -240,7 +240,7 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new)
 				}
 		
 				// Esegui il comando
-				status = handle_command(pipeline->commands[i], &envp_new, 0, &fake_should_exit);
+				status = handle_command(pipeline->commands[i], &envp_new, 0, &fake_should_exit, token);
 				exit (status);
 				// Se exec fallisce
 				// exit(1);//exit function to free everything!!!!!

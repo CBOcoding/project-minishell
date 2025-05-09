@@ -61,30 +61,86 @@ static void merge_adjacent_tokens(t_token **tokens)
     }
 }
 
+
+// void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
+// {
+// 	char	*key;
+// 	char	*val;
+// 	t_token	*current;
+
+// 	current = tokens;
+// 	while (current)
+// 	{
+// 		if (current->type == ENV_VAR && current->status != SQUOTE)
+// 		{
+// 			key = current->value + 1; //salta dollaro
+// 			if (strcmp(key, "?") == 0)
+// 				val = ft_itoa(last_exit_status);
+// 			else if (ft_strcmp(key, "$") == SUCCESS)
+// 				val = ft_strdup("$$");
+// 			else if (*key == '\0')
+// 				val = ft_strdup("$");
+// 			else
+// 				val = handler_env_value(key, envp);
+// 			free(current->value);
+// 			current->value = val;
+// 			current->type = WORD;
+// 		}
+// 		current = current->next;
+// 	}
+// 	merge_adjacent_tokens(&tokens);
+// }
+
 void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 {
 	char	*key;
 	char	*val;
 	t_token	*current;
+	t_token	*prev;
 
 	current = tokens;
+	prev = NULL;
 	while (current)
 	{
 		if (current->type == ENV_VAR && current->status != SQUOTE)
 		{
-			key = current->value + 1;
+			key = current->value + 1; // salta il $
 			if (strcmp(key, "?") == 0)
 				val = ft_itoa(last_exit_status);
-			else if (ft_strcmp(key, "$") == SUCCESS)
-				val = ft_strdup("$$");
+			// else if (ft_strcmp(key, "$") == SUCCESS)
+			// 	val = ft_itoa(getpid());
+			else if (key[0] == '$' && ft_strspn(key, "$") == ft_strlen(key))
+{
+	// key è tipo "$$", "$$$", etc.
+	// int pid_len = 0;
+	char *pid_str = ft_itoa(getpid());
+	char *result = ft_strdup("");
+
+	for (int j = 0; key[j]; j++)
+	{
+		char *tmp = result;
+		result = ft_strjoin(result, pid_str);
+		free(tmp);
+	}
+	free(pid_str);
+	val = result;
+}
+
+
 			else if (*key == '\0')
 				val = ft_strdup("$");
 			else
 				val = handler_env_value(key, envp);
+
 			free(current->value);
 			current->value = val;
 			current->type = WORD;
+
+			// Propaga skip_space se il token precedente lo aveva
+			if (prev && prev->skip_space > 0)
+				current->skip_space = prev->skip_space;
 		}
+		prev = current;
 		current = current->next;
 	}
 	merge_adjacent_tokens(&tokens);
