@@ -2,7 +2,7 @@
 
 void	tokenize_arrows(char *input, int *i, t_token **tokens)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
 	new_token = NULL;
 	if (input[*i] == '>')
@@ -11,17 +11,22 @@ void	tokenize_arrows(char *input, int *i, t_token **tokens)
 		{
 			new_token = create_token(">>", APPEND);
 			(*i) += 2;
-		} else {
+		}
+		else
+		{
 			new_token = create_token(">", REDIR_OUT);
 			(*i)++;
 		}
-	} else if (input[*i] == '<')
+	}
+	else if (input[*i] == '<')
 	{
 		if (input[*i + 1] == '<')
 		{
 			new_token = create_token("<<", HEREDOC);
 			(*i) += 2;
-		} else {
+		}
+		else
+		{
 			new_token = create_token("<", REDIR_IN);
 			(*i)++;
 		}
@@ -31,7 +36,9 @@ void	tokenize_arrows(char *input, int *i, t_token **tokens)
 
 void	tokenize_pipe(int *i, t_token **tokens)
 {
-	t_token *new_token = create_token("|", PIPE);
+	t_token	*new_token;
+
+	new_token = create_token("|", PIPE);
 	add_token(tokens, new_token);
 	(*i)++;
 }
@@ -102,6 +109,3 @@ t_token	*tokenize_input(char *input)
 	unclosed_quotes_handle(status, &tokens);
 	return (tokens);
 }
-
-
-

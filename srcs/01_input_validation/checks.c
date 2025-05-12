@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int has_closed_quotes(const char *str)
+int	has_closed_quotes(const char *str)
 {
 	int		i;
 	char	quote;
@@ -23,9 +23,9 @@ int has_closed_quotes(const char *str)
 	return (FAILURE);
 }
 
-int ft_strcmp(const char *main, const char *compared)
+int	ft_strcmp(const char *main, const char *compared)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (compared[i] || main[i])
@@ -37,7 +37,7 @@ int ft_strcmp(const char *main, const char *compared)
 	return (SUCCESS);
 }
 
-int ft_isspace(char c)
+int	ft_isspace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == ' ');
 }
