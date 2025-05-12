@@ -2,7 +2,10 @@
 	"makefile.configureOnOpen": false,
 	"files.associations": {
 		"minishell.h": "c",
-		"readline.h": "c"
+		"readline.h": "c",
+		"stdio.h": "c",
+		"unistd.h": "c",
+		"history.h": "c"
 	},
     "editor.insertSpaces": false
 }
