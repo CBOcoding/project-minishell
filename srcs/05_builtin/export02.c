@@ -12,7 +12,7 @@ void	array_sorting(char **sorted, int envp_len)
 		j = 0;
 		while (j < envp_len - i - 1)
 		{
-			if (ft_strcmp(sorted[j], sorted[j + 1]) > 0) //se non sono in ordine ritorna FAILURE = 1 ed entra per fare swap.
+			if (ft_strcmp(sorted[j], sorted[j + 1]) > 0)
 			{
 				temp = sorted[j];
 				sorted[j] = sorted[j + 1];
@@ -34,13 +34,12 @@ void	print_sorted(char **sorted)
 	while (sorted[i])
 	{
 		printf("declare -x ");
-		equal = ft_strchr(sorted[i], '='); //ritorna NULL se non trova =.
+		equal = ft_strchr(sorted[i], '=');
 		if (!equal)
 			printf("%s\n", sorted[i]);
 		else
 		{
 			key_len = equal - sorted[i];
-			//add fork for printing as a child.???
 			printf("%.*s=\"%s\"\n", key_len, sorted[i], equal + 1);
 		}
 		i++;
@@ -58,30 +57,17 @@ void	free_sorted(char **sorted, int envp_len)
 		k++;
 	}
 }
-
-int	only_export(char ***envp_new)
+int	duplicate_sorted(int envp_len, char **sorted, char ***envp_new)
 {
-	int		i;
-	int		envp_len;
-	char	**sorted;
+	int	i;
 
 	i = 0;
-	envp_len = 0;
-	while ((*envp_new)[envp_len])
-		envp_len++;
-	sorted = malloc(sizeof(char *) * (envp_len + 1));
-		if (!sorted)
-		{
-			perror("Malloc error");
-			return (FAILURE);
-		}
 	while (i < envp_len)
 	{
 		sorted[i] = ft_strdup((*envp_new)[i]);
 		if (!sorted[i])
 		{
 			perror("Malloc error");
-			// libera già allocati
 			while (--i >= 0)
 				free(sorted[i]);
 			free(sorted);
@@ -90,6 +76,26 @@ int	only_export(char ***envp_new)
 		i++;
 	}
 	sorted[envp_len] = NULL;
+	return (SUCCESS);
+}
+
+
+int	only_export(char ***envp_new)
+{
+	int		envp_len;
+	char	**sorted;
+
+	envp_len = 0;
+	while ((*envp_new)[envp_len])
+		envp_len++;
+	sorted = malloc(sizeof(char *) * (envp_len + 1));
+	if (!sorted)
+	{
+		perror("Malloc error");
+		return (FAILURE);
+	}
+	if (duplicate_sorted(envp_len, sorted, envp_new) == FAILURE)
+		return (FAILURE);
 	array_sorting(sorted, envp_len);
 	print_sorted(sorted);
 	free_sorted(sorted, envp_len);

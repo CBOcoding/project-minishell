@@ -2,7 +2,7 @@
 
 int	builtin_pwd(char **argv)
 {
-	char *path;
+	char	*path;
 
 	(void)argv;
 	path = getcwd(NULL, 0);

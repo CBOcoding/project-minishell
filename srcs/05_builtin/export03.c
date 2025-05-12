@@ -8,7 +8,6 @@ char	*join_export_args(char **argv)
 	joined = ft_strdup(argv[1]);
 	if (!joined)
 		return (NULL);
-
 	if (argv[2])
 	{
 		tmp = joined;
@@ -22,7 +21,7 @@ char	*join_export_args(char **argv)
 
 int	replace_or_add_env(char ***envp_new, char **argv, char *key)
 {
-	int	position;
+	int		position;
 	char	*joined;
 
 	position = key_exists(*envp_new, key);
@@ -41,23 +40,39 @@ int	replace_or_add_env(char ***envp_new, char **argv, char *key)
 
 int	variable_with_equal_sign(char **argv, char ***envp_new, char *equal)
 {
-	char *key;
+	char	*key;
 
-	key = ft_substr(argv[1], 0, equal - argv[1]); //crea una substr con malloc.
-	if (!key) //se fallisce esce e in main va liberato tutto.
-		{
-			perror("export: malloc failed");
-			return (FAILURE);
-		}
+	key = ft_substr(argv[1], 0, equal - argv[1]);
+	if (!key)
+	{
+		perror("export: malloc failed");
+		return (FAILURE);
+	}
 	if (is_valid_key(key))
 	{
 		ft_putstr_fd("Not a valid key\n", STDERR_FILENO);
 		free(key);
 		return (FAILURE);
 	}
-	// replace_or_add_env(envp_new, argv[1], key);
 	if (replace_or_add_env(envp_new, argv, key) == FAILURE)
 		return (FAILURE);
 	free(key);
 	return (SUCCESS);
+}
+
+int	key_exists(char **envp_new, char *key)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(key);
+	while (envp_new[i])
+	{
+		if (ft_strncmp(envp_new[i], key, len) == 0 && \
+		(envp_new[i][len] == '=' || envp_new[i][len] == '\0'))
+			return (i);
+		i++;
+	}
+	return (-1);
 }

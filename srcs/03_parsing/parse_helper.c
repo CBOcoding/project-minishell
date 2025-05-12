@@ -2,14 +2,15 @@
 
 int	is_redirection(t_token_type type)
 {
-	return (type == REDIR_IN || type == REDIR_OUT
-			|| type == APPEND || type == HEREDOC);
+	return (type == REDIR_IN || type == REDIR_OUT || \
+			type == APPEND || type == HEREDOC);
 }
 
 int	is_prev_not_redirection(t_token *prev)
 {
 	return (!prev || !is_redirection(prev->type));
 }
+
 static int	count_arguments(t_token *start, t_token *end)
 {
 	t_token	*current;
@@ -31,10 +32,10 @@ static int	count_arguments(t_token *start, t_token *end)
 
 void	free_command(t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->argv)
 	{
 		i = 0;
@@ -48,7 +49,7 @@ void	free_command(t_cmd *cmd)
 		free(cmd->outfile);
 	if (cmd->delimiter)
 		free(cmd->delimiter);
-	ft_memset(cmd,0,6);
+	ft_memset(cmd, 0, 6);
 	free(cmd);
 }
 
@@ -69,9 +70,9 @@ t_cmd	*parsed_segment(t_token *start, t_token *end)
 	}
 	ft_memset(cmd->argv, 0, (arg_count + 1) * sizeof(char *));
 	if (fill_command_data(cmd, start, end) == FAILURE)
-		{
-			free_command(cmd);
-			return (NULL);
-		}
+	{
+		free_command(cmd);
+		return (NULL);
+	}
 	return (cmd);
 }

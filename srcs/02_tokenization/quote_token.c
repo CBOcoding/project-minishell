@@ -2,11 +2,11 @@
 
 void	tokenize_squote(char *input, int *i, t_token **tok, t_status *status)
 {
-	int start;
-	char *word;
-	t_token *new_token;
+	int		start;
+	char	*word;
+	t_token	*new_token;
 
-	(*i)++; // Skip opening quote
+	(*i)++;
 	start = *i;
 	while (input[*i] && input[*i] != '\'')
 		(*i)++;
@@ -20,15 +20,15 @@ void	tokenize_squote(char *input, int *i, t_token **tok, t_status *status)
 	}
 	if (input[*i] == '\'')
 	{
-		(*i)++; // Skip closing quote
+		(*i)++;
 		*status = DEFAULT;
 	}
 }
 
 static void	tokenize_word_dquote(char *input, int start, int *i, t_token **tok)
 {
-	char *word;
-	t_token *new_token;
+	char	*word;
+	t_token	*new_token;
 
 	if (*i > start)
 	{
@@ -45,7 +45,7 @@ static void	tokenize_word_dquote(char *input, int start, int *i, t_token **tok)
 
 void	tokenize_dquote(char *input, int *i, t_token **tok, t_status *status)
 {
-	int start;
+	int	start;
 
 	(*i)++;
 	start = *i;
@@ -56,7 +56,7 @@ void	tokenize_dquote(char *input, int *i, t_token **tok, t_status *status)
 			tokenize_word_dquote(input, start, i, tok);
 			tokenize_var_in_dquote(input, i, tok);
 			start = *i;
-			continue;
+			continue ;
 		}
 		(*i)++;
 	}

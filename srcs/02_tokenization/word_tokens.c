@@ -2,14 +2,14 @@
 
 void	tokenize_simple_word(char *input, int *i, t_token **tokens)
 {
-	int start;
-	char *word;
-	t_token *new_token;
+	int		start;
+	char	*word;
+	t_token	*new_token;
 
 	start = *i;
-	while (input[*i] && !ft_isspace(input[*i])
-	&& input[*i] != '>' && input[*i] != '<'
-	&& input[*i] != '|' && input[*i] != '\''
+	while (input[*i] && !ft_isspace(input[*i]) \
+	&& input[*i] != '>' && input[*i] != '<' \
+	&& input[*i] != '|' && input[*i] != '\'' \
 	&& input[*i] != '"' && input[*i] != '$')
 		(*i)++;
 	word = ft_substr(input, start, *i - start);
@@ -40,34 +40,34 @@ static char	*extract_dollar_sequence(char *input, int *i)
 	(*i)++;
 	var_name = malloc(count + 2);
 	if (!var_name)
-		return NULL;
+		return (NULL);
 	while (j < count + 1)
 	{
 		var_name[j] = '$';
 		j++;
 	}
 	var_name[count + 1] = '\0';
-	return var_name;
+	return (var_name);
 }
 
 static char	*extract_exit_status_var(int *i)
 {
-	char *var_name;
+	char	*var_name;
 
 	var_name = ft_strdup("$?");
 	(*i) += 2;
-	return var_name;
+	return (var_name);
 }
 
 static char	*extract_normal_var(char *input, int *i, int start)
 {
 	char	*var_name;
 
-	(*i)++; // Salta il $
+	(*i)++;
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 		(*i)++;
 	var_name = ft_substr(input, start, *i - start);
-	return var_name;
+	return (var_name);
 }
 
 void	tokenize_var(char *input, int *i, t_token **tokens)

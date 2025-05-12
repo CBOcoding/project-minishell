@@ -9,10 +9,11 @@ static char	*handler_env_value(const char *key, char **envp)
 	val = NULL;
 	while (envp[i])
 	{
-		if (ft_strncmp(key, envp[i], ft_strlen(key)) == SUCCESS && envp[i][ft_strlen(key)] == '=')
+		if (ft_strncmp(key, envp[i], ft_strlen(key)) == SUCCESS && \
+			envp[i][ft_strlen(key)] == '=')
 		{
 			val = ft_strdup(envp[i] + ft_strlen(key) + 1);
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -28,7 +29,7 @@ static void	merge_adjacent_tokens(t_token **tokens)
 	char	*merged;
 
 	if (!tokens || !*tokens)
-		return;
+		return ;
 	current = *tokens;
 	while (current && current->next)
 	{
@@ -110,4 +111,3 @@ void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 	}
 	merge_adjacent_tokens(&tokens);
 }
-
