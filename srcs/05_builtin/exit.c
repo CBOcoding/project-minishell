@@ -24,8 +24,11 @@ int	exit_with_number(char **argv)
 
 	if (is_argv_numeric(argv)) //se non é un numero (FAILURE) entra
 	{
-		printf("exit: %s: numeric argument required\n", argv[1]);
-		return ((unsigned char)255); //exit code 255
+		ft_putstr_fd("exit: \n", 2);
+		//ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd("numeric argument required\n", 2);
+		//printf("exit: %s: numeric argument required\n", argv[1]);
+		return ((unsigned char)2); //exit code 255
 	}
 	value = ft_atoi(argv[1]);
 	return (value);

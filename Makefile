@@ -36,6 +36,7 @@ SRC = \
 	./srcs/utils/utils.c \
 	./srcs/utils/utils_2.c \
 	./srcs/utils/utils_3.c \
+	./srcs/utils/utils_4.c \
 	./srcs/utils/ft_split.c
 
 OBJ = $(SRC:.c=.o)

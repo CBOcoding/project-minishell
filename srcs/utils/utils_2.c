@@ -1,26 +1,29 @@
 #include "minishell.h"
 
-t_cmd *create_cmd(void)
+t_cmd	*create_cmd(void)
 {
-    t_cmd *cmd = malloc(sizeof(t_cmd));
-    if (!cmd)
-        return NULL;
-    ft_memset(cmd, 0, sizeof(t_cmd));
-    return cmd;
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	ft_memset(cmd, 0, sizeof(t_cmd));
+	return (cmd);
 }
 
 size_t	ft_strspn(const char *s, const char *accept)
 {
-	size_t	i = 0;
+	size_t	i;
 	size_t	j;
 
+	i = 0;
 	while (s[i])
 	{
 		j = 0;
 		while (accept[j] && s[i] != accept[j])
 			j++;
 		if (!accept[j])
-			break;
+			break ;
 		i++;
 	}
 	return (i);

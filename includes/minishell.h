@@ -64,7 +64,8 @@ typedef struct s_pipeline
 	t_cmd	**commands;  // Array of commands
 }	t_pipeline;
 
-
+void	free_envp_new(char **envp_new);
+int		space_for_envp_new(char **envp, char ***envp_new);
 int		is_prev_not_redirection(t_token *prev);
 int		ft_strcmp(const char *main, const char *compared);
 int		ft_isspace(char c);
