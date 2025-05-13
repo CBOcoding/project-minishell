@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *should_exit, t_token *token)
+int	handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, t_token *token)
 {
 	int	infile_fd;
 	int	outfile_fd;
@@ -62,7 +62,7 @@ int	handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *shou
 		close(outfile_fd);
 	}
 	if (is_builtin(cmd->argv[0]))
-		result = execute_builtin(cmd->argv, envp_new, last_exit_status, should_exit, token);
+		result = execute_builtin(cmd, envp_new, last_exit_status, token);
 	else
 		result = execute_command(cmd, *envp_new);
 	if (stdin_backup != -1)

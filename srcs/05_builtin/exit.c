@@ -32,7 +32,7 @@ int	exit_with_number(char **argv)
 	return (value);
 }
 
-int	builtin_exit(char **argv, int exit_status, int *should_exit)
+int	builtin_exit(char **argv, int exit_status, t_cmd *cmd)
 {
 	int	i;
 
@@ -48,6 +48,6 @@ int	builtin_exit(char **argv, int exit_status, int *should_exit)
 	}
 	if (i == 2)
 		exit_status = (unsigned char)exit_with_number(argv);
-	*should_exit = 1;
+	cmd->should_exit = 1;
 	return (exit_status);
 }

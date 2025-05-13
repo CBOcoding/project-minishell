@@ -36,14 +36,14 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	char *input;
 	int last_exit_status;
-	int should_exit;
+	int should_exit_a;
 	t_pipeline *pipeline = NULL;
 	// t_cmd *cmd = NULL;
 	t_cmd *cmd;
 
-	(void)cmd;
+	//(void)cmd;
 	last_exit_status = 0;
-	should_exit = 0;
+	should_exit_a = 0;
 	setup_signals();
 	disable_echoctl();
 
@@ -58,8 +58,8 @@ int main(int argc, char **argv, char **envp)
 
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-
-	while (!should_exit)
+	// cmd->should_exit = 0;
+	while (!should_exit_a)
 	{
 		g_signal = 42;
 		input = readline("minishell$ ");
@@ -136,10 +136,13 @@ int main(int argc, char **argv, char **envp)
 				cmd = pipeline->commands[0];
 
 				if (cmd && cmd->argv && cmd->argv[0] && ((pipeline->cmd_count == 1 && is_builtin(cmd->argv[0])) || (ft_strcmp(cmd->argv[0], "cd") == 0 && !cmd->infile && !cmd->outfile && !cmd->heredoc)))
-					last_exit_status = handle_command(cmd, &envp_new, last_exit_status, &should_exit, token);
+					{
+						last_exit_status = handle_command(cmd, &envp_new, last_exit_status, token);
+						should_exit_a = cmd->should_exit;
+					}
 				else
 					last_exit_status = execute_pipeline(pipeline, envp_new, token);
-				if (should_exit)
+				if (cmd->should_exit)
 				{
 					free_pipeline(pipeline);
 					pipeline = NULL;

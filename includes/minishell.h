@@ -45,6 +45,7 @@ typedef struct	s_token
 
 typedef struct s_cmd
 {
+	int		should_exit;
 	int		append;        // For >> redirection
 	int		heredoc;       // For << heredoc
 	char	**argv;       // Command + args (e.g., ["ls", "-l", NULL])
@@ -66,9 +67,9 @@ int		ft_strcmp(const char *main, const char *compared);
 int		ft_isspace(char c);
 int		has_closed_quotes(const char *str);
 int		execute_command(t_cmd *cmd, char **envp);
-int		handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, int *should_exit, t_token *token);
+int		handle_command(t_cmd *cmd, char ***envp_new, int last_exit_status, t_token *token);
 int		is_builtin(char *cmd);
-int		execute_builtin(char **argv, char ***envp, int exit_status, int *should_exit, t_token *token);
+int		execute_builtin(t_cmd *cmd, char ***envp, int exit_status, t_token *token);
 void	add_token(t_token **tokens, t_token *new_token);
 void	tokkenize_arrows(char *input, int *i, t_token **tokens);
 void	tokkenize_pipe(int *index, t_token **tokens);
@@ -101,7 +102,7 @@ int		add_env_var(char ***envp_old, char **argv);
 void	free_envp_old(char ***envp_old, char **envp_new);
 int		builtin_pwd(char **argv);
 int		builtin_unset(char **argv, char ***envp_new);
-int		builtin_exit(char **argv, int exit_status, int *should_exit);
+int		builtin_exit(char **argv, int exit_status, t_cmd *cmd);
 int		is_redirection(t_token_type type);
 int		is_prev_not_redirection(t_token *prev);
 int		fill_command_data(t_cmd *cmd, t_token *start, t_token *end);

@@ -149,11 +149,9 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token)
 	pid_t	pid;
 	int		i;
 	int		status;
-	int		fake_should_exit;
 
 	input_fd = 0;
 	i = 0;
-	fake_should_exit = 0;
 	while (i < pipeline->cmd_count)
 	{
 		if (i < pipeline->cmd_count - 1)
@@ -185,7 +183,7 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token)
 				close(fd[0]);
 				close(fd[1]);
 			}
-			status = handle_command(pipeline->commands[i], &envp_new, 0, &fake_should_exit, token);
+			status = handle_command(pipeline->commands[i], &envp_new, 0, token);
 			exit(status);//qui abbiamo un leak?? il figlio libera tutto prima di uscire??
 		}
 		if (input_fd != 0)
