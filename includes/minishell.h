@@ -40,7 +40,7 @@ typedef struct	s_token
 	char			*value;
 	t_token_type	type;
 	t_status		status;
-	struct s_token	*next;;
+	struct s_token	*next;
 } t_token;
 
 typedef struct s_cmd
