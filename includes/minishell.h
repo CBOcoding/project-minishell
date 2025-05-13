@@ -11,15 +11,10 @@
 # include <fcntl.h>
 # include <termios.h>
 
-# ifdef __APPLE__
-#  define rl_clear_history clear_history
-# endif
-
 # define SUCCESS 0
 # define FAILURE 1
 
-extern volatile sig_atomic_t g_signal;
-
+extern volatile sig_atomic_t	g_signal;
 
 typedef enum	e_token_type
 {

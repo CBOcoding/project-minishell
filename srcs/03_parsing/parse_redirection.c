@@ -39,19 +39,9 @@ static int	check_redirection(t_token *current, t_token *end, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int	handle_redirection(t_token *current, t_token *end, \
-						t_cmd *cmd, t_token *prev, int *index)
+int	handle_redirection(t_token *current,t_cmd *cmd, t_token *prev, int *index)
 {
-	if (is_redirection(current->type))
-	{
-		if (error_message(current, end) == FAILURE)
-			return (FAILURE);
-		if (check_redirection(current, end, cmd) == FAILURE)
-			return (FAILURE);
-		prev = current;
-		current = current->next;
-	}
-	else if ((current->type == WORD || current->type == ENV_VAR) \
+	if ((current->type == WORD || current->type == ENV_VAR) \
 			&& is_prev_not_redirection(prev))
 	{
 		cmd->argv[*index] = ft_strdup(current->value);
@@ -73,7 +63,16 @@ int	fill_command_data(t_cmd *cmd, t_token *start, t_token *end)
 	arg_index = 0;
 	while (current && current != end)
 	{
-		if (handle_redirection(current, end, cmd, prev, &arg_index) == FAILURE)
+		if (is_redirection(current->type))
+		{
+			if (error_message(current, end) == FAILURE)
+				return (FAILURE);
+			if (check_redirection(current, end, cmd) == FAILURE)
+				return (FAILURE);
+			prev = current;
+			current = current->next;
+		}
+		if (handle_redirection(current, cmd, prev, &arg_index) == FAILURE)
 			return (FAILURE);
 		prev = current;
 		current = current->next;
