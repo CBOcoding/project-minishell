@@ -1,6 +1,6 @@
 #include"minishell.h"
 
-void free_and_null(t_pipeline **pipeline, t_token **token, char **input)
+void	free_and_null(t_pipeline **pipeline, t_token **token, char **input)
 {
 	if (*pipeline)
 	{
@@ -19,7 +19,7 @@ void free_and_null(t_pipeline **pipeline, t_token **token, char **input)
 	}
 }
 
-int prepare_pipeline(t_main *main)
+int	prepare_pipeline(t_main *main)
 {
 	expand_env_vars(main->token, main->envp_new, main->last_exit_status);
 	main->pipeline = parse_token(main->token);
@@ -37,7 +37,7 @@ int prepare_pipeline(t_main *main)
 	return (SUCCESS);
 }
 
-int execute_prompt(t_main *main)
+int	execute_prompt(t_main *main)
 {
 	int result;
 
@@ -48,7 +48,7 @@ int execute_prompt(t_main *main)
 	return (handle_exit_check(main));
 }
 
-int loop_check_and_prompt(char **input)
+int	loop_check_and_prompt(char **input)
 {
 	g_signal = 42;
 	*input = readline("minishell$ ");
@@ -56,7 +56,6 @@ int loop_check_and_prompt(char **input)
 	if (!*input)
 	{
 		ft_putstr_fd("exit\n", 2);
-
 		return (BREAK);
 	}
 	if ((*input)[0] == '\0')
@@ -68,23 +67,24 @@ int loop_check_and_prompt(char **input)
 		add_history(*input);
 	return (SUCCESS);
 }
+
 int	main_loop(t_main *main)
 {
 	while (!main->should_exit_a)
 	{
 		main->proceed = loop_check_and_prompt(&main->input);
 		if (main->proceed == BREAK)
-			break;
+			break ;
 		if (main->proceed == CONTINUE)
-			continue;
+			continue ;
 		main->token = tokenize_input(main->input);
 		if (!main->token)
-			continue;
+			continue ;
 		main->proceed = execute_prompt(main);
 		if (main->proceed == BREAK)
-			break;
+			break ;
 		if (main->proceed == CONTINUE)
-			continue;
+			continue ;
 		free_and_null(&main->pipeline, &main->token, &main->input);
 	}
 	return (main->last_exit_status);

@@ -49,20 +49,20 @@ typedef struct	s_token
 typedef struct s_cmd
 {
 	int		should_exit;
-	int		append;        // For >> redirection
-	int		heredoc;       // For << heredoc
-	char	**argv;       // Command + args (e.g., ["ls", "-l", NULL])
-	char	*infile;      // Input redirection file
-	char	*outfile;     // Output redirection file
-	char	*delimiter;   // Heredoc delimiter
+	int		append;
+	int		heredoc;
+	char	**argv;
+	char	*infile;
+	char	*outfile;
+	char	*delimiter;
 } t_cmd;
 
 typedef struct s_pipeline
 {
 	int		status;
 	int		i_pipeline;
-	int		cmd_count;     // Number of commands
-	t_cmd	**commands;  // Array of commands
+	int		cmd_count;
+	t_cmd	**commands;
 }	t_pipeline;
 
 typedef struct s_main
@@ -162,11 +162,11 @@ void	disable_echoctl(void);
 
 
 
+void	free_and_null(t_pipeline **pipeline, t_token **token, char **input);
 int		main_loop(t_main *main);
-void free_and_null(t_pipeline **pipeline, t_token **token, char **input);
-int process_heredocs(t_pipeline *pipeline);
-int execute_command_or_pipeline(t_main *main);
-int handle_exit_check(t_main *main);
+int		process_heredocs(t_pipeline *pipeline);
+int		execute_command_or_pipeline(t_main *main);
+int		handle_exit_check(t_main *main);
 
 
 #endif

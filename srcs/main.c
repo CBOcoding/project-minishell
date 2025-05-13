@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int init_main(t_main **main, char **envp)
+static int	init_main(t_main **main, char **envp)
 {
 	*main = malloc(sizeof(t_main));
 	if (!*main)
@@ -15,9 +15,9 @@ static int init_main(t_main **main, char **envp)
 	return (SUCCESS);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_main *main;
+	t_main	*main;
 	(void)argc;
 	(void)argv;
 
