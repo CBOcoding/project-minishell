@@ -1,4 +1,5 @@
 #include "minishell.h"
+
 int	cmd_infile(t_cmd *cmd)
 {
 	int	infile_fd;
@@ -65,7 +66,8 @@ void	backup(int stdin_backup, int stdout_backup)
 	}
 }
 
-void	cmd_infile_outfile_duplicate(t_cmd *cmd, int stdin_backup, int stdout_backup)
+void	cmd_infile_outfile_duplicate(t_cmd *cmd, \
+			int stdin_backup, int stdout_backup)
 {
 	if (cmd->infile || cmd->outfile)
 	{

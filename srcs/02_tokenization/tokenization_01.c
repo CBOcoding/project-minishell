@@ -1,39 +1,5 @@
 #include "minishell.h"
 
-void	tokenize_arrows(char *input, int *i, t_token **tokens)
-{
-	t_token	*new_token;
-
-	new_token = NULL;
-	if (input[*i] == '>')
-	{
-		if (input[*i + 1] == '>')
-		{
-			new_token = create_token(">>", APPEND);
-			(*i) += 2;
-		}
-		else
-		{
-			new_token = create_token(">", REDIR_OUT);
-			(*i)++;
-		}
-	}
-	else if (input[*i] == '<')
-	{
-		if (input[*i + 1] == '<')
-		{
-			new_token = create_token("<<", HEREDOC);
-			(*i) += 2;
-		}
-		else
-		{
-			new_token = create_token("<", REDIR_IN);
-			(*i)++;
-		}
-	}
-	add_token(tokens, new_token);
-}
-
 void	tokenize_pipe(int *i, t_token **tokens)
 {
 	t_token	*new_token;
@@ -94,15 +60,10 @@ t_token	*tokenize_input(char *input)
 		if (status == DEFAULT)
 		{
 			if (input[i] == '>' || input[i] == '<')
-			{
 				tokenize_arrows(input, &i, &tokens);
-				continue ;
-			}	
 			else if (input[i] == '|')
-			{
 				tokenize_pipe(&i, &tokens);
-				continue ;
-			}
+			continue ;
 		}
 		tokenize_word(input, &i, &tokens, &status);
 	}

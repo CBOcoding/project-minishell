@@ -68,10 +68,8 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token)
 	int		fd[2];
 	int		input_fd;
 	pid_t	pid;
-	int		status;
 
 	input_fd = 0;
-	status = 0;
 	while (pipeline->i_pipeline < pipeline->cmd_count)
 	{
 		if (pipeline_error(pipeline->i_pipeline, pipeline, fd) == 1)
@@ -82,12 +80,13 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token)
 		if (pid == 0)
 		{
 			pid_zero(input_fd, pipeline->i_pipeline, fd, pipeline);
-			status = handle_command(pipeline->commands[pipeline->i_pipeline], &envp_new, 0, token);
-			exit(status);//qui abbiamo un leak?? il figlio libera tutto prima di uscire??
+			pipeline->status = handle_command \
+			(pipeline->commands[pipeline->i_pipeline], &envp_new, 0, token);
+			exit(pipeline->status);//qui abbiamo un leak?? il figlio libera tutto prima di uscire??
 		}
 		final_checks(&input_fd, pipeline->i_pipeline, pipeline, fd);
 		pipeline->i_pipeline++;
 	}
-	status = waiting(status);
-	return (WEXITSTATUS(status));
+	pipeline->status = waiting(pipeline->status);
+	return (WEXITSTATUS(pipeline->status));
 }

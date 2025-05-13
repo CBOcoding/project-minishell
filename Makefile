@@ -13,6 +13,7 @@ SRC = \
 	./srcs/01_input_validation/checks.c \
 	./srcs/02_tokenization/list_token.c \
 	./srcs/02_tokenization/tokenization.c \
+	./srcs/02_tokenization/tokenization_02.c \
 	./srcs/02_tokenization/word_tokens.c \
 	./srcs/02_tokenization/quote_token.c \
 	./srcs/03_parsing/parse.c \

@@ -57,6 +57,7 @@ typedef struct s_cmd
 
 typedef struct s_pipeline
 {
+	int		status;
 	int		i_pipeline;
 	int		cmd_count;     // Number of commands
 	t_cmd	**commands;  // Array of commands
@@ -85,6 +86,7 @@ void	free_token(t_token *tokens);
 void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
 t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
+void	tokenize_arrows(char *input, int *i, t_token **tokens);
 
 //execution
 int		execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token);

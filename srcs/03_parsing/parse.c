@@ -80,6 +80,7 @@ t_pipeline	*parse_token(t_token *token)
 	pipeline = malloc(sizeof(t_pipeline));
 	if (!pipeline)
 		return (NULL);
+	pipeline->status = 0;
 	pipeline->i_pipeline = 0;
 	pipeline->cmd_count = count_commands(token);
 	pipeline->commands = malloc(pipeline->cmd_count * sizeof(t_cmd));
