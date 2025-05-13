@@ -18,13 +18,11 @@ void	handle_sigint(int signum)
 	}
 }
 
-
 void	handle_sigquit(int signum)
 {
 	(void)signum;
 	g_signal = SIGQUIT;
 	rl_on_new_line();
-	// rl_replace_line("", 0);    // svuota input buffer // RIMOSSO SOLO PER TEST SU MAC
 	rl_redisplay();
 }
 

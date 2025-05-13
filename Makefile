@@ -19,6 +19,8 @@ SRC = \
 	./srcs/03_parsing/parse_helper.c \
 	./srcs/03_parsing/parse_redirection.c \
 	./srcs/04_execution/execution_01.c \
+	./srcs/04_execution/execution_02.c \
+	./srcs/04_execution/execution_03.c \
 	./srcs/04_execution/handle_command.c \
 	./srcs/04_execution/heredoc.c \
 	./srcs/05_builtin/builtin.c \

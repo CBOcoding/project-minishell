@@ -57,6 +57,7 @@ void	free_sorted(char **sorted, int envp_len)
 		k++;
 	}
 }
+
 int	duplicate_sorted(int envp_len, char **sorted, char ***envp_new)
 {
 	int	i;
@@ -78,7 +79,6 @@ int	duplicate_sorted(int envp_len, char **sorted, char ***envp_new)
 	sorted[envp_len] = NULL;
 	return (SUCCESS);
 }
-
 
 int	only_export(char ***envp_new)
 {

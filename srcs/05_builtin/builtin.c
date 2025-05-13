@@ -15,7 +15,8 @@ int	is_builtin(char *cmd)
 	);
 }
 
-int	execute_builtin(t_cmd *cmd, char ***envp_new, int exit_status, t_token *token)
+int	execute_builtin(t_cmd *cmd, char ***envp_new, \
+					int exit_status, t_token *token)
 {
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 		return (builtin_echo(cmd->argv, token));
