@@ -12,13 +12,16 @@ SRC = \
 	./srcs/main.c \
 	./srcs/01_input_validation/checks.c \
 	./srcs/02_tokenization/list_token.c \
-	./srcs/02_tokenization/tokenization.c \
+	./srcs/02_tokenization/tokenization_01.c \
+	./srcs/02_tokenization/tokenization_02.c \
 	./srcs/02_tokenization/word_tokens.c \
 	./srcs/02_tokenization/quote_token.c \
 	./srcs/03_parsing/parse.c \
 	./srcs/03_parsing/parse_helper.c \
 	./srcs/03_parsing/parse_redirection.c \
 	./srcs/04_execution/execution_01.c \
+	./srcs/04_execution/execution_02.c \
+	./srcs/04_execution/execution_03.c \
 	./srcs/04_execution/handle_command.c \
 	./srcs/04_execution/heredoc.c \
 	./srcs/05_builtin/builtin.c \

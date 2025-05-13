@@ -39,7 +39,7 @@ static int	check_redirection(t_token *current, t_token *end, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int	handle_redirection(t_token *current,t_cmd *cmd, t_token *prev, int *index)
+int	handle_redirection(t_token *current, t_cmd *cmd, t_token *prev, int *index)
 {
 	if ((current->type == WORD || current->type == ENV_VAR) \
 			&& is_prev_not_redirection(prev))

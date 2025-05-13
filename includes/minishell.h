@@ -10,6 +10,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <termios.h>
+# include <sys/wait.h>
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -56,6 +57,8 @@ typedef struct s_cmd
 
 typedef struct s_pipeline
 {
+	int		status;
+	int		i_pipeline;
 	int		cmd_count;     // Number of commands
 	t_cmd	**commands;  // Array of commands
 }	t_pipeline;
@@ -83,11 +86,18 @@ void	free_token(t_token *tokens);
 void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status);
 t_token	*tokenize_input(char *input);
 t_token	*create_token(char *value, t_token_type type);
+void	tokenize_arrows(char *input, int *i, t_token **tokens);
 
 //execution
-int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token);
-int	handle_heredoc(t_cmd *cmd);
+int		execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token);
+int		handle_heredoc(t_cmd *cmd);
+char	*find_executable(char *cmd, char **envp);
 size_t	ft_strspn(const char *s, const char *accept);
+int		pipeline_error(int i, t_pipeline *pipeline, int *fd);
+void	pid_zero(int input_fd, int i, int *fd, t_pipeline *pipeline);
+void	final_checks(int *input_fd, int i, t_pipeline *pipeline, int *fd);
+int		waiting(int status);
+int		fork_error(pid_t pid);
 
 //builtin
 int		builtin_cd(char **argv);
@@ -108,12 +118,12 @@ int		is_prev_not_redirection(t_token *prev);
 int		fill_command_data(t_cmd *cmd, t_token *start, t_token *end);
 char	*join_export_args(char **argv);
 
-
+//pipeline
 t_pipeline	*parse_token(t_token *token);
-t_cmd	*parsed_segment(t_token *start, t_token *end);
-t_cmd	*create_cmd(void);
-void	free_pipeline(t_pipeline *pipeline);
-void	free_command(t_cmd *cmd);
+t_cmd		*parsed_segment(t_token *start, t_token *end);
+t_cmd		*create_cmd(void);
+void		free_pipeline(t_pipeline *pipeline);
+void		free_command(t_cmd *cmd);
 
 //libft
 int		ft_atoi(const char *nptr);
@@ -135,7 +145,6 @@ void	handle_sigint(int signum);
 void	handle_sigquit(int signum);
 void	setup_signals(void);
 void	disable_echoctl(void);
-
 
 #endif
 
