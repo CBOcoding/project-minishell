@@ -14,7 +14,7 @@ int	remove_env_var(char ***envp_old, int position)
 		len_envp_old++;
 	envp_new = malloc(sizeof(char *) * len_envp_old);
 	if (!envp_new)
-		return (FAILURE);//do we want to print an error message? //se serve spazio possiamo spostare su builtin_unset il calcolo di len_envp_old.
+		return (FAILURE);
 	while (i < len_envp_old)
 	{
 		if (i != position)
@@ -36,14 +36,10 @@ int	builtin_unset(char **argv, char ***envp_new)
 
 	key = argv[1];
 	if (is_valid_key(key))
-
-	{
-		// write(STDERR_FILENO, "Not a valid key\n", 16); //BASH non stampa nulla
 		return (FAILURE);
-	}
 	position = key_exists(*envp_new, key);
 	if (position < 0)
-		return (SUCCESS); //we need to test the bash behaviour quando non trova nulla da eliminare.
+		return (SUCCESS);
 	remove_env_var(envp_new, position);
 	return (SUCCESS);
 }

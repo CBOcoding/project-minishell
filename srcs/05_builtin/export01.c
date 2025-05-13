@@ -11,41 +11,24 @@ int	is_valid_key(char *key)
 		while (key[i])
 		{
 			if (key[i] == '_' || (key[i] >= 'a' && key[i] <= 'z') || \
-				(key[i] >= 'A' && key[i] <= 'Z') || (key[i] >= '0' && key[i] <= '9'))
-				{
-					i++;
-					continue;
-				}
+				(key[i] >= 'A' && key[i] <= 'Z') || \
+				(key[i] >= '0' && key[i] <= '9'))
+			{
+				i++;
+				continue ;
+			}
 			else
-				return(FAILURE);
+				return (FAILURE);
 		}
-		return(SUCCESS);
+		return (SUCCESS);
 	}
 	else
-		return(FAILURE);
+		return (FAILURE);
 }
 
-int	key_exists(char **envp_new, char *key)
+void	free_envp_old(char ***envp_old, char **envp_new)
 {
-	int	i;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(key);
-	while (envp_new[i]) //scorro tutto envp_new per vedere se c'e gia una key.
-	{
-		if(ft_strncmp(envp_new[i], key, len) == 0 && \
-		(envp_new[i][len] == '=' || envp_new[i][len] == '\0')) // se la variabile esiste esce con SUCCESS, controlla che ci sia = per evitare falsi positivi, tipo PATH: PATH= vs PATH_EXTRA.
-			return (i);//return la posizione della key esistente (ci serve perche usiamo la stessa funzione anche con export VAR="ciao")
-		i++;
-	}
-	return (-1);//torniamo -1 perche ogni valore positivo (0 incluso) corrisponde alla posizione della key.
-
-}
-
-void free_envp_old(char ***envp_old, char **envp_new)
-{
-	int j;
+	int	j;
 
 	j = 0;
 	while ((*envp_old)[j] != NULL)
@@ -70,7 +53,7 @@ int	add_env_var(char ***envp_old, char **argv)
 		len_envp_old++;
 	envp_new = malloc(sizeof(char *) * (len_envp_old + 2));
 	if (!envp_new)
-		return (FAILURE);//do we want to print an error message?
+		return (FAILURE);
 	while (i < len_envp_old)
 	{
 		envp_new[i] = ft_strdup((*envp_old)[i]);
@@ -98,7 +81,7 @@ int	add_env_var2(char ***envp_old, char *argv)
 		len_envp_old++;
 	envp_new = malloc(sizeof(char *) * (len_envp_old + 2));
 	if (!envp_new)
-		return (FAILURE);//do we want to print an error message?
+		return (FAILURE);
 	while (i < len_envp_old)
 	{
 		envp_new[i] = ft_strdup((*envp_old)[i]);
@@ -115,16 +98,17 @@ int	add_env_var2(char ***envp_old, char *argv)
 
 int	builtin_export(char **argv, char ***envp_new)
 {
-	char *equal;
-	if (argv[1] == NULL)//parte 1, arriva il comando: export
+	char	*equal;
+
+	if (argv[1] == NULL)
 		return (only_export(envp_new));
-	equal = ft_strchr(argv[1], '='); //non controlla per += va giustificato dicendo che il subject non lo richiede come per esempio richiedeva -n in echo.
-	if (equal) //parte 3, arriva il comando: export VAR=valore
-		{
-			if (variable_with_equal_sign(argv, envp_new, equal) == FAILURE)
-				return (FAILURE);
-		}
-	else //parte 2, arriva il comando: export VAR
+	equal = ft_strchr(argv[1], '=');
+	if (equal)
+	{
+		if (variable_with_equal_sign(argv, envp_new, equal) == FAILURE)
+			return (FAILURE);
+	}
+	else
 	{
 		if (is_valid_key(argv[1]))
 		{
@@ -132,9 +116,8 @@ int	builtin_export(char **argv, char ***envp_new)
 			return (1);
 		}
 		if (key_exists(*envp_new, argv[1]) < 0)
-			if (add_env_var2(envp_new, argv[1]) == 1) // aggiungi VARIABLE = vuoto
+			if (add_env_var2(envp_new, argv[1]) == 1)
 				return (FAILURE);
 	}
 	return (SUCCESS);
 }
-

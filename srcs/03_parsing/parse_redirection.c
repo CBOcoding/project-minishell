@@ -17,6 +17,7 @@ static int	error_message(t_token *current, t_token *end)
 	}
 	return (SUCCESS);
 }
+
 static int	check_redirection(t_token *current, t_token *end, t_cmd *cmd)
 {
 	if (current->type == REDIR_IN)
@@ -38,8 +39,8 @@ static int	check_redirection(t_token *current, t_token *end, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-int	handle_redirection(t_token *current, t_token *end,
-						 t_cmd *cmd, t_token *prev, int *index)
+int	handle_redirection(t_token *current, t_token *end, \
+						t_cmd *cmd, t_token *prev, int *index)
 {
 	if (is_redirection(current->type))
 	{
@@ -50,7 +51,7 @@ int	handle_redirection(t_token *current, t_token *end,
 		prev = current;
 		current = current->next;
 	}
-	else if ((current->type == WORD || current->type == ENV_VAR)
+	else if ((current->type == WORD || current->type == ENV_VAR) \
 			&& is_prev_not_redirection(prev))
 	{
 		cmd->argv[*index] = ft_strdup(current->value);

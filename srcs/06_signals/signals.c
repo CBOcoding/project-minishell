@@ -1,13 +1,10 @@
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal;
-
+volatile sig_atomic_t	g_signal;
 
 void	handle_sigint(int signum)
 {
 	(void)signum;
-
-	// Solo se siamo dentro readline
 	if (g_signal == 42)
 	{
 		write(1, "\n", 1);
@@ -17,7 +14,6 @@ void	handle_sigint(int signum)
 	}
 	else
 	{
-		// Esempio: durante esecuzione comando come cat
 		write(1, "\n", 1);
 	}
 }
@@ -27,38 +23,32 @@ void	handle_sigquit(int signum)
 {
 	(void)signum;
 	g_signal = SIGQUIT;
-	rl_on_new_line();          // riposiziona correttamente la riga
+	rl_on_new_line();
 	// rl_replace_line("", 0);    // svuota input buffer // RIMOSSO SOLO PER TEST SU MAC
-	rl_redisplay();            // ridisegna il prompt
-	/* Do nothing on Ctrl+\ */
+	rl_redisplay();
 }
 
 void	disable_echoctl(void)
 {
-	struct termios term;
+	struct termios	term;
 
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 		return ;
-	term.c_lflag &= ~ECHOCTL; /* disattiva stampa ^C ^\ */
+	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void	setup_signals(void)
 {
-	struct sigaction sa_int;
-	struct sigaction sa_quit;
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 
-	// Setup SIGINT (Ctrl+C)
-	sa_int.sa_handler = handle_sigint;           // custom handler
-	sigemptyset(&sa_int.sa_mask);                // don't block other signals during handler
-	sa_int.sa_flags = SA_RESTART;                // restart interrupted syscalls
-	sigaction(SIGINT, &sa_int, NULL);            // register the handler for SIGINT
-
-	// Setup SIGQUIT (Ctrl+\)
-	sa_quit.sa_handler = handle_sigquit;         // custom handler (does nothing)
-	sigemptyset(&sa_quit.sa_mask);               // same here
+	sa_int.sa_handler = handle_sigint;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+	sa_quit.sa_handler = handle_sigquit;
+	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);          // register for SIGQUIT
-
-	// disable_echoctl(); /* disable the print of Ctrl+^C (stampato poi manualmente) and Ctrl+^\ */
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
