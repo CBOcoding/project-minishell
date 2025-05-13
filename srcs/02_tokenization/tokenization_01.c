@@ -44,6 +44,21 @@ static void	unclosed_quotes_handle(t_status status, t_token **tokens)
 	}
 }
 
+int	tokenize_options(char *input, int *i, t_token **tokens)
+{
+	if (input[*i] == '>' || input[*i] == '<')
+	{
+		tokenize_arrows(input, i, tokens);
+		return (SUCCESS);
+	}	
+	else if (input[*i] == '|')
+	{
+		tokenize_pipe(i, tokens);
+		return (SUCCESS);
+	}
+	return (FAILURE);
+}
+
 t_token	*tokenize_input(char *input)
 {
 	t_token		*tokens;
@@ -58,13 +73,8 @@ t_token	*tokenize_input(char *input)
 		while (ft_isspace(input[i]) && status == DEFAULT)
 			i++;
 		if (status == DEFAULT)
-		{
-			if (input[i] == '>' || input[i] == '<')
-				tokenize_arrows(input, &i, &tokens);
-			else if (input[i] == '|')
-				tokenize_pipe(&i, &tokens);
-			continue ;
-		}
+			if (tokenize_options(input, &i, &tokens) == SUCCESS)
+				continue ;
 		tokenize_word(input, &i, &tokens, &status);
 	}
 	unclosed_quotes_handle(status, &tokens);
