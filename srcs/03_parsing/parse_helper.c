@@ -49,7 +49,7 @@ void	free_command(t_cmd *cmd)
 		free(cmd->outfile);
 	if (cmd->delimiter)
 		free(cmd->delimiter);
-	ft_memset(cmd, 0, 6);
+	ft_memset(cmd, 0, sizeof(t_cmd));
 	free(cmd);
 }
 

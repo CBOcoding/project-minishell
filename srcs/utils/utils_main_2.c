@@ -1,21 +1,21 @@
 #include"minishell.h"
 
-void	free_and_null(t_pipeline **pipeline, t_token **token, char **input)
+void	free_and_null(t_main *main)
 {
-	if (*pipeline)
+	if (main->pipeline)
 	{
-		free_pipeline(*pipeline);
-		*pipeline = NULL;
+		free_pipeline(main->pipeline);
+		main->pipeline = NULL;
 	}
-	if (*token)
+	if (main->token)
 	{
-		free_token(*token);
-		*token = NULL;
+		free_token(main->token);
+		main->token = NULL;
 	}
-	if (*input)
+	if (main->input)
 	{
-		free(*input);
-		*input = NULL;
+		free(main->input);
+		main->input = NULL;
 	}
 }
 
@@ -25,13 +25,13 @@ int	prepare_pipeline(t_main *main)
 	main->pipeline = parse_token(main->token);
 	if (!main->pipeline)
 	{
-		free_and_null(&main->pipeline, &main->token, &main->input);
+		free_and_null(main);
 		return (CONTINUE);
 	}
 	main->cmd = main->pipeline->commands[0];
 	if (process_heredocs(main->pipeline) == FAILURE)
 	{
-		free_and_null(&main->pipeline, &main->token, &main->input);
+		free_and_null(main);
 		return (CONTINUE);
 	}
 	return (SUCCESS);
@@ -39,7 +39,7 @@ int	prepare_pipeline(t_main *main)
 
 int	execute_prompt(t_main *main)
 {
-	int result;
+	int	result;
 
 	result = prepare_pipeline(main);
 	if (result != SUCCESS)
@@ -85,7 +85,7 @@ int	main_loop(t_main *main)
 			break ;
 		if (main->proceed == CONTINUE)
 			continue ;
-		free_and_null(&main->pipeline, &main->token, &main->input);
+		free_and_null(main);
 	}
 	return (main->last_exit_status);
 }
