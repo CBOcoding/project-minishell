@@ -18,6 +18,7 @@ static int	init_main(t_main **main, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_main	*main;
+	int		value;
 
 	(void)argc;
 	(void)argv;
@@ -26,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	main->last_exit_status = main_loop(main);
 	rl_clear_history();
 	free_envp_new(main->envp_new);
+	value = main->last_exit_status;
 	free(main);
-	return (main->last_exit_status);
+	return (value);
 }
