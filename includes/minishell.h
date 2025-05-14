@@ -14,6 +14,8 @@
 
 # define SUCCESS 0
 # define FAILURE 1
+# define CONTINUE 2
+# define BREAK 3
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -47,21 +49,33 @@ typedef struct	s_token
 typedef struct s_cmd
 {
 	int		should_exit;
-	int		append;        // For >> redirection
-	int		heredoc;       // For << heredoc
-	char	**argv;       // Command + args (e.g., ["ls", "-l", NULL])
-	char	*infile;      // Input redirection file
-	char	*outfile;     // Output redirection file
-	char	*delimiter;   // Heredoc delimiter
+	int		append;
+	int		heredoc;
+	char	**argv;
+	char	*infile;
+	char	*outfile;
+	char	*delimiter;
 } t_cmd;
 
 typedef struct s_pipeline
 {
 	int		status;
 	int		i_pipeline;
-	int		cmd_count;     // Number of commands
-	t_cmd	**commands;  // Array of commands
+	int		cmd_count;
+	t_cmd	**commands;
 }	t_pipeline;
+
+typedef struct s_main
+{
+	char	*input;
+	int		last_exit_status;
+	int		should_exit_a;
+	t_pipeline	*pipeline;
+	t_token	*token;
+	t_cmd	*cmd;
+	char	**envp_new;
+	int		proceed;
+} t_main;
 
 void	free_envp_new(char **envp_new);
 int		space_for_envp_new(char **envp, char ***envp_new);
@@ -145,6 +159,15 @@ void	handle_sigint(int signum);
 void	handle_sigquit(int signum);
 void	setup_signals(void);
 void	disable_echoctl(void);
+
+
+
+void	free_and_null(t_pipeline **pipeline, t_token **token, char **input);
+int		main_loop(t_main *main);
+int		process_heredocs(t_pipeline *pipeline);
+int		execute_command_or_pipeline(t_main *main);
+int		handle_exit_check(t_main *main);
+
 
 #endif
 
