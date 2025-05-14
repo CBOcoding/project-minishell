@@ -22,6 +22,8 @@ void	tokenize_simple_word(char *input, int *i, t_token **tokens)
 		add_token(tokens, new_token);
 		free(word);
 	}
+	else
+		free(word);
 }
 
 static char	*extract_dollar_sequence(char *input, int *i)

@@ -1,5 +1,7 @@
 # Run with valgrind --suppressions=readline.supp ./minishell
 # Run with valgrind --suppressions=readline.supp --leak-check=full ./minishell
+# valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-fds=yes --trace-children=yes ./minishell
+
 {
     leak readline
     Memcheck:Leak

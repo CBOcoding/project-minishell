@@ -21,18 +21,18 @@ int	builtin_echo(char **argv, t_token *token)
 		token = token->next;
 	while (argv[i] && token)
 	{
-		printf("%s", argv[i]);
+		ft_putstr_fd(argv[i], 1);
 		if (argv[i + 1])
 		{
 			if (token->skip_space > 0)
 				token->skip_space--;
 			else
-				printf(" ");
+			ft_putstr_fd(" ", 1);
 		}
 		i++;
 		token = token->next;
 	}
 	if (newline)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	return (SUCCESS);
 }
