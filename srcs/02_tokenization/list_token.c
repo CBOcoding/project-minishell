@@ -16,6 +16,8 @@ t_token	*create_token(char *value, t_token_type type)
 	else
 		new_token->value = NULL;
 	new_token->type = type;
+	new_token->status = DEFAULT;
+	new_token->skip_space = 0;
 	new_token->next = NULL;
 	return (new_token);
 }
