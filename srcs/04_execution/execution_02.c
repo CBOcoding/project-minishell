@@ -90,7 +90,7 @@ int	execute_command(t_cmd *cmd, char **envp)
 		if (!cmd->argv[0] || ft_strspn(cmd->argv[0], " \t") == \
 			ft_strlen(cmd->argv[0]))
 		{
-			ft_putstr_fd("minishell: command not found\n",stderr);
+			ft_putstr_fd("minishell: command not found\n", 2);
 			exit(127);
 		}
 		if (cmd->infile)
