@@ -3,7 +3,8 @@
 int	process_heredocs(t_pipeline *pipeline)
 {
 	t_cmd	*cmd;
-	
+
+	char	*line;
 	while (pipeline->x_pipeline < pipeline->cmd_count)
 	{
 		cmd = pipeline->commands[pipeline->x_pipeline];
@@ -11,14 +12,13 @@ int	process_heredocs(t_pipeline *pipeline)
 		{
 			if (!cmd->argv || !cmd->argv[0])
 			{
-				char *line;
 				while (1)
 				{
 					line = readline("> ");
 					if (!line || ft_strcmp(line, cmd->delimiter) == 0)
 					{
 						free(line);
-						break;
+						break ;
 					}
 					free(line);
 				}
