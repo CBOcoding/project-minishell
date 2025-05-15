@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+<<<<<<< Updated upstream
 static void	handle_status(char *input, int *i, t_token **tokens, \
 							t_status *status)
 {
@@ -98,6 +99,8 @@ void	tokenize_word(char *input, int *i, t_token **tokens, t_status *status)
 	}
 }
 
+=======
+>>>>>>> Stashed changes
 static void	unclosed_quotes_handle(t_status status, t_token **tokens)
 {
 	if (status != DEFAULT)

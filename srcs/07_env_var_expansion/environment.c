@@ -22,42 +22,33 @@ static char	*handler_env_value(const char *key, char **envp)
 	return (val);
 }
 
-static void merge_adjacent_tokens(t_token **tokens)
+static void	merge_adjacent_tokens(t_token **tokens)
 {
-    t_token *current;
-    t_token *next;
-    char    *merged;
+	t_token	*current;
+	t_token	*next;
+	char	*merged;
 
-    if (!tokens || !*tokens)
-        return;
-    
-    current = *tokens;
-    while (current && current->next)
-    {
-        next = current->next;
-        
-        // Merge tokens if they have the same quote status
-        // OR if one has skip_space flag set
-        if ((current->status != DEFAULT && current->status == next->status) ||
-            ((current->type == WORD || current->type == ENV_VAR) &&
-             (next->type == WORD || next->type == ENV_VAR) &&
-             (current->skip_space > 0)))
-        {
-            merged = ft_strjoin(current->value, next->value);
-            free(current->value);
-            current->value = merged;
-            
-            // Preserve skip_space flag from the next token
-            if (next->skip_space > 0)
-                current->skip_space = next->skip_space;
-                
-            current->next = next->next;
-            free(next->value);
-            free(next);
-        }
-        else
-            current = current->next;
-    }
+	current = *tokens;
+	while (current && current->next)
+	{
+		next = current->next;
+		if ((current->status != DEFAULT && current->status == next->status)
+			|| ((current->type == WORD || current->type == ENV_VAR)
+			&& (next->type == WORD || next->type == ENV_VAR)
+			&& (current->skip_space > 0)))
+		{
+			merged = ft_strjoin(current->value, next->value);
+			free(current->value);
+			current->value = merged;
+			if (next->skip_space > 0)
+				current->skip_space = next->skip_space;
+			current->next = next->next;
+			free(next->value);
+			free(next);
+		}
+		else
+			current = current->next;
+	}
 }
 
 static char	*expand_pid_sequence(const char *key)

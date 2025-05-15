@@ -14,6 +14,7 @@ SRC = \
 	./srcs/02_tokenization/list_token.c \
 	./srcs/02_tokenization/tokenization_01.c \
 	./srcs/02_tokenization/tokenization_02.c \
+	./srcs/02_tokenization/tokenization_03.c \
 	./srcs/02_tokenization/word_tokens.c \
 	./srcs/02_tokenization/quote_token_01.c \
 	./srcs/02_tokenization/quote_token_02.c \

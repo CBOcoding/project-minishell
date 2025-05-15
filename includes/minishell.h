@@ -79,6 +79,8 @@ typedef struct s_main
 }	t_main;
 
 void		free_envp_new(char **envp_new);
+void		tokenize_word(char *input, int *i, \
+				t_token **tokens, t_status *status);
 int			tokenize_options(char *input, int *i, t_token **tokens);
 void		empty_quote_handler(char *input, int *i, t_token **delim);
 int			space_for_envp_new(char **envp, char ***envp_new);
