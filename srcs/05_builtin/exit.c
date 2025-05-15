@@ -41,7 +41,7 @@ int	builtin_exit(char **argv, int exit_status, t_cmd *cmd)
 		i++;
 	if (isatty(STDIN_FILENO))
 		ft_putstr_fd("exit\n", 1);
-	if (i > 2)
+	else if (i > 2)
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);
 		return (1);

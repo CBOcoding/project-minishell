@@ -88,8 +88,9 @@ int	handle_command(t_cmd *cmd, char ***envp_new, \
 	if (!cmd || !cmd->argv || !cmd->argv[0] || \
 		ft_strspn(cmd->argv[0], " \t") == ft_strlen(cmd->argv[0]))
 	{
-		fprintf(stderr, "minishell: command not found\n");
-		return (127);
+		//ft_putstr_fd("minishell: HEREcommand not found\n", 2);
+		// return (127);
+		return (0);
 	}
 	if (cmd->heredoc)
 		handle_heredoc(cmd);

@@ -8,6 +8,7 @@ int	builtin_env(char **argv, char ***envp_new)
 	if (argv[1] != NULL)
 	{
 		ft_putstr_fd("env: No such file or directory\n", STDERR_FILENO);
+		// ft_putstr_fd("env: command not found\n", STDERR_FILENO);
 		return (FAILURE);
 	}
 	else
