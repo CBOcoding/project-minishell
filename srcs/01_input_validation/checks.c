@@ -44,7 +44,7 @@ int	ft_isspace(char c)
 
 int	is_cmd(char c)
 {
-	return(c == '>' || c == '<'
+	return (c == '>' || c == '<'
 		|| c == '|' || c == '\''
 		|| c == '"');
 }

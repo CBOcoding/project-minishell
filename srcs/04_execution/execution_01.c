@@ -82,7 +82,7 @@ int	execute_pipeline(t_pipeline *pipeline, char **envp_new, t_token *token)
 			pid_zero(input_fd, pipeline->i_pipeline, fd, pipeline);
 			pipeline->status = handle_command \
 			(pipeline->commands[pipeline->i_pipeline], &envp_new, 0, token);
-			exit(pipeline->status);//qui abbiamo un leak?? il figlio libera tutto prima di uscire??
+			exit(pipeline->status);
 		}
 		final_checks(&input_fd, pipeline->i_pipeline, pipeline, fd);
 		pipeline->i_pipeline++;
