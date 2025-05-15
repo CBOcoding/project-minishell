@@ -87,11 +87,7 @@ int	handle_command(t_cmd *cmd, char ***envp_new, \
 	stdout_backup = -1;
 	if (!cmd || !cmd->argv || !cmd->argv[0] || \
 		ft_strspn(cmd->argv[0], " \t") == ft_strlen(cmd->argv[0]))
-	{
-		//ft_putstr_fd("minishell: HEREcommand not found\n", 2);
-		// return (127);
 		return (0);
-	}
 	if (cmd->heredoc)
 		handle_heredoc(cmd);
 	cmd_infile_outfile_duplicate(cmd, &stdin_backup, &stdout_backup);

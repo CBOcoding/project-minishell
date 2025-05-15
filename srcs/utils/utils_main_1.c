@@ -3,8 +3,8 @@
 int	process_heredocs(t_pipeline *pipeline)
 {
 	t_cmd	*cmd;
-
 	char	*line;
+
 	while (pipeline->x_pipeline < pipeline->cmd_count)
 	{
 		cmd = pipeline->commands[pipeline->x_pipeline];
