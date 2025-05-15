@@ -34,7 +34,10 @@ static void	merge_adjacent_tokens(t_token **tokens)
 	while (current && current->next)
 	{
 		next = current->next;
-		if (current->status != DEFAULT && current->status == next->status)
+		if ((current->status != DEFAULT && current->status == next->status)
+			|| ((current->type == WORD || current->type == ENV_VAR)
+			&& (next->type == WORD || next->type == ENV_VAR)
+			&& current->skip_space > 0))
 		{
 			merged = ft_strjoin(current->value, next->value);
 			free(current->value);
@@ -48,7 +51,7 @@ static void	merge_adjacent_tokens(t_token **tokens)
 	}
 }
 
-char	*expand_pid_sequence(const char *key)
+static char	*expand_pid_sequence(const char *key)
 {
 	char	*pid_str;
 	char	*result;

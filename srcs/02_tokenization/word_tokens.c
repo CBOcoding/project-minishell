@@ -8,9 +8,7 @@ void	tokenize_simple_word(char *input, int *i, t_token **tokens)
 
 	start = *i;
 	while (input[*i] && !ft_isspace(input[*i]) \
-	&& input[*i] != '>' && input[*i] != '<' \
-	&& input[*i] != '|' && input[*i] != '\'' \
-	&& input[*i] != '"' && input[*i] != '$')
+	&& !is_cmd(input[*i]) && input[*i] != '$')
 		(*i)++;
 	word = ft_substr(input, start, *i - start);
 	if (word && *word)
@@ -77,6 +75,7 @@ void	tokenize_var(char *input, int *i, t_token **tokens)
 	int		start;
 	char	*var_name;
 	t_token	*new_token;
+	int		dollar_found;
 
 	start = *i;
 	var_name = NULL;
@@ -90,7 +89,13 @@ void	tokenize_var(char *input, int *i, t_token **tokens)
 	{
 		new_token = create_token(var_name, ENV_VAR);
 		new_token->status = DEFAULT;
+		dollar_found = (input[*i] == '$' && input[*i] != '\0');
+		if ((input[*i] != '\0' && !ft_isspace(input[*i]) && 
+			!is_cmd(input[*i])) || (dollar_found))
+			new_token->skip_space = 1;
 		add_token(tokens, new_token);
 		free(var_name);
+		if (dollar_found)
+		(*i)++;
 	}
 }

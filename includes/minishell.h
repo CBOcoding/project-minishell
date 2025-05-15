@@ -79,6 +79,8 @@ typedef struct s_main
 }	t_main;
 
 void		free_envp_new(char **envp_new);
+int			tokenize_options(char *input, int *i, t_token **tokens);
+void		empty_quote_handler(char *input, int *i, t_token **delim);
 int			space_for_envp_new(char **envp, char ***envp_new);
 int			is_prev_not_redirection(t_token *prev);
 int			ft_strcmp(const char *main, const char *compared);
@@ -88,11 +90,11 @@ int			execute_command(t_cmd *cmd, char **envp);
 int			handle_command(t_cmd *cmd, char ***envp_new, \
 				int last_exit_status, t_token *token);
 int			is_builtin(char *cmd);
+int			is_cmd(char c);
 int			execute_builtin(t_cmd *cmd, char ***envp, \
 					int exit_status, t_token *token);
 void		add_token(t_token **tokens, t_token *new_token);
 void		tokkenize_arrows(char *input, int *i, t_token **tokens);
-void		tokkenize_pipe(int *index, t_token **tokens);
 void		tokenize_squote(char *input, int *i, \
 				t_token **tokens, t_status *stat);
 void		tokenize_dquote(char *input, int *i, \
