@@ -90,12 +90,12 @@ void	tokenize_var(char *input, int *i, t_token **tokens)
 		new_token = create_token(var_name, ENV_VAR);
 		new_token->status = DEFAULT;
 		dollar_found = (input[*i] == '$' && input[*i] != '\0');
-		if ((input[*i] != '\0' && !ft_isspace(input[*i]) && 
+		if ((input[*i] != '\0' && !ft_isspace(input[*i]) && \
 			!is_cmd(input[*i])) || (dollar_found))
 			new_token->skip_space = 1;
 		add_token(tokens, new_token);
 		free(var_name);
 		if (dollar_found)
-		(*i)++;
+			(*i)++;
 	}
 }

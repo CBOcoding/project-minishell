@@ -24,8 +24,10 @@ int	exit_with_number(char **argv)
 
 	if (is_argv_numeric(argv))
 	{
-		ft_putstr_fd("exit: \n", 2);
-		ft_putstr_fd("numeric argument required\n", 2);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd(":", 2);
+		ft_putstr_fd(" numeric argument required\n", 2);
 		return ((unsigned char)2);
 	}
 	value = ft_atoi(argv[1]);

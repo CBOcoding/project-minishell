@@ -8,6 +8,7 @@ static void	tokenize_pipe(int *i, t_token **tokens)
 	add_token(tokens, new_token);
 	(*i)++;
 }
+
 int	tokenize_options(char *input, int *i, t_token **tokens)
 {
 	if (input[*i] == '>' || input[*i] == '<')
