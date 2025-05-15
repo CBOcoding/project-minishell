@@ -3,7 +3,16 @@
 int	builtin_cd(char **argv)
 {
 	char	*path;
+	int	i;
 
+	i = 0;
+	while (argv[i])
+		i++;
+	if (i > 2)
+	{
+		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
+		return (FAILURE);
+	}
 	if (argv[1] == NULL)
 	{
 		path = getenv("HOME");

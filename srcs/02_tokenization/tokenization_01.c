@@ -94,6 +94,10 @@ t_token	*tokenize_input(char *input)
 	{
 		while (ft_isspace(input[i]) && status == DEFAULT)
 			i++;
+		// printf ("%c\n", input[i]);
+		// printf ("%c\n", input[i + 1]);
+			// if (input[i + 1] && input[i] == '"' && input[i + 1] == '"')
+			// tokens->skip_space = 1;
 		if (status == DEFAULT)
 			if (tokenize_options(input, &i, &tokens) == SUCCESS)
 				continue ;

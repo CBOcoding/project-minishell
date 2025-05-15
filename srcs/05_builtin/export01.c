@@ -112,7 +112,7 @@ int	builtin_export(char **argv, char ***envp_new)
 	{
 		if (is_valid_key(argv[1]))
 		{
-			ft_putstr_fd("Not a valid key\n", STDERR_FILENO);
+			ft_putstr_fd(" not a valid identifier\n", STDERR_FILENO);
 			return (1);
 		}
 		if (key_exists(*envp_new, argv[1]) < 0)
