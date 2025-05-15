@@ -33,8 +33,8 @@ static void	merge_adjacent_tokens(t_token **tokens)
 	{
 		next = current->next;
 		if ((current->status != DEFAULT && current->status == next->status)
-			|| ((current->type == WORD || current->type == ENV_VAR)
-			&& (next->type == WORD || next->type == ENV_VAR)
+			|| ((current->type == WORD || current->type == ENV_VAR) \
+			&& (next->type == WORD || next->type == ENV_VAR) \
 			&& (current->skip_space > 0)))
 		{
 			merged = ft_strjoin(current->value, next->value);

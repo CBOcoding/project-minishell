@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+char	*get_home_path(void)
+{
+	char	*path;
+
+	path = getenv("HOME");
+	if (!path)
+		ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
+	return (path);
+}
+
 int	builtin_cd(char **argv)
 {
 	char	*path;
@@ -15,12 +25,9 @@ int	builtin_cd(char **argv)
 	}
 	if (argv[1] == NULL)
 	{
-		path = getenv("HOME");
+		path = get_home_path();
 		if (!path)
-		{
-			ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
 			return (FAILURE);
-		}
 	}
 	else
 		path = argv[1];
