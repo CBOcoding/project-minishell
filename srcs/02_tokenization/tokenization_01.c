@@ -1,16 +1,12 @@
 #include "minishell.h"
 
-void	tokenize_pipe(int *i, t_token **tokens)
+static void	handle_status(char *input, int *i, t_token **tokens, t_status *status)
 {
-	t_token	*new_token;
-
-	new_token = create_token("|", PIPE);
-	add_token(tokens, new_token);
-	(*i)++;
-}
-
-void	tokenize_word(char *input, int *i, t_token **tokens, t_status *status)
-{
+	if (input[*i] == '$' && *i > 0 && !ft_isspace(input[*i - 1]))
+	{
+		tokenize_var(input, i, tokens);
+		return;
+	}
 	if (*status == DEFAULT)
 	{
 		if (input[*i] == '\'')
@@ -34,6 +30,47 @@ void	tokenize_word(char *input, int *i, t_token **tokens, t_status *status)
 		tokenize_dquote(input, i, tokens, status);
 }
 
+static void handle_normal_delimiter(char *input, int *i,t_token **delim)
+{
+	int	start;
+	char *content;
+
+	start = *i;
+	while (input[*i] && !ft_isspace(input[*i]) && !is_cmd(input[*i]))
+	(*i)++;
+	content = ft_substr(input, start, *i - start);
+	*delim = create_token(content, WORD);
+	free(content);
+}
+void	tokenize_word(char *input, int *i, t_token **tokens, t_status *status)
+{
+    t_token *prev ;
+    t_token *current;
+	t_token *delim_token;
+    
+	prev = NULL;
+	current = *tokens;
+    while (current && current->next)
+        current = current->next;
+    if (current && current->type == HEREDOC)
+        {
+			prev = current;
+		}
+	if (prev && prev->type == HEREDOC && *status == DEFAULT)
+    {
+        while (input[*i] && ft_isspace(input[*i]))
+            (*i)++;
+		if (input[*i] == '\'' || input[*i] == '"')
+			empty_quote_handler(input, i, &delim_token);
+		else
+			handle_normal_delimiter(input, i, &delim_token);		
+        delim_token->status = SQUOTE;
+        add_token(tokens, delim_token);
+    }
+    else
+		handle_status(input, i, tokens, status);
+}
+
 static void	unclosed_quotes_handle(t_status status, t_token **tokens)
 {
 	if (status != DEFAULT)
@@ -42,21 +79,6 @@ static void	unclosed_quotes_handle(t_status status, t_token **tokens)
 		free_token(*tokens);
 		*tokens = NULL;
 	}
-}
-
-int	tokenize_options(char *input, int *i, t_token **tokens)
-{
-	if (input[*i] == '>' || input[*i] == '<')
-	{
-		tokenize_arrows(input, i, tokens);
-		return (SUCCESS);
-	}	
-	else if (input[*i] == '|')
-	{
-		tokenize_pipe(i, tokens);
-		return (SUCCESS);
-	}
-	return (FAILURE);
 }
 
 t_token	*tokenize_input(char *input)

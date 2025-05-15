@@ -95,3 +95,32 @@ void	tokenize_var_in_dquote(char *input, int *i, t_token **tokens)
 		free(var_name);
 	}
 }
+void	empty_quote_handler(char *input, int *i, t_token **delim)
+{
+	char	*content;
+	int		start;
+
+	start = *i;
+	if (input[*i] == '\'')
+	{
+		(*i)++;
+		while (input[*i] && input[*i] != '\'')
+			(*i)++;
+		if (input[*i] == '\'')
+			(*i)++;
+		content = ft_substr(input, start + 1, *i - start - 2);
+		*delim = create_token(content, WORD);
+		free(content);
+	}
+	else if (input[*i] == '"')
+	{
+		(*i)++;
+		while (input[*i] && input[*i] != '"')
+			(*i)++;
+		if (input[*i] == '"')
+			(*i)++;
+		content = ft_substr(input, start + 1, *i - start - 2);
+		*delim = create_token(content, WORD);
+		free(content);
+	}
+}

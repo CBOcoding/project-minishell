@@ -41,3 +41,10 @@ int	ft_isspace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == ' ');
 }
+
+int	is_cmd(char c)
+{
+	return(c == '>' || c == '<'
+		|| c == '|' || c == '\''
+		|| c == '"');
+}
