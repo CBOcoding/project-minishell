@@ -55,7 +55,6 @@ int	loop_check_and_prompt(char **input)
 	g_signal = 0;
 	if (!*input)
 	{
-		//ft_putstr_fd("HEREexit\n", 2);
 		return (BREAK);
 	}
 	if ((*input)[0] == '\0')

@@ -15,7 +15,8 @@ SRC = \
 	./srcs/02_tokenization/tokenization_01.c \
 	./srcs/02_tokenization/tokenization_02.c \
 	./srcs/02_tokenization/word_tokens.c \
-	./srcs/02_tokenization/quote_token.c \
+	./srcs/02_tokenization/quote_token_01.c \
+	./srcs/02_tokenization/quote_token_02.c \
 	./srcs/03_parsing/parse.c \
 	./srcs/03_parsing/parse_helper.c \
 	./srcs/03_parsing/parse_redirection.c \
