@@ -13,7 +13,7 @@ char	*get_home_path(void)
 int	builtin_cd(char **argv)
 {
 	char	*path;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (argv[i])
