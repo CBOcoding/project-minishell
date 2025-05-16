@@ -23,7 +23,10 @@ t_token	*create_token(char *value, t_token_type type)
 	{
 		new_token->value = ft_strdup(value);
 		if (!new_token->value)
-			return (free(new_token), NULL);
+		{
+			free(new_token);
+			return (NULL);
+		}
 	}
 	else
 		new_token->value = NULL;

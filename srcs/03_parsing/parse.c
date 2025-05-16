@@ -98,7 +98,10 @@ t_pipeline	*parse_token(t_token *token)
 	pipeline->cmd_count = count_commands(token);
 	pipeline->commands = malloc(pipeline->cmd_count * sizeof(t_cmd));
 	if (!pipeline->commands)
-		return (free(pipeline), NULL);
+	{
+		free(pipeline);
+		return (NULL);
+	}
 	if (parse_commands(token, pipeline) == FAILURE)
 	{
 		free_pipeline(pipeline);
