@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cborrome <cborrome@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/15 17:40:58 by cborrome          #+#    #+#             */
+/*   Updated: 2025/05/15 17:40:58 by cborrome         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -96,7 +108,6 @@ int			is_cmd(char c);
 int			execute_builtin(t_cmd *cmd, char ***envp, \
 					int exit_status, t_token *token);
 void		add_token(t_token **tokens, t_token *new_token);
-void		tokkenize_arrows(char *input, int *i, t_token **tokens);
 void		tokenize_squote(char *input, int *i, \
 				t_token **tokens, t_status *stat);
 void		tokenize_dquote(char *input, int *i, \
@@ -104,15 +115,12 @@ void		tokenize_dquote(char *input, int *i, \
 void		tokenize_simple_word(char *input, int *i, t_token **tokens);
 void		tokenize_var_in_dquote(char *input, int *i, t_token **tokens);
 void		tokenize_var(char *input, int *i, t_token **tokens);
-void		print_tokens(t_token *token);
 void		free_token(t_token *tokens);
 void		expand_env_vars(t_token *tokens, \
 				char **envp, int last_exit_status);
 t_token		*tokenize_input(char *input);
 t_token		*create_token(char *value, t_token_type type);
 void		tokenize_arrows(char *input, int *i, t_token **tokens);
-
-//execution
 int			execute_pipeline(t_pipeline *pipeline, \
 					char **envp_new, t_token *token);
 int			handle_heredoc(t_cmd *cmd);
@@ -123,8 +131,6 @@ void		pid_zero(int input_fd, int i, int *fd, t_pipeline *pipeline);
 void		final_checks(int *input_fd, int i, t_pipeline *pipeline, int *fd);
 int			waiting(int status);
 int			fork_error(pid_t pid);
-
-//builtin
 int			builtin_cd(char **argv);
 int			builtin_echo(char **argv, t_token *token);
 int			builtin_env(char **argv, char ***envp_new);
@@ -143,15 +149,11 @@ int			is_redirection(t_token_type type);
 int			is_prev_not_redirection(t_token *prev);
 int			fill_command_data(t_cmd *cmd, t_token *start, t_token *end);
 char		*join_export_args(char **argv);
-
-//pipeline
 void		free_pipeline(t_pipeline *pipeline);
 void		free_command(t_cmd *cmd);
 t_cmd		*parsed_segment(t_token *start, t_token *end);
 t_cmd		*create_cmd(void);
 t_pipeline	*parse_token(t_token *token);
-
-//libft
 int			ft_atoi(const char *nptr);
 int			ft_isalnum(int c);
 char		*ft_strjoin(char const *s1, char const *s2);
@@ -165,13 +167,10 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_itoa(int n);
 char		**ft_split(char const *s, char c);
 char		*ft_strchr(const char *s, int c);
-
-//signals
 void		handle_sigint(int signum);
 void		handle_sigquit(int signum);
 void		setup_signals(void);
 void		disable_echoctl(void);
-
 void		free_and_null(t_main *main);
 int			main_loop(t_main *main);
 int			process_heredocs(t_pipeline *pipeline);

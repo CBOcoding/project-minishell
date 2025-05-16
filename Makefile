@@ -1,12 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cborrome <cborrome@student.hive.fi>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/15 17:42:52 by cborrome          #+#    #+#              #
+#    Updated: 2025/05/15 17:42:52 by cborrome         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g -Iincludes
+CFLAGS = -Wall -Werror -Wextra -Iincludes
 LDFLAGS = -lreadline
-
-# Sanitizer flags
-FSANITIZER_ADDRESS_FLAG = -fsanitize=address -O2
-FSANITIZER_THREAD_FLAG  = -fsanitize=thread -O2
 
 SRC = \
 	./srcs/main.c \
@@ -62,13 +70,4 @@ fclean: clean
 
 re: fclean all
 
-# Sanitizer builds
-asan:
-	$(MAKE) fclean
-	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_ADDRESS_FLAG)" all
-
-tsan:
-	$(MAKE) fclean
-	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_THREAD_FLAG)" all
-
-.PHONY: all clean fclean re asan tsan
+.PHONY: all clean fclean re
