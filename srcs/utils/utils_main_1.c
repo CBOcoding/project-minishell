@@ -1,33 +1,36 @@
 #include"minishell.h"
 
-int	process_heredocs(t_pipeline *pipeline)
+int process_heredocs(t_pipeline *pipeline)
 {
-	t_cmd	*cmd;
-	char	*line;
+    t_cmd   *cmd;
+    char    *line;
 
-	while (pipeline->x_pipeline < pipeline->cmd_count)
-	{
-		cmd = pipeline->commands[pipeline->x_pipeline];
-		if (cmd->heredoc && cmd->delimiter)
-		{
-			if (!cmd->argv || !cmd->argv[0])
-			{
-				while (1)
-				{
-					line = readline("> ");
-					if (!line || ft_strcmp(line, cmd->delimiter) == 0)
-					{
-						free(line);
-						break ;
-					}
-					free(line);
-				}
-			}
-		}
-		pipeline->x_pipeline++;
-	}
-	return (SUCCESS);
+    pipeline->x_pipeline = 0; // Reset dell'indice per sicurezza
+    while (pipeline->x_pipeline < pipeline->cmd_count)
+    {
+        cmd = pipeline->commands[pipeline->x_pipeline];
+        if (cmd->heredoc && cmd->delimiter)
+        {
+            if (!cmd->argv || !cmd->argv[0])
+            {
+                while (1)
+                {
+                    line = readline("> ");
+                    if (!line || ft_strcmp(line, cmd->delimiter) == 0)
+                    {
+                        free(line); // Importante: libera la memoria anche in caso di match con delimiter
+                        break;
+                    }
+                    free(line); // Libera la memoria dopo ogni linea
+                }
+            }
+        }
+        pipeline->x_pipeline++;
+    }
+    pipeline->x_pipeline = 0; // Resetta l'indice dopo aver processato tutti i comandi
+    return (SUCCESS);
 }
+
 
 int	execute_command_or_pipeline(t_main *main)
 {

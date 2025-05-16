@@ -1,22 +1,28 @@
 #include"minishell.h"
 
-void	free_and_null(t_main *main)
+void free_and_null(t_main *main)
 {
-	if (main->pipeline)
-	{
-		free_pipeline(main->pipeline);
-		main->pipeline = NULL;
-	}
-	if (main->token)
-	{
-		free_token(main->token);
-		main->token = NULL;
-	}
-	if (main->input)
-	{
-		free(main->input);
-		main->input = NULL;
-	}
+    // Libera prima i comandi individuali
+    if (main->pipeline)
+    {
+        free_pipeline(main->pipeline);
+        main->pipeline = NULL;
+        main->cmd = NULL; // Importante: anche cmd deve essere impostato a NULL
+    }
+    
+    // Poi libera i token
+    if (main->token)
+    {
+        free_token(main->token);
+        main->token = NULL;
+    }
+    
+    // Infine libera l'input
+    if (main->input)
+    {
+        free(main->input);
+        main->input = NULL;
+    }
 }
 
 int	prepare_pipeline(t_main *main)
@@ -36,16 +42,43 @@ int	prepare_pipeline(t_main *main)
 	}
 	return (SUCCESS);
 }
-
-int	execute_prompt(t_main *main)
+int execute_prompt(t_main *main)
 {
-	int	result;
+    int result;
 
-	result = prepare_pipeline(main);
-	if (result != SUCCESS)
-		return (result);
-	execute_command_or_pipeline(main);
-	return (handle_exit_check(main));
+    result = prepare_pipeline(main);
+    if (result != SUCCESS)
+        return (result);
+
+    result = execute_command_or_pipeline(main);
+    
+    // Importante: aggiungi controlli per verificare se ci sono heredoc
+    // e se sono stati elaborati correttamente
+    if (main->pipeline)
+    {
+        int contains_heredoc = 0;
+        int i;
+        
+        for (i = 0; i < main->pipeline->cmd_count; i++)
+        {
+            if (main->pipeline->commands[i] && main->pipeline->commands[i]->heredoc)
+            {
+                contains_heredoc = 1;
+                break;
+            }
+        }
+        
+        // Se il comando conteneva heredoc, assicurati che tutte le risorse siano liberate
+        if (contains_heredoc)
+        {
+            // Forzare la pulizia completa
+            result = handle_exit_check(main);
+            free_and_null(main);
+            return (result == BREAK) ? BREAK : CONTINUE;
+        }
+    }
+    
+    return handle_exit_check(main);
 }
 
 int	loop_check_and_prompt(char **input)
@@ -66,25 +99,51 @@ int	loop_check_and_prompt(char **input)
 		add_history(*input);
 	return (SUCCESS);
 }
-
-int	main_loop(t_main *main)
+int main_loop(t_main *main)
 {
-	while (!main->should_exit_a)
-	{
-		main->proceed = loop_check_and_prompt(&main->input);
-		if (main->proceed == BREAK)
-			break ;
-		if (main->proceed == CONTINUE)
-			continue ;
-		main->token = tokenize_input(main->input);
-		if (!main->token)
-			continue ;
-		main->proceed = execute_prompt(main);
-		if (main->proceed == BREAK)
-			break ;
-		if (main->proceed == CONTINUE)
-			continue ;
-		free_and_null(main);
-	}
-	return (main->last_exit_status);
+    while (!main->should_exit_a)
+    {
+        main->proceed = loop_check_and_prompt(&main->input);
+        if (main->proceed == BREAK)
+            break;
+        if (main->proceed == CONTINUE)
+            continue;
+            
+        main->token = tokenize_input(main->input);
+        if (!main->token)
+        {
+            free(main->input);
+            main->input = NULL;
+            continue;
+        }
+            
+        main->proceed = execute_prompt(main);
+        if (main->proceed == BREAK)
+            break;
+        if (main->proceed == CONTINUE)
+            continue;
+            
+        free_and_null(main);
+    }
+    
+    // Assicurati che tutte le risorse siano liberate prima dell'uscita
+    if (main->input)
+    {
+        free(main->input);
+        main->input = NULL;
+    }
+    
+    if (main->token)
+    {
+        free_token(main->token);
+        main->token = NULL;
+    }
+    
+    if (main->pipeline)
+    {
+        free_pipeline(main->pipeline);
+        main->pipeline = NULL;
+    }
+    
+    return (main->last_exit_status);
 }

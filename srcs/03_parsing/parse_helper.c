@@ -30,27 +30,46 @@ static int	count_arguments(t_token *start, t_token *end)
 	return (count);
 }
 
-void	free_command(t_cmd *cmd)
+void free_command(t_cmd *cmd)
 {
-	int	i;
+    int i;
 
-	if (!cmd)
-		return ;
-	if (cmd->argv)
-	{
-		i = 0;
-		while (cmd->argv[i])
-			free(cmd->argv[i++]);
-		free(cmd->argv);
-	}
-	if (cmd->infile)
-		free(cmd->infile);
-	if (cmd->outfile)
-		free(cmd->outfile);
-	if (cmd->delimiter)
-		free(cmd->delimiter);
-	ft_memset(cmd, 0, sizeof(t_cmd));
-	free(cmd);
+    if (!cmd)
+        return;
+    
+    if (cmd->argv)
+    {
+        i = 0;
+        while (cmd->argv[i])
+        {
+            free(cmd->argv[i]);
+            cmd->argv[i] = NULL; // Imposta a NULL dopo la liberazione
+            i++;
+        }
+        free(cmd->argv);
+        cmd->argv = NULL; // Imposta a NULL dopo la liberazione
+    }
+
+    if (cmd->infile)
+    {
+        free(cmd->infile);
+        cmd->infile = NULL;
+    }
+    
+    if (cmd->outfile)
+    {
+        free(cmd->outfile);
+        cmd->outfile = NULL;
+    }
+    
+    if (cmd->delimiter)
+    {
+        free(cmd->delimiter);
+        cmd->delimiter = NULL;
+    }
+    
+    ft_memset(cmd, 0, sizeof(t_cmd));
+    free(cmd);
 }
 
 t_cmd	*parsed_segment(t_token *start, t_token *end)

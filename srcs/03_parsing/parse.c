@@ -15,25 +15,27 @@ static int	count_commands(t_token *token)
 	}
 	return (count);
 }
-
-void	free_pipeline(t_pipeline *pipeline)
+void free_pipeline(t_pipeline *pipeline)
 {
-	int	i;
+    int i;
 
-	if (!pipeline)
-		return ;
-	if (pipeline->commands)
-	{
-		i = 0;
-		while (i < pipeline->cmd_count)
-		{
-			if (pipeline->commands[i])
-				free_command(pipeline->commands[i]);
-			i++;
-		}
-		free(pipeline->commands);
-	}
-	free(pipeline);
+    if (!pipeline)
+        return;
+    
+    if (pipeline->commands)
+    {
+        i = 0;
+        while (i < pipeline->cmd_count)
+        {
+            if (pipeline->commands[i])
+                free_command(pipeline->commands[i]);
+            pipeline->commands[i] = NULL; // Imposta a NULL dopo la liberazione
+            i++;
+        }
+        free(pipeline->commands);
+        pipeline->commands = NULL; // Imposta a NULL dopo la liberazione
+    }
+    free(pipeline);
 }
 
 static t_token	*find_command_end(t_token *token)

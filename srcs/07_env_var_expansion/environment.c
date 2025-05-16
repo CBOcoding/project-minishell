@@ -88,29 +88,34 @@ char	*get_env_var_value(const char *key, char **envp, int last_exit_status)
 	return (val);
 }
 
-void	expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
+void expand_env_vars(t_token *tokens, char **envp, int last_exit_status)
 {
-	t_token	*current;
-	t_token	*prev;
-	char	*key;
-	char	*val;
+    t_token *current;
+    t_token *prev;
+    char    *key;
+    char    *val;
 
-	current = tokens;
-	prev = NULL;
-	while (current)
-	{
-		if (current->type == ENV_VAR && current->status != SQUOTE)
-		{
-			key = current->value + 1;
-			val = get_env_var_value(key, envp, last_exit_status);
-			free(current->value);
-			current->value = val;
-			current->type = WORD;
-			if (prev && prev->skip_space > 0)
-				current->skip_space = prev->skip_space;
-		}
-		prev = current;
-		current = current->next;
-	}
-	merge_adjacent_tokens(&tokens);
+    current = tokens;
+    prev = NULL;
+    while (current)
+    {
+        if (current->type == ENV_VAR && current->status != SQUOTE)
+        {
+            key = current->value + 1;
+            val = get_env_var_value(key, envp, last_exit_status);
+            
+            // Verifica che val non sia NULL prima di liberar current->value
+            if (val)
+            {
+                free(current->value);
+                current->value = val;  // Non fare free(val), la responsabilità passa a current->value
+                current->type = WORD;
+                if (prev && prev->skip_space > 0)
+                    current->skip_space = prev->skip_space;
+            }
+        }
+        prev = current;
+        current = current->next;
+    }
+    merge_adjacent_tokens(&tokens);
 }
