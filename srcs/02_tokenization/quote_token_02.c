@@ -6,7 +6,7 @@
 /*   By: cborrome <cborrome@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:41:39 by cborrome          #+#    #+#             */
-/*   Updated: 2025/05/15 17:41:40 by cborrome         ###   ########.fr       */
+/*   Updated: 2025/05/16 14:55:08 by cborrome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,27 @@ void	handle_squote_token(char *input, int start, int *i, t_token **tok)
 	free(word);
 }
 
+void	handle_dquote_dollar(char *input, int *i, int *start, t_token **tok)
+{
+	tokenize_word_dquote(input, *start, i, tok);
+	tokenize_var_in_dquote(input, i, tok);
+	*start = *i;
+}
+
+void	check_token_spacing(char *input, int i, t_token **tok)
+{
+	t_token	*last;
+
+	if (input[i] && !ft_isspace(input[i]) && !is_cmd(input[i]))
+	{
+		last = *tok;
+		while (last && last->next)
+			last = last->next;
+		if (last)
+			last->skip_space = 1;
+	}
+}
+
 void	tokenize_squote(char *input, int *i, t_token **tok, t_status *status)
 {
 	int		start;
@@ -35,6 +56,7 @@ void	tokenize_squote(char *input, int *i, t_token **tok, t_status *status)
 	{
 		(*i) += 2;
 		*status = DEFAULT;
+		check_token_spacing(input, *i, tok);
 		return ;
 	}
 	(*i)++;
@@ -46,6 +68,7 @@ void	tokenize_squote(char *input, int *i, t_token **tok, t_status *status)
 	{
 		(*i)++;
 		*status = DEFAULT;
+		check_token_spacing(input, *i, tok);
 	}
 }
 

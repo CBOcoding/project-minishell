@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	tokenize_word_dquote(char *input, int start, int *i, t_token **tok)
+void	tokenize_word_dquote(char *input, int start, int *i, t_token **tok)
 {
 	char	*word;
 	t_token	*new_token;
@@ -30,11 +30,19 @@ static void	tokenize_word_dquote(char *input, int start, int *i, t_token **tok)
 	}
 }
 
-void	handle_dquote_dollar(char *input, int *i, int *start, t_token **tok)
+static void	process_dquote_content(char *input, int *i, \
+						int *start, t_token **tok)
 {
+	while (input[*i] && input[*i] != '"')
+	{
+		if (input[*i] == '$')
+		{
+			handle_dquote_dollar(input, i, start, tok);
+			continue ;
+		}
+		(*i)++;
+	}
 	tokenize_word_dquote(input, *start, i, tok);
-	tokenize_var_in_dquote(input, i, tok);
-	*start = *i;
 }
 
 void	tokenize_dquote(char *input, int *i, t_token **tok, t_status *status)
@@ -45,24 +53,17 @@ void	tokenize_dquote(char *input, int *i, t_token **tok, t_status *status)
 	{
 		(*i) += 2;
 		*status = DEFAULT;
+		check_token_spacing(input, *i, tok);
 		return ;
 	}
 	(*i)++;
 	start = *i;
-	while (input[*i] && input[*i] != '"')
-	{
-		if (input[*i] == '$')
-		{
-			handle_dquote_dollar(input, i, &start, tok);
-			continue ;
-		}
-		(*i)++;
-	}
-	tokenize_word_dquote(input, start, i, tok);
+	process_dquote_content(input, i, &start, tok);
 	if (input[*i] == '"')
 	{
 		(*i)++;
 		*status = DEFAULT;
+		check_token_spacing(input, *i, tok);
 	}
 }
 

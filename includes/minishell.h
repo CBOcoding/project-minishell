@@ -90,6 +90,11 @@ typedef struct s_main
 	t_pipeline	*pipeline;
 }	t_main;
 
+void		tokenize_word_dquote(char *input, int start, \
+				int *i, t_token **tok);
+void		handle_dquote_dollar(char *input, int *i, \
+				int *start, t_token **tok);
+void		check_token_spacing(char *input, int i, t_token **tok);
 void		free_envp_new(char **envp_new);
 void		tokenize_word(char *input, int *i, \
 				t_token **tokens, t_status *status);
