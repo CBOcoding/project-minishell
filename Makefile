@@ -13,8 +13,12 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -Iincludes
+CFLAGS = -Wall -Werror -Wextra -g -Iincludes
 LDFLAGS = -lreadline
+
+# Sanitizer flags
+FSANITIZER_ADDRESS_FLAG = -fsanitize=address -O2
+FSANITIZER_THREAD_FLAG  = -fsanitize=thread -O2
 
 SRC = \
 	./srcs/main.c \
@@ -70,4 +74,13 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+# Sanitizer builds
+asan:
+	$(MAKE) fclean
+	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_ADDRESS_FLAG)" all
+
+tsan:
+	$(MAKE) fclean
+	$(MAKE) CFLAGS="$(CFLAGS) $(FSANITIZER_THREAD_FLAG)" all
+
+.PHONY: all clean fclean re asan tsan

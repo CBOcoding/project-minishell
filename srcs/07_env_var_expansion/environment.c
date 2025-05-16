@@ -63,26 +63,26 @@ static void	merge_adjacent_tokens(t_token **tokens)
 	}
 }
 
-static char	*expand_pid_sequence(const char *key)
-{
-	char	*pid_str;
-	char	*result;
-	char	*tmp;
-	int		j;
+// static char	*expand_pid_sequence(const char *key)
+// {
+// 	char	*pid_str;
+// 	char	*result;
+// 	char	*tmp;
+// 	int		j;
 
-	pid_str = ft_itoa(getpid());
-	result = ft_strdup("");
-	j = 0;
-	while (key[j])
-	{
-		tmp = result;
-		result = ft_strjoin(result, pid_str);
-		free(tmp);
-		j++;
-	}
-	free(pid_str);
-	return (result);
-}
+// 	pid_str = ft_itoa(getpid());
+// 	result = ft_strdup("");
+// 	j = 0;
+// 	while (key[j])
+// 	{
+// 		tmp = result;
+// 		result = ft_strjoin(result, pid_str);
+// 		free(tmp);
+// 		j++;
+// 	}
+// 	free(pid_str);
+// 	return (result);
+// }
 
 char	*get_env_var_value(const char *key, char **envp, int last_exit_status)
 {
@@ -91,8 +91,8 @@ char	*get_env_var_value(const char *key, char **envp, int last_exit_status)
 	val = NULL;
 	if (strcmp(key, "?") == 0)
 		val = ft_itoa(last_exit_status);
-	else if (key[0] == '$' && ft_strspn(key, "$") == ft_strlen(key))
-		val = expand_pid_sequence(key);
+	// else if (key[0] == '$' && ft_strspn(key, "$") == ft_strlen(key))
+	// 	val = expand_pid_sequence(key);
 	else if (*key == '\0')
 		val = ft_strdup("$");
 	else
