@@ -13,6 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <arena.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -88,6 +89,7 @@ typedef struct s_main
 	t_cmd		*cmd;
 	t_token		*token;
 	t_pipeline	*pipeline;
+	t_arena		*arena;
 }	t_main;
 
 void		tokenize_word_dquote(char *input, int start, \

@@ -17,13 +17,23 @@ static int	init_main(t_main **main, char **envp)
 	*main = malloc(sizeof(t_main));
 	if (!*main)
 		return (FAILURE);
+	ft_memset(*main, 0, sizeof(t_main));
+	(*main)->arena = arena_create(ARENA_SIZE);  // ✅ L’arena viene inizializzata qui
+	if (!(*main)->arena)
+	{
+		free(*main);
+		return (FAILURE);
+	}
 	setup_signals();
 	disable_echoctl();
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	ft_memset(*main, 0, sizeof(t_main));
 	if (space_for_envp_new(envp, &(*main)->envp_new) == FAILURE)
+	{
+		arena_destroy((*main)->arena);
+		free(*main);
 		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
@@ -40,6 +50,7 @@ int	main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	free_envp_new(main->envp_new);
 	value = main->last_exit_status;
+	arena_destroy(main->arena);
 	free(main);
 	return (value);
 }
